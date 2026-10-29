@@ -81,6 +81,14 @@
   <main>
     <!-- Hero -->
     <section class="cc-hero">
+      <div class="cc-hero__float" aria-hidden="true">
+        <div class="cc-piece" style="--x:6%;--y:16%;--s:120px;--depth:.8"><div class="cc-piece__in"><svg><use href="#i-ring"/></svg></div></div>
+        <div class="cc-piece cc-piece--perfume" style="--x:83%;--y:12%;--s:140px;--depth:1;--delay:-2s"><div class="cc-piece__in"><svg><use href="#i-perfume"/></svg></div></div>
+        <div class="cc-piece cc-piece--homeo" style="--x:9%;--y:66%;--s:96px;--depth:.5;--delay:-4s"><div class="cc-piece__in"><svg><use href="#i-globules"/></svg></div></div>
+        <div class="cc-piece" style="--x:81%;--y:62%;--s:108px;--depth:.7;--delay:-1s"><div class="cc-piece__in"><svg><use href="#i-necklace"/></svg></div></div>
+        <div class="cc-piece cc-piece--homeo" style="--x:24%;--y:4%;--s:72px;--depth:.3;--delay:-3s"><div class="cc-piece__in"><svg><use href="#i-vial"/></svg></div></div>
+        <div class="cc-piece cc-piece--perfume" style="--x:68%;--y:80%;--s:80px;--depth:.4;--delay:-5s"><div class="cc-piece__in"><svg><use href="#i-flacon"/></svg></div></div>
+      </div>
       <div class="cc-wrap">
         <div class="cc-eyebrow">Jewellery · Perfume · Homeopathy</div>
         <h1>Little rituals,<br><em>beautifully</em> kept.</h1>
@@ -92,10 +100,25 @@
       </div>
     </section>
 
+    <!-- 3D orbit: scroll turns the ring (items filled from PRODUCTS below) -->
+    <section class="cc-orbit" aria-labelledby="h-orbit">
+      <div class="cc-orbit__sticky">
+        <div class="cc-orbit__caption">
+          <div class="cc-eyebrow">Explore the collections</div>
+          <h2 class="cc-orbit__title" id="h-orbit">Jewellery</h2>
+          <div class="cc-orbit__dots" aria-hidden="true"><span class="is-on"></span><span></span><span></span></div>
+        </div>
+        <div class="cc-orbit__stage">
+          <div class="cc-orbit__ring" data-labels="Jewellery|Perfumes|Homeopathy"></div>
+        </div>
+        <p class="cc-orbit__hint">Scroll to turn</p>
+      </div>
+    </section>
+
     <!-- Moving product rows (filled from PRODUCTS below) -->
     <div class="cc-rows">
       <section id="jewellery" aria-labelledby="h-jewel">
-        <div class="cc-wrap cc-row__head">
+        <div class="cc-wrap cc-row__head" data-cc-reveal>
           <div><div class="cc-eyebrow">Collection</div><h2 id="h-jewel">Jewellery</h2></div>
           <a href="#">View all</a>
         </div>
@@ -103,7 +126,7 @@
       </section>
 
       <section id="perfumes" aria-labelledby="h-perf">
-        <div class="cc-wrap cc-row__head">
+        <div class="cc-wrap cc-row__head" data-cc-reveal>
           <div><div class="cc-eyebrow">Collection</div><h2 id="h-perf">Perfumes</h2></div>
           <a href="#">View all</a>
         </div>
@@ -111,7 +134,7 @@
       </section>
 
       <section id="homeopathy" aria-labelledby="h-homeo">
-        <div class="cc-wrap cc-row__head">
+        <div class="cc-wrap cc-row__head" data-cc-reveal>
           <div><div class="cc-eyebrow">Collection</div><h2 id="h-homeo">Homeopathy</h2></div>
           <a href="#">View all</a>
         </div>
@@ -122,20 +145,20 @@
     <!-- Category tiles -->
     <section class="cc-cats" id="about">
       <div class="cc-wrap cc-cats__grid">
-        <a class="cc-cat" href="#jewellery">
-          <svg><use href="#i-ring"/></svg>
+        <a class="cc-cat" href="#jewellery" data-cc-reveal>
+          <svg data-cc-parallax="-0.12"><use href="#i-ring"/></svg>
           <h3>Jewellery</h3>
           <p>Gold-plated rings, necklaces and earrings made to be layered.</p>
           <span>Discover</span>
         </a>
-        <a class="cc-cat cc-cat--perfume" href="#perfumes">
-          <svg><use href="#i-perfume"/></svg>
+        <a class="cc-cat cc-cat--perfume" href="#perfumes" data-cc-reveal style="--d:.12s">
+          <svg data-cc-parallax="-0.12"><use href="#i-perfume"/></svg>
           <h3>Perfumes</h3>
           <p>Eaux de parfum blended in small batches, from floral to woody.</p>
           <span>Discover</span>
         </a>
-        <a class="cc-cat cc-cat--homeo" href="#homeopathy">
-          <svg><use href="#i-leaf"/></svg>
+        <a class="cc-cat cc-cat--homeo" href="#homeopathy" data-cc-reveal style="--d:.24s">
+          <svg data-cc-parallax="-0.12"><use href="#i-leaf"/></svg>
           <h3>Homeopathy</h3>
           <p>Globules, tinctures and balms for your daily wellbeing routine.</p>
           <span>Discover</span>
@@ -146,16 +169,16 @@
     <!-- Values -->
     <section class="cc-values">
       <div class="cc-wrap cc-values__grid">
-        <div class="cc-value"><svg><use href="#i-ring"/></svg><div><strong>Hand-finished</strong><small>Every piece checked by hand</small></div></div>
-        <div class="cc-value"><svg><use href="#i-leaf"/></svg><div><strong>Natural ingredients</strong><small>Carefully sourced botanicals</small></div></div>
-        <div class="cc-value"><svg><use href="#i-flacon"/></svg><div><strong>Gift ready</strong><small>Wrapped with care, free</small></div></div>
-        <div class="cc-value"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg><div><strong>Secure checkout</strong><small>Shop Pay, PayPal, cards</small></div></div>
+        <div class="cc-value" data-cc-reveal><svg><use href="#i-ring"/></svg><div><strong>Hand-finished</strong><small>Every piece checked by hand</small></div></div>
+        <div class="cc-value" data-cc-reveal style="--d:0.10s"><svg><use href="#i-leaf"/></svg><div><strong>Natural ingredients</strong><small>Carefully sourced botanicals</small></div></div>
+        <div class="cc-value" data-cc-reveal style="--d:0.20s"><svg><use href="#i-flacon"/></svg><div><strong>Gift ready</strong><small>Wrapped with care, free</small></div></div>
+        <div class="cc-value" data-cc-reveal style="--d:0.30s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg><div><strong>Secure checkout</strong><small>Shop Pay, PayPal, cards</small></div></div>
       </div>
     </section>
 
     <!-- Newsletter -->
     <section class="cc-news">
-      <div class="cc-wrap">
+      <div class="cc-wrap" data-cc-reveal>
         <div class="cc-eyebrow">The Cadence Letter</div>
         <h2>10% off your first order</h2>
         <p>New arrivals, scent notes and seasonal rituals — once a month, never more.</p>
@@ -230,6 +253,16 @@
           '</div></article>';
       }).join("");
     });
+
+    // Orbit ring: the first four products of each collection, in order.
+    var ORBIT_MOD = { jewellery: "", perfume: " cc-card--perfume", homeo: " cc-card--homeo" };
+    document.querySelector(".cc-orbit__ring").innerHTML = ["jewellery", "perfume", "homeo"].map(function (kind) {
+      return PRODUCTS[kind].slice(0, 4).map(function (p) {
+        return '<a class="cc-orbit__item' + ORBIT_MOD[kind] + '" href="#">' +
+          '<span class="cc-card__media"><svg aria-hidden="true"><use href="#' + p[3] + '"/></svg></span>' +
+          '<span class="cc-orbit__label"><strong>' + p[0] + '</strong><small>€' + p[2].toFixed(2) + '</small></span></a>';
+      }).join("");
+    }).join("");
   </script>
 </body>
 </html>

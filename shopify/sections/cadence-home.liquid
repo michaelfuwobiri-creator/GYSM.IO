@@ -27,6 +27,27 @@
   {%- endif -%}
 
   <section class="cc-hero">
+    {%- assign float_collection = collections[section.settings.float_collection] -%}
+    {%- if float_collection != blank -%}
+      {%- liquid
+        assign float_x = '6%,83%,9%,81%,24%,68%' | split: ','
+        assign float_y = '16%,12%,66%,62%,4%,80%' | split: ','
+        assign float_s = '120,140,96,108,72,80' | split: ','
+        assign float_depth = '.8,1,.5,.7,.3,.4' | split: ','
+      -%}
+      <div class="cc-hero__float" aria-hidden="true">
+        {%- for product in float_collection.products limit: 6 -%}
+          {%- assign n = forloop.index0 -%}
+          <div class="cc-piece" style="--x:{{ float_x[n] }};--y:{{ float_y[n] }};--s:{{ float_s[n] }}px;--depth:{{ float_depth[n] }};--delay:-{{ n }}s">
+            <div class="cc-piece__in">
+              {%- if product.featured_image -%}
+                {{ product.featured_image | image_url: width: 300 | image_tag: loading: 'eager', alt: '' }}
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
     <div class="cc-wrap">
       <div class="cc-eyebrow">{{ section.settings.hero_eyebrow | escape }}</div>
       <h1>{{ section.settings.hero_title }}</h1>
@@ -36,6 +57,68 @@
       </div>
     </div>
   </section>
+
+  {%- if section.settings.orbit_enabled -%}
+    {%- liquid
+      assign orbit_collection = collections[section.settings.orbit_collection]
+      assign orbit_labels = ''
+      for row in rows
+        case row
+          when 'jewellery'
+            assign c = collections[section.settings.collection_jewellery]
+          when 'perfume'
+            assign c = collections[section.settings.collection_perfume]
+          else
+            assign c = collections[section.settings.collection_homeo]
+        endcase
+        if c != blank
+          assign orbit_labels = orbit_labels | append: c.title | append: '|'
+        endif
+      endfor
+    -%}
+    <section class="cc-orbit" style="height: {{ section.settings.orbit_length }}vh" aria-labelledby="h-orbit-{{ section.id }}">
+      <div class="cc-orbit__sticky">
+        <div class="cc-orbit__caption">
+          <div class="cc-eyebrow">Explore the collections</div>
+          <h2 class="cc-orbit__title" id="h-orbit-{{ section.id }}">
+            {%- if orbit_collection != blank -%}{{ orbit_collection.title | escape }}{%- else -%}{{ orbit_labels | split: '|' | first | escape }}{%- endif -%}
+          </h2>
+          {%- if orbit_collection == blank -%}
+            <div class="cc-orbit__dots" aria-hidden="true">
+              {%- assign label_list = orbit_labels | split: '|' -%}
+              {%- for label in label_list -%}<span{% if forloop.first %} class="is-on"{% endif %}></span>{%- endfor -%}
+            </div>
+          {%- endif -%}
+        </div>
+        <div class="cc-orbit__stage">
+          <div class="cc-orbit__ring"{% if orbit_collection == blank %} data-labels="{{ orbit_labels | escape }}"{% endif %}>
+            {%- if orbit_collection != blank -%}
+              {%- for product in orbit_collection.products limit: 12 -%}
+                {%- render 'cadence-orbit-item', product: product, mod: '' -%}
+              {%- endfor -%}
+            {%- else -%}
+              {%- for row in rows -%}
+                {%- case row -%}
+                  {%- when 'jewellery' -%}
+                    {%- assign c = collections[section.settings.collection_jewellery] -%}{%- assign mod = '' -%}
+                  {%- when 'perfume' -%}
+                    {%- assign c = collections[section.settings.collection_perfume] -%}{%- assign mod = ' cc-card--perfume' -%}
+                  {%- else -%}
+                    {%- assign c = collections[section.settings.collection_homeo] -%}{%- assign mod = ' cc-card--homeo' -%}
+                {%- endcase -%}
+                {%- if c != blank -%}
+                  {%- for product in c.products limit: 4 -%}
+                    {%- render 'cadence-orbit-item', product: product, mod: mod -%}
+                  {%- endfor -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
+          </div>
+        </div>
+        <p class="cc-orbit__hint">Scroll to turn</p>
+      </div>
+    </section>
+  {%- endif -%}
 
   <div class="cc-rows">
     {%- for row in rows -%}
@@ -55,7 +138,7 @@
       -%}
       {%- if row_collection != blank and row_collection.products_count > 0 -%}
         <section aria-labelledby="h-{{ section.id }}-{{ row }}">
-          <div class="cc-wrap cc-row__head">
+          <div class="cc-wrap cc-row__head" data-cc-reveal>
             <div>
               <div class="cc-eyebrow">Collection</div>
               <h2 id="h-{{ section.id }}-{{ row }}">{{ row_collection.title | escape }}</h2>
@@ -116,7 +199,7 @@
           endcase
         -%}
         {%- if tile_collection != blank -%}
-          <a class="cc-cat{{ tile_mod }}" href="{{ tile_collection.url }}">
+          <a class="cc-cat{{ tile_mod }}" href="{{ tile_collection.url }}" data-cc-reveal style="--d:{{ forloop.index0 | times: 0.12 }}s">
             <h3>{{ tile_collection.title | escape }}</h3>
             <p>{{ tile_collection.description | strip_html | truncatewords: 14 }}</p>
             <span>Discover</span>
@@ -128,7 +211,7 @@
 
   {%- if section.settings.show_newsletter -%}
     <section class="cc-news">
-      <div class="cc-wrap">
+      <div class="cc-wrap" data-cc-reveal>
         <div class="cc-eyebrow">The Cadence Letter</div>
         <h2>{{ section.settings.news_title | escape }}</h2>
         <p>{{ section.settings.news_text | escape }}</p>
@@ -161,6 +244,11 @@
     { "type": "textarea", "id": "hero_text", "label": "Text", "default": "Hand-finished jewellery, signature scents and gentle homeopathic essentials." },
     { "type": "text", "id": "hero_button", "label": "Button label", "default": "Shop the collection" },
     { "type": "url", "id": "hero_link", "label": "Button link" },
+    { "type": "collection", "id": "float_collection", "label": "Floating hero products", "info": "Up to 6 products. Transparent PNG photos look best." },
+    { "type": "header", "content": "3D orbit" },
+    { "type": "checkbox", "id": "orbit_enabled", "label": "Show 3D product orbit", "default": true },
+    { "type": "collection", "id": "orbit_collection", "label": "Orbit collection", "info": "Up to 12 products. Leave empty to use 4 from each row collection." },
+    { "type": "range", "id": "orbit_length", "label": "Scroll length", "min": 150, "max": 400, "step": 10, "unit": "vh", "default": 260 },
     { "type": "header", "content": "Product rows" },
     { "type": "collection", "id": "collection_jewellery", "label": "Jewellery collection" },
     { "type": "collection", "id": "collection_perfume", "label": "Perfume collection" },

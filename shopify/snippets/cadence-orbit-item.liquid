@@ -1,0 +1,17 @@
+{%- comment -%}
+  One card in the Cadence&co 3D orbit ring.
+  Accepts: product (product), mod (string: '', ' cc-card--perfume', ' cc-card--homeo')
+{%- endcomment -%}
+<a class="cc-orbit__item{{ mod }}" href="{{ product.url }}">
+  <span class="cc-card__media">
+    {%- if product.featured_image -%}
+      {{ product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy', alt: product.title, sizes: '200px' }}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag }}
+    {%- endif -%}
+  </span>
+  <span class="cc-orbit__label">
+    <strong>{{ product.title | escape }}</strong>
+    <small>{{ product.price | money }}</small>
+  </span>
+</a>
