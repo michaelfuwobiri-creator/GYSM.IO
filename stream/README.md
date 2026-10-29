@@ -100,6 +100,17 @@ The planner runs at start-up, every minute, and whenever the network or a settin
 | Respects limited storage (Fire TV Sticks have about 5 GB free) | Storage limit setting, default 2 GB |
 | Maturity ratings | Every title has a rating badge; 16+ titles can be hidden |
 
+## Web version on Cloudflare Pages
+
+In the Cloudflare dashboard: **Workers & Pages → Create → Pages → Connect to Git**, pick `michaelfuwobiri-creator/GYSM.IO`, then set:
+
+- Production branch: `claude/gifted-hawking-98io3u`
+- Framework preset: None
+- Build command: `bash stream/build-site.sh`
+- Build output directory: `_site`
+
+The app is then at `https://<project>.pages.dev/` and the privacy policy at `https://<project>.pages.dev/privacy/`. Every push to the branch redeploys.
+
 ## Web version on GitHub Pages
 
 With GitHub Pages switched on for this branch (Settings → Pages → Deploy from a branch → `claude/gifted-hawking-98io3u`, `/ (root)`):
