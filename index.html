@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cadence&amp;co — Jewellery, Perfume &amp; Homeopathy</title>
+  <meta name="description" content="Cadence&co — fine jewellery, signature perfumes and homeopathic essentials.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/cadence.css">
+  <script src="assets/cadence.js" defer></script>
+</head>
+<body class="cc">
+
+  <!-- Icon sprite (stand-in product art until real photos are added) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-ring" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="32" cy="38" r="16"/><path d="M24 14l8-8 8 8-8 8z"/><path d="M28 21l-3 4M36 21l3 4"/>
+    </symbol>
+    <symbol id="i-necklace" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M10 8c0 22 10 34 22 34S54 30 54 8"/><path d="M32 42l-6 8 6 8 6-8z"/>
+    </symbol>
+    <symbol id="i-earring" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="32" cy="10" r="4"/><path d="M32 14v8"/><circle cx="32" cy="38" r="14"/><circle cx="32" cy="38" r="6"/>
+    </symbol>
+    <symbol id="i-perfume" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="26" y="6" width="12" height="8" rx="2"/><path d="M28 14v6h8v-6"/><rect x="14" y="20" width="36" height="38" rx="8"/><path d="M22 34h20"/>
+    </symbol>
+    <symbol id="i-flacon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M28 6h8v10h-8z"/><path d="M32 16c-14 6-18 16-18 24a18 18 0 0036 0c0-8-4-18-18-24z"/><circle cx="32" cy="42" r="6"/>
+    </symbol>
+    <symbol id="i-vial" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="22" y="4" width="20" height="10" rx="2"/><path d="M24 14h16v42a4 4 0 01-4 4h-8a4 4 0 01-4-4z"/><circle cx="29" cy="46" r="2.5"/><circle cx="35" cy="40" r="2.5"/><circle cx="31" cy="52" r="2.5"/>
+    </symbol>
+    <symbol id="i-leaf" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 52C12 24 30 10 54 10c0 26-16 42-42 42z"/><path d="M12 52L38 26"/>
+    </symbol>
+    <symbol id="i-globules" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="22" cy="40" r="8"/><circle cx="40" cy="44" r="7"/><circle cx="34" cy="26" r="9"/><circle cx="48" cy="22" r="5"/>
+    </symbol>
+  </svg>
+
+  <!-- Announcement bar -->
+  <div class="cc-announce cc-marquee" data-speed="30" role="region" aria-label="Store announcements">
+    <div class="cc-marquee__track">
+      <div class="cc-marquee__group">
+        <span>Free shipping from €50</span>
+        <span>Gift wrapping on every order</span>
+        <span>30-day returns</span>
+        <span>New: the Lumière perfume collection</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="cc-header">
+    <div class="cc-wrap cc-header__inner">
+      <a class="cc-logo" href="#">Cadence<em>&amp;co</em></a>
+      <nav class="cc-nav" id="cc-nav" aria-label="Main">
+        <a href="#jewellery">Jewellery</a>
+        <a href="#perfumes">Perfumes</a>
+        <a href="#homeopathy">Homeopathy</a>
+        <a href="#about">About</a>
+      </nav>
+      <div class="cc-icons">
+        <button class="cc-icon-btn" type="button" aria-label="Search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+        </button>
+        <a class="cc-icon-btn" href="#" aria-label="Cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 016 0v2"/></svg>
+          <span class="cc-cart-count">0</span>
+        </a>
+        <button class="cc-icon-btn cc-menu-btn" type="button" aria-label="Menu" aria-controls="cc-nav" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="cc-hero">
+      <div class="cc-wrap">
+        <div class="cc-eyebrow">Jewellery · Perfume · Homeopathy</div>
+        <h1>Little rituals,<br><em>beautifully</em> kept.</h1>
+        <p>Hand-finished jewellery, signature scents and gentle homeopathic essentials — chosen to bring rhythm and calm to every day.</p>
+        <div class="cc-hero__ctas">
+          <a class="cc-btn cc-btn--solid" href="#jewellery">Shop the collection</a>
+          <a class="cc-btn cc-btn--ghost" href="#about">Our story</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Moving product rows (filled from PRODUCTS below) -->
+    <div class="cc-rows">
+      <section id="jewellery" aria-labelledby="h-jewel">
+        <div class="cc-wrap cc-row__head">
+          <div><div class="cc-eyebrow">Collection</div><h2 id="h-jewel">Jewellery</h2></div>
+          <a href="#">View all</a>
+        </div>
+        <div class="cc-marquee" data-speed="45" data-row="jewellery"><div class="cc-marquee__track"><div class="cc-marquee__group"></div></div></div>
+      </section>
+
+      <section id="perfumes" aria-labelledby="h-perf">
+        <div class="cc-wrap cc-row__head">
+          <div><div class="cc-eyebrow">Collection</div><h2 id="h-perf">Perfumes</h2></div>
+          <a href="#">View all</a>
+        </div>
+        <div class="cc-marquee" data-speed="45" data-direction="reverse" data-row="perfume"><div class="cc-marquee__track"><div class="cc-marquee__group"></div></div></div>
+      </section>
+
+      <section id="homeopathy" aria-labelledby="h-homeo">
+        <div class="cc-wrap cc-row__head">
+          <div><div class="cc-eyebrow">Collection</div><h2 id="h-homeo">Homeopathy</h2></div>
+          <a href="#">View all</a>
+        </div>
+        <div class="cc-marquee" data-speed="45" data-row="homeo"><div class="cc-marquee__track"><div class="cc-marquee__group"></div></div></div>
+      </section>
+    </div>
+
+    <!-- Category tiles -->
+    <section class="cc-cats" id="about">
+      <div class="cc-wrap cc-cats__grid">
+        <a class="cc-cat" href="#jewellery">
+          <svg><use href="#i-ring"/></svg>
+          <h3>Jewellery</h3>
+          <p>Gold-plated rings, necklaces and earrings made to be layered.</p>
+          <span>Discover</span>
+        </a>
+        <a class="cc-cat cc-cat--perfume" href="#perfumes">
+          <svg><use href="#i-perfume"/></svg>
+          <h3>Perfumes</h3>
+          <p>Eaux de parfum blended in small batches, from floral to woody.</p>
+          <span>Discover</span>
+        </a>
+        <a class="cc-cat cc-cat--homeo" href="#homeopathy">
+          <svg><use href="#i-leaf"/></svg>
+          <h3>Homeopathy</h3>
+          <p>Globules, tinctures and balms for your daily wellbeing routine.</p>
+          <span>Discover</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Values -->
+    <section class="cc-values">
+      <div class="cc-wrap cc-values__grid">
+        <div class="cc-value"><svg><use href="#i-ring"/></svg><div><strong>Hand-finished</strong><small>Every piece checked by hand</small></div></div>
+        <div class="cc-value"><svg><use href="#i-leaf"/></svg><div><strong>Natural ingredients</strong><small>Carefully sourced botanicals</small></div></div>
+        <div class="cc-value"><svg><use href="#i-flacon"/></svg><div><strong>Gift ready</strong><small>Wrapped with care, free</small></div></div>
+        <div class="cc-value"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/></svg><div><strong>Secure checkout</strong><small>Shop Pay, PayPal, cards</small></div></div>
+      </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="cc-news">
+      <div class="cc-wrap">
+        <div class="cc-eyebrow">The Cadence Letter</div>
+        <h2>10% off your first order</h2>
+        <p>New arrivals, scent notes and seasonal rituals — once a month, never more.</p>
+        <form data-cc-demo>
+          <label class="cc-sr" for="cc-email">Email address</label>
+          <input id="cc-email" type="email" placeholder="Your email address" required>
+          <button class="cc-btn cc-btn--solid" type="submit">Subscribe</button>
+        </form>
+        <div class="cc-news__msg" role="status"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="cc-footer">
+    <div class="cc-wrap">
+      <div class="cc-footer__grid">
+        <div>
+          <a class="cc-logo" href="#">Cadence<em>&amp;co</em></a>
+          <p class="cc-footer__note">Jewellery, perfume and homeopathy — little rituals for every day.</p>
+        </div>
+        <div><h4>Shop</h4><ul><li><a href="#jewellery">Jewellery</a></li><li><a href="#perfumes">Perfumes</a></li><li><a href="#homeopathy">Homeopathy</a></li></ul></div>
+        <div><h4>Help</h4><ul><li><a href="#">Shipping</a></li><li><a href="#">Returns</a></li><li><a href="#">Contact</a></li></ul></div>
+        <div><h4>Legal</h4><ul><li><a href="#">Imprint</a></li><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li></ul></div>
+      </div>
+      <div class="cc-footer__bottom">
+        <span>© 2026 Cadence&amp;co</span>
+        <span>Homeopathic products do not replace medical advice.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Preview data — in Shopify these come from your collections.
+    var PRODUCTS = {
+      jewellery: [
+        ["Aurora Signet Ring", "Ring", 59, "i-ring"],
+        ["Celeste Pendant", "Necklace", 89, "i-necklace"],
+        ["Luna Drop Earrings", "Earrings", 49, "i-earring"],
+        ["Solène Stacking Ring", "Ring", 39, "i-ring"],
+        ["Étoile Chain", "Necklace", 69, "i-necklace"],
+        ["Perle Hoops", "Earrings", 45, "i-earring"]
+      ],
+      perfume: [
+        ["Lumière No. 1", "Eau de Parfum · 50 ml", 78, "i-perfume"],
+        ["Rose Nocturne", "Eau de Parfum · 50 ml", 82, "i-flacon"],
+        ["Bois d'Ambre", "Eau de Parfum · 50 ml", 85, "i-perfume"],
+        ["Fleur de Sel", "Eau de Toilette · 100 ml", 64, "i-flacon"],
+        ["Iris Velours", "Extrait · 30 ml", 96, "i-perfume"],
+        ["Néroli Soleil", "Eau de Toilette · 100 ml", 68, "i-flacon"]
+      ],
+      homeo: [
+        ["Arnica Globules", "Globules · 10 g", 9, "i-globules"],
+        ["Calendula Balm", "Balm · 50 ml", 14, "i-leaf"],
+        ["Chamomilla Globules", "Globules · 10 g", 9, "i-globules"],
+        ["Bach Calm Drops", "Tincture · 20 ml", 16, "i-vial"],
+        ["Echinacea Tincture", "Tincture · 50 ml", 18, "i-vial"],
+        ["Lavender Sleep Spray", "Pillow spray · 75 ml", 19, "i-leaf"]
+      ]
+    };
+
+    document.querySelectorAll(".cc-marquee[data-row]").forEach(function (row) {
+      var kind = row.dataset.row;
+      var mod = kind === "perfume" ? " cc-card--perfume" : kind === "homeo" ? " cc-card--homeo" : "";
+      row.querySelector(".cc-marquee__group").innerHTML = PRODUCTS[kind].map(function (p) {
+        return '<article class="cc-card' + mod + '">' +
+          '<a class="cc-card__media" href="#" aria-label="' + p[0] + '"><svg aria-hidden="true"><use href="#' + p[3] + '"/></svg></a>' +
+          '<div class="cc-card__body">' +
+            '<div class="cc-card__tag">' + p[1] + '</div>' +
+            '<h3 class="cc-card__title">' + p[0] + '</h3>' +
+            '<div class="cc-card__foot"><span class="cc-card__price">€' + p[2].toFixed(2) + '</span>' +
+            '<button class="cc-card__add" type="button">Add</button></div>' +
+          '</div></article>';
+      }).join("");
+    });
+  </script>
+</body>
+</html>

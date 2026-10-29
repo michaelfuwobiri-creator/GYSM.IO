@@ -1,0 +1,177 @@
+{%- comment -%}
+  Cadence&co homepage section — hero, three moving product rows
+  (jewellery / perfumes / homeopathy), category tiles, values and newsletter.
+  Needs assets/cadence.css and assets/cadence.js in the theme.
+{%- endcomment -%}
+
+{{ 'cadence.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'cadence.js' | asset_url }}" defer></script>
+
+{%- liquid
+  assign rows = 'jewellery,perfume,homeo' | split: ','
+-%}
+
+<div class="cc" id="cc-{{ section.id }}">
+
+  {%- if section.settings.show_announcement -%}
+    <div class="cc-announce cc-marquee" data-speed="30" role="region" aria-label="Store announcements">
+      <div class="cc-marquee__track">
+        <div class="cc-marquee__group">
+          {%- assign messages = section.settings.announcement | split: '|' -%}
+          {%- for message in messages -%}
+            <span>{{ message | strip | escape }}</span>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <section class="cc-hero">
+    <div class="cc-wrap">
+      <div class="cc-eyebrow">{{ section.settings.hero_eyebrow | escape }}</div>
+      <h1>{{ section.settings.hero_title }}</h1>
+      <p>{{ section.settings.hero_text | escape }}</p>
+      <div class="cc-hero__ctas">
+        <a class="cc-btn cc-btn--solid" href="{{ section.settings.hero_link | default: routes.all_products_collection_url }}">{{ section.settings.hero_button | escape }}</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="cc-rows">
+    {%- for row in rows -%}
+      {%- liquid
+        case row
+          when 'jewellery'
+            assign collection_handle = section.settings.collection_jewellery
+            assign card_mod = ''
+          when 'perfume'
+            assign collection_handle = section.settings.collection_perfume
+            assign card_mod = ' cc-card--perfume'
+          else
+            assign collection_handle = section.settings.collection_homeo
+            assign card_mod = ' cc-card--homeo'
+        endcase
+        assign row_collection = collections[collection_handle]
+      -%}
+      {%- if row_collection != blank and row_collection.products_count > 0 -%}
+        <section aria-labelledby="h-{{ section.id }}-{{ row }}">
+          <div class="cc-wrap cc-row__head">
+            <div>
+              <div class="cc-eyebrow">Collection</div>
+              <h2 id="h-{{ section.id }}-{{ row }}">{{ row_collection.title | escape }}</h2>
+            </div>
+            <a href="{{ row_collection.url }}">View all</a>
+          </div>
+          <div class="cc-marquee" data-speed="{{ section.settings.speed }}"{% if forloop.index == 2 %} data-direction="reverse"{% endif %}>
+            <div class="cc-marquee__track">
+              <div class="cc-marquee__group">
+                {%- for product in row_collection.products limit: section.settings.products_per_row -%}
+                  <article class="cc-card{{ card_mod }}">
+                    <a class="cc-card__media" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
+                      {%- if product.featured_image -%}
+                        {{ product.featured_image | image_url: width: 520 | image_tag: loading: 'lazy', alt: product.title, sizes: '260px' }}
+                      {%- else -%}
+                        {{ 'product-1' | placeholder_svg_tag }}
+                      {%- endif -%}
+                    </a>
+                    <div class="cc-card__body">
+                      <div class="cc-card__tag">{{ product.type | escape }}</div>
+                      <h3 class="cc-card__title">{{ product.title | escape }}</h3>
+                      <div class="cc-card__foot">
+                        <span class="cc-card__price">{{ product.price | money }}</span>
+                        {%- if product.available -%}
+                          {%- form 'product', product, data-cc-form: 'true' -%}
+                            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                            <button class="cc-card__add" type="submit">Add</button>
+                          {%- endform -%}
+                        {%- else -%}
+                          <span class="cc-card__tag">Sold out</span>
+                        {%- endif -%}
+                      </div>
+                    </div>
+                  </article>
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+        </section>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+
+  <section class="cc-cats">
+    <div class="cc-wrap cc-cats__grid">
+      {%- for row in rows -%}
+        {%- liquid
+          case row
+            when 'jewellery'
+              assign tile_collection = collections[section.settings.collection_jewellery]
+              assign tile_mod = ''
+            when 'perfume'
+              assign tile_collection = collections[section.settings.collection_perfume]
+              assign tile_mod = ' cc-cat--perfume'
+            else
+              assign tile_collection = collections[section.settings.collection_homeo]
+              assign tile_mod = ' cc-cat--homeo'
+          endcase
+        -%}
+        {%- if tile_collection != blank -%}
+          <a class="cc-cat{{ tile_mod }}" href="{{ tile_collection.url }}">
+            <h3>{{ tile_collection.title | escape }}</h3>
+            <p>{{ tile_collection.description | strip_html | truncatewords: 14 }}</p>
+            <span>Discover</span>
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </section>
+
+  {%- if section.settings.show_newsletter -%}
+    <section class="cc-news">
+      <div class="cc-wrap">
+        <div class="cc-eyebrow">The Cadence Letter</div>
+        <h2>{{ section.settings.news_title | escape }}</h2>
+        <p>{{ section.settings.news_text | escape }}</p>
+        {%- form 'customer', id: 'cc-news-form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <label class="cc-sr" for="cc-email-{{ section.id }}">Email address</label>
+          <input id="cc-email-{{ section.id }}" type="email" name="contact[email]" placeholder="Your email address" required>
+          <button class="cc-btn cc-btn--solid" type="submit">Subscribe</button>
+        {%- endform -%}
+        <div class="cc-news__msg" role="status">
+          {%- if form.posted_successfully? -%}Thank you — welcome to Cadence&amp;co.{%- endif -%}
+        </div>
+      </div>
+    </section>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Cadence&co homepage",
+  "tag": "section",
+  "class": "cc-section",
+  "settings": [
+    { "type": "header", "content": "Announcement" },
+    { "type": "checkbox", "id": "show_announcement", "label": "Show moving announcement bar", "default": true },
+    { "type": "text", "id": "announcement", "label": "Messages (separate with |)", "default": "Free shipping from €50 | Gift wrapping on every order | 30-day returns" },
+    { "type": "header", "content": "Hero" },
+    { "type": "text", "id": "hero_eyebrow", "label": "Eyebrow", "default": "Jewellery · Perfume · Homeopathy" },
+    { "type": "inline_richtext", "id": "hero_title", "label": "Heading", "default": "Little rituals, <em>beautifully</em> kept." },
+    { "type": "textarea", "id": "hero_text", "label": "Text", "default": "Hand-finished jewellery, signature scents and gentle homeopathic essentials." },
+    { "type": "text", "id": "hero_button", "label": "Button label", "default": "Shop the collection" },
+    { "type": "url", "id": "hero_link", "label": "Button link" },
+    { "type": "header", "content": "Product rows" },
+    { "type": "collection", "id": "collection_jewellery", "label": "Jewellery collection" },
+    { "type": "collection", "id": "collection_perfume", "label": "Perfume collection" },
+    { "type": "collection", "id": "collection_homeo", "label": "Homeopathy collection" },
+    { "type": "range", "id": "products_per_row", "label": "Products per row", "min": 4, "max": 16, "step": 1, "default": 8 },
+    { "type": "range", "id": "speed", "label": "Marquee speed", "min": 10, "max": 120, "step": 5, "unit": "px", "default": 45 },
+    { "type": "header", "content": "Newsletter" },
+    { "type": "checkbox", "id": "show_newsletter", "label": "Show newsletter", "default": true },
+    { "type": "text", "id": "news_title", "label": "Heading", "default": "10% off your first order" },
+    { "type": "text", "id": "news_text", "label": "Text", "default": "New arrivals, scent notes and seasonal rituals — once a month." }
+  ],
+  "presets": [{ "name": "Cadence&co homepage" }]
+}
+{% endschema %}
