@@ -1,0 +1,12 @@
+{
+  "name": "GYSM Stream",
+  "short_name": "GYSM",
+  "description": "Free films that download themselves, so you can watch offline and save data.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#0b0b0f",
+  "theme_color": "#0b0b0f",
+  "icons": [{ "src": "img/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}

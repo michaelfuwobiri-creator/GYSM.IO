@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#0b0b0f">
+  <title>GYSM Stream</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="img/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <!-- A fixed 1920x1080 canvas scaled to the screen, so the 10-foot layout and
+       its overscan-safe margins are identical on every Fire TV model. -->
+  <div id="stage">
+    <div id="app">
+      <header class="top" data-top>
+        <div class="logo"><span class="logo__mark">▶</span>GYSM<span class="logo__thin">Stream</span></div>
+        <nav class="nav" aria-label="Main">
+          <button class="tab focusable is-active" data-key="nav:home" data-act="nav" data-page="home">Home</button>
+          <button class="tab focusable" data-key="nav:mylist" data-act="nav" data-page="mylist">My List</button>
+          <button class="tab focusable" data-key="nav:downloads" data-act="nav" data-page="downloads">Downloads</button>
+          <button class="tab focusable" data-key="nav:settings" data-act="nav" data-page="settings">Settings</button>
+        </nav>
+        <div id="status" class="status" role="status"></div>
+      </header>
+      <main id="page" class="scroll"></main>
+    </div>
+
+    <section id="details" class="details" data-layer hidden></section>
+
+    <section id="player" class="player" data-layer hidden>
+      <video id="video" playsinline preload="auto"></video>
+      <div class="spinner" aria-hidden="true"></div>
+      <div class="osd">
+        <div class="osd__top"><h2 id="osd-title"></h2><span id="osd-mode" class="osd__mode"></span></div>
+        <p id="osd-state" class="osd__state"></p>
+        <div class="osd__bottom">
+          <div class="osd__track"><i id="osd-bar"></i></div>
+          <div class="osd__row"><span id="osd-time">0:00 / 0:00</span>
+            <span class="osd__hint">◀ 10 s · OK play/pause · 30 s ▶ · Back to close</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div id="toast" class="toast" role="status"></div>
+  </div>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
