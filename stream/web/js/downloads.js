@@ -38,9 +38,18 @@ const emit = (kind, id) => listeners.forEach((fn) => fn(kind, id));
 const keyFor = (id, part) => new URL(`offline/${id}/${part}`, location.href).href;
 
 export function subscribe(fn) { listeners.add(fn); return () => listeners.delete(fn); }
+// Licensed titles may only be downloaded if their licence allows it.
+export function canDownload(id) {
+  const t = byId.get(id);
+  return supported && !!t && (!t.filmhub || t.filmhub.licence.offline);
+}
+
+function expired(r) { return !!(r && r.expiresAt && r.expiresAt <= Date.now()); }
+export function expiresAt(id) { return (records[id] && records[id].expiresAt) || 0; }
+
 // Failed smart downloads stay out of sight; the user never asked for them.
 export function isHiddenFailure(r) { return r && r.reason === 'auto' && r.status === 'error'; }
-export function isDownloaded(id) { return records[id] && records[id].status === 'done'; }
+export function isDownloaded(id) { return !!records[id] && records[id].status === 'done' && !expired(records[id]); }
 export function status() { return { active: active && active.id, blocker }; }
 
 export function usedBytes() {
@@ -56,7 +65,7 @@ function reservedBytes() {
 }
 
 export function enqueue(id, reason = 'manual') {
-  if (!supported) return;
+  if (!canDownload(id)) return;
   const r = records[id];
   if (r && r.status !== 'error') {
     if (reason === 'manual' && r.reason !== 'manual') { r.reason = 'manual'; persist(); emit('change', id); }
@@ -195,9 +204,20 @@ async function run(id, signal) {
     }
   } catch { /* poster is optional */ }
 
+  r.captions = 0;
+  for (const c of src.captions || []) {
+    const res = await fetch(c.url, { signal });
+    if (!res.ok) throw new Error('Captions HTTP ' + res.status);
+    await cache.put(keyFor(id, 'cc-' + r.captions), res);
+    r.captions++;
+  }
+
   r.status = 'done';
   r.tries = 0;
   r.completedAt = Date.now();
+  // Licences often limit how long a download may be kept.
+  const days = title.filmhub && title.filmhub.licence.offlineDays;
+  r.expiresAt = days ? r.completedAt + days * 864e5 : 0;
   emit('done', id);
 }
 
@@ -244,6 +264,19 @@ export async function offlineUrl(id) {
 
 export function offlinePoster(id) { return posterUrls.get(id) || null; }
 
+// Blob URLs for the saved subtitle files, in the order of the title's captions.
+export async function offlineCaptions(id) {
+  const r = records[id];
+  if (!isDownloaded(id) || !r.captions) return [];
+  const cache = await caches.open(CACHE);
+  const urls = [];
+  for (let i = 0; i < r.captions; i++) {
+    const res = await cache.match(keyFor(id, 'cc-' + i));
+    if (res) urls.push(URL.createObjectURL(await res.blob()));
+  }
+  return urls;
+}
+
 async function loadPosters() {
   if (!supported) return;
   const cache = await caches.open(CACHE);
@@ -258,7 +291,7 @@ async function loadPosters() {
 // ---- smart auto-download ------------------------------------------------
 
 function candidates() {
-  const allowed = (t) => !(settings.hideMature && t.maturity === '16+') && !isFinished(t.id);
+  const allowed = (t) => !(settings.hideMature && t.maturity === '16+') && !isFinished(t.id) && canDownload(t.id);
   const inProgress = Object.entries(progress)
     .filter(([id]) => byId.has(id))
     .sort(([, a], [, b]) => b.at - a.at)
@@ -272,6 +305,13 @@ function candidates() {
 
 export function plan() {
   if (!supported) return;
+  // Expired downloads, and titles whose licence has ended, must go.
+  for (const [id, r] of Object.entries(records)) {
+    const t = byId.get(id);
+    const licensed = t && t.filmhub;
+    if (expired(r) || (r.wasLicensed && !t) || (licensed && !t.filmhub.licence.offline)) { remove(id); return; }
+    if (licensed && !r.wasLicensed) { r.wasLicensed = true; persist(); }
+  }
   // Free the space taken by finished auto-downloads.
   if (settings.deleteWatched) {
     for (const [id, r] of Object.entries(records)) {

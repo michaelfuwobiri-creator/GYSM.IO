@@ -5,10 +5,11 @@
 // query if the file was renamed. Licence and author are read from Commons at
 // runtime and shown on the details screen (CC-BY requires attribution).
 //
-// To plug in a licensed catalogue instead, replace this list and add a
-// resolver for your provider in sources.js.
+// Licensed films from Filmhub are added at start-up from the feeds listed in
+// config.js (see feeds.js and tools/filmhub-import.mjs).
 
 export const COLLECTIONS = [
+  { id: 'filmhub', title: 'More films' },
   { id: 'open', title: 'Blender open movies' },
   { id: 'classic', title: 'Classic cinema' },
   { id: 'short', title: 'Under 15 minutes' },
@@ -133,3 +134,15 @@ export const TITLES = [
 ];
 
 export const byId = new Map(TITLES.map((t) => [t.id, t]));
+
+// Licensed titles arrive from feeds (see feeds.js). Returns how many were new.
+export function addTitles(list) {
+  let added = 0;
+  for (const t of list) {
+    if (byId.has(t.id)) continue;
+    TITLES.push(t);
+    byId.set(t.id, t);
+    added++;
+  }
+  return added;
+}

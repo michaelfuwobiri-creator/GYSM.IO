@@ -8,6 +8,7 @@ import * as dl from './downloads.js';
 import * as focus from './focus.js';
 import * as player from './player.js';
 import { actionForKey, exitApp, isFireTV } from './platform.js';
+import { loadCachedFeeds, refreshFeeds } from './feeds.js';
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
@@ -84,6 +85,7 @@ function metaLine(t) {
 function dlButtonLabel(id) {
   const r = dl.records[id];
   if (!dl.supported) return 'Downloads not supported';
+  if (!dl.canDownload(id) && !r) return 'Streaming only';
   if (!r || r.status === 'error') return r ? 'Retry download' : 'Download';
   if (r.status === 'done') return 'Delete download';
   return 'Cancel download';
@@ -155,7 +157,8 @@ function downloadsHtml() {
     .sort(([, a], [, b]) => (b.completedAt || b.addedAt) - (a.completedAt || a.addedAt));
   const items = entries.map(([t, r]) => {
     const size = r.size || estimateBytes(t);
-    const line = r.status === 'done' ? `${formatBytes(size)} · ${r.reason === 'auto' ? 'Smart download' : 'Downloaded by you'}`
+    const expiry = expiryText(t.id);
+    const line = r.status === 'done' ? `${formatBytes(size)} · ${r.reason === 'auto' ? 'Smart download' : 'Downloaded by you'}${expiry ? ' · ' + expiry : ''}`
       : r.status === 'error' ? esc(r.error || 'Failed')
         : `<span data-text-for="${t.id}">${formatBytes(r.done)} of ${formatBytes(size)}</span> · ${r.status === 'downloading' ? 'Downloading' : 'Queued'}`;
     return `<div class="dl" data-row="dl-${t.id}">
@@ -196,7 +199,28 @@ function settingsHtml() {
       <span class="setting__value ${v === true ? 'is-on' : ''}">${esc(shown)}</span>
     </button>`;
   }).join('')}
-  <p class="legal">Every film in this app is free to stream and download: Blender Foundation open movies under Creative Commons Attribution and public-domain classics, served by Wikimedia Commons. Licence and author are shown on each title.</p></div>`;
+  <p class="legal">Films in this app are either free to stream and download (Blender Foundation open movies under Creative Commons Attribution, and public-domain classics from Wikimedia Commons) or licensed through Filmhub, whose licences may allow streaming only or keep downloads for a set number of days. The licence is shown on each title.</p></div>`;
+}
+
+function expiryText(id) {
+  const at = dl.expiresAt(id);
+  if (!at) return '';
+  const days = Math.max(0, Math.ceil((at - Date.now()) / 864e5));
+  return days <= 1 ? 'Expires today' : `Expires in ${days} days`;
+}
+
+function licenceText(t, src) {
+  if (t.filmhub) {
+    const l = t.filmhub.licence;
+    const parts = ['Licensed film'];
+    if (t.studio) parts.push(t.studio);
+    if (!l.offline) parts.push('streaming only under its licence');
+    else if (l.offlineDays) parts.push(`downloads are kept for ${l.offlineDays} days`);
+    return parts.join(' · ');
+  }
+  const licence = src.licence || (t.local ? t.local.licence : 'Free licence');
+  const artist = src.artist || (t.local && t.local.artist);
+  return licence + (artist ? ' · ' + artist : '');
 }
 
 function detailsHtml(t) {
@@ -204,7 +228,9 @@ function detailsHtml(t) {
   const r = dl.records[t.id];
   const resume = isInProgress(t.id);
   const size = (r && r.size) || estimateBytes(t);
-  const dlLine = r && r.status === 'done' ? `Saved on this device · ${formatBytes(size)}`
+  const expiry = expiryText(t.id);
+  const dlLine = !dl.canDownload(t.id) && !(r && r.status === 'done') ? 'Available to stream'
+    : r && r.status === 'done' ? `Saved on this device · ${formatBytes(size)}${expiry ? ' · ' + expiry : ''}`
     : r && r.status !== 'error' ? `<span data-text-for="${t.id}">${formatBytes(r.done)} of ${formatBytes(size)}</span> downloaded`
       : `About ${formatBytes(size)} to download`;
   return `<div class="details__art">${art(t, 'art--hero')}</div>
@@ -215,11 +241,11 @@ function detailsHtml(t) {
       <div class="actions">
         <button class="btn btn--primary focusable" data-key="d:play" data-id="${t.id}" data-act="play" data-autofocus ${playable(t) ? '' : 'disabled'}>▶ ${resume ? 'Resume' : 'Play'}</button>
         ${resume ? `<button class="btn focusable" data-key="d:restart" data-id="${t.id}" data-act="restart">Start over</button>` : ''}
-        <button class="btn focusable" data-key="d:dl" data-id="${t.id}" data-act="dl" ${dl.supported ? '' : 'disabled'}>${dlButtonLabel(t.id)}</button>
+        <button class="btn focusable" data-key="d:dl" data-id="${t.id}" data-act="dl" ${dl.canDownload(t.id) || dl.records[t.id] ? '' : 'disabled'}>${dlButtonLabel(t.id)}</button>
         <button class="btn focusable" data-key="d:list" data-id="${t.id}" data-act="list">${myList.has(t.id) ? '✓ In My List' : '+ My List'}</button>
       </div>
       <p class="details__dl">${dlLine}${dlBar(t.id)}</p>
-      <p class="details__licence">${esc(src.licence || (t.local ? t.local.licence : 'Free licence'))}${src.artist || (t.local && t.local.artist) ? ' · ' + esc(src.artist || t.local.artist) : ''}</p>
+      <p class="details__licence">${esc(licenceText(t, src))}</p>
       ${playable(t) ? '' : '<p class="notice">Connect to the internet to watch, or download this title next time you are online.</p>'}
     </div>`;
 }
@@ -430,7 +456,11 @@ function start() {
   };
   document.addEventListener('visibilitychange', () => { if (document.hidden) player.pause(); });
 
-  const onNet = () => { state.online = navigator.onLine; scheduleRender(); };
+  const onNet = () => {
+    state.online = navigator.onLine;
+    if (state.online) refreshFeeds().then((added) => { if (added) dl.plan(); });
+    scheduleRender();
+  };
   addEventListener('online', onNet);
   addEventListener('offline', onNet);
 
@@ -440,9 +470,11 @@ function start() {
     scheduleRender();
   });
 
+  loadCachedFeeds(); // before downloads start, so saved licensed films resolve
   render();
   focus.restore('hero:play');
   dl.start();
+  refreshFeeds().then((added) => { if (added) { dl.plan(); scheduleRender(); } });
 
   resolveAll(TITLES, (t, r) => {
     if (!r && navigator.onLine) state.missing.add(t.id);

@@ -6,7 +6,7 @@
 
 import { byId } from './catalog.js';
 import { setProgress, progress, addSaved } from './store.js';
-import { offlineUrl, records } from './downloads.js';
+import { offlineUrl, offlineCaptions, records } from './downloads.js';
 import { resolve } from './sources.js';
 import { keepScreenOn } from './platform.js';
 
@@ -19,6 +19,7 @@ let hideTimer = 0;
 let saveTimer = 0;
 let lastTime = 0;
 let onClose = () => {};
+let captionUrls = [];
 
 export function isOpen() { return !!title; }
 
@@ -64,6 +65,8 @@ export async function open(id) {
     return;
   }
   video.src = src;
+  await addCaptions(id, offline);
+  if (title !== t) return;
   const p = progress[id];
   video.addEventListener('loadedmetadata', function resume() {
     video.removeEventListener('loadedmetadata', resume);
@@ -72,6 +75,54 @@ export async function open(id) {
   video.play().catch(() => showOsd(true));
   clearInterval(saveTimer);
   saveTimer = setInterval(save, 5000);
+}
+
+// Subtitles are loaded as Blob URLs (saved copies when offline), so the
+// video element never needs CORS mode for them.
+async function addCaptions(id, fromDownload) {
+  const src = await resolve(byId.get(id));
+  const list = (src && src.captions) || [];
+  let urls = [];
+  if (fromDownload) urls = await offlineCaptions(id);
+  else {
+    urls = await Promise.all(list.map((c) => fetch(c.url)
+      .then((r) => (r.ok ? r.blob() : null))
+      .then((b) => (b ? URL.createObjectURL(b) : null))
+      .catch(() => null)));
+  }
+  captionUrls = urls.filter(Boolean);
+  list.forEach((c, i) => {
+    if (!urls[i]) return;
+    const track = document.createElement('track');
+    track.kind = 'subtitles';
+    track.srclang = c.lang;
+    track.label = c.label;
+    track.src = urls[i];
+    track.track.addEventListener('cuechange', drawCues);
+    video.appendChild(track);
+  });
+  $('#osd-cc').hidden = !captionUrls.length;
+}
+
+// Subtitles are drawn in #subs rather than by the browser, so they can be
+// large enough for a TV and move above the controls while those are shown.
+// The selected track is 'hidden': it still reports cues, but draws nothing.
+function drawCues() {
+  const track = [...video.textTracks].find((t) => t.mode === 'hidden');
+  const cues = track && track.activeCues ? [...track.activeCues] : [];
+  $('#subs').textContent = cues.map((c) => (c.text || '').replace(/<[^>]*>/g, '')).join('\n');
+}
+
+function toggleCaptions() {
+  const tracks = [...video.textTracks];
+  if (!tracks.length) return showOsd();
+  const on = tracks.findIndex((t) => t.mode === 'hidden');
+  tracks.forEach((t) => { t.mode = 'disabled'; });
+  const next = on + 1 < tracks.length ? on + 1 : -1; // cycle: off, track 1, track 2, ..., off
+  if (next >= 0) tracks[next].mode = 'hidden';
+  drawCues();
+  $('#osd-cc').textContent = next >= 0 ? `Subtitles: ${tracks[next].label}` : 'Subtitles: off (Menu)';
+  showOsd();
 }
 
 function save() {
@@ -85,7 +136,11 @@ export function close() {
   clearInterval(saveTimer);
   video.pause();
   video.removeAttribute('src');
+  video.querySelectorAll('track').forEach((tr) => tr.remove());
+  $('#subs').textContent = '';
   video.load();
+  captionUrls.forEach((u) => URL.revokeObjectURL(u)); // made for this playback only
+  captionUrls = [];
   keepScreenOn(false);
   layer.hidden = true;
   const id = title.id;
@@ -140,7 +195,8 @@ export function handle(action) {
     case 'pause': video.pause(); return true;
     case 'left': case 'rewind': seek(-10); return true;
     case 'right': case 'forward': seek(30); return true;
-    case 'up': case 'down': case 'menu': showOsd(); return true;
+    case 'menu': toggleCaptions(); return true;
+    case 'up': case 'down': showOsd(); return true;
     case 'back': close(); return true;
   }
   return true;

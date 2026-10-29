@@ -83,14 +83,29 @@ async function resolveCommons(title, quality) {
   return results.find((r) => !r.seconds || r.seconds >= want) || null;
 }
 
+// Filmhub titles carry their own URLs (from the feed), so nothing to look up.
+function fromFilmhub(title) {
+  const f = title.filmhub;
+  return {
+    url: f.video.url,
+    mime: f.video.mime,
+    poster: f.backdrop || f.poster,
+    captions: f.captions,
+    licence: 'Licensed film',
+    artist: title.studio,
+  };
+}
+
 export function cachedSource(title) {
   if (title.local) return { ...title.local, sameOrigin: true };
+  if (title.filmhub) return fromFilmhub(title);
   const hit = cache[title.id + '@' + settings.quality] || cache[title.id + '@any'];
   return hit ? hit.value : null;
 }
 
 export async function resolve(title, { force = false } = {}) {
   if (title.local) return { ...title.local, sameOrigin: true };
+  if (title.filmhub) return fromFilmhub(title);
   const key = title.id + '@' + settings.quality;
   const hit = cache[key];
   if (!force && hit && Date.now() - hit.at < TTL) return hit.value;
@@ -113,7 +128,7 @@ export async function resolve(title, { force = false } = {}) {
 
 // Resolve the whole catalogue a few at a time; `onEach` re-renders as titles arrive.
 export async function resolveAll(titles, onEach) {
-  const queue = titles.filter((t) => !t.local);
+  const queue = titles.filter((t) => !t.local && !t.filmhub);
   const worker = async () => {
     while (queue.length) {
       const t = queue.shift();

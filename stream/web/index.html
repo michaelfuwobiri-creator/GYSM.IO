@@ -31,6 +31,7 @@
 
     <section id="player" class="player" data-layer hidden>
       <video id="video" playsinline preload="auto"></video>
+      <div id="subs" class="subs" aria-live="off"></div>
       <div class="spinner" aria-hidden="true"></div>
       <div class="osd">
         <div class="osd__top"><h2 id="osd-title"></h2><span id="osd-mode" class="osd__mode"></span></div>
@@ -38,6 +39,7 @@
         <div class="osd__bottom">
           <div class="osd__track"><i id="osd-bar"></i></div>
           <div class="osd__row"><span id="osd-time">0:00 / 0:00</span>
+            <span id="osd-cc" class="osd__cc" hidden>Subtitles: off (Menu)</span>
             <span class="osd__hint">◀ 10 s · OK play/pause · 30 s ▶ · Back to close</span></div>
         </div>
       </div>

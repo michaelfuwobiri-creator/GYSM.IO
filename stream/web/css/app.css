@@ -166,6 +166,11 @@ h1, h2, h3, p { margin: 0; }
 .osd__track i { display: block; height: 100%; width: 0; background: var(--accent); }
 .osd__row { display: flex; justify-content: space-between; margin-top: 16px; font-size: 26px; }
 .osd__hint { color: var(--muted); }
+.osd__cc { margin-left: auto; margin-right: 40px; font-weight: 700; }
+.osd__cc[hidden] { display: none; }
+.subs { position: absolute; left: var(--safe-x); right: var(--safe-x); bottom: 90px; text-align: center; white-space: pre-line; font-size: 44px; line-height: 1.3; font-weight: 600; color: #fff; text-shadow: 0 0 6px #000, 0 2px 4px #000; transition: bottom .3s; pointer-events: none; }
+.subs:empty { display: none; }
+.player.show-osd .subs { bottom: 190px; }
 .spinner { position: absolute; left: 50%; top: 50%; width: 90px; height: 90px; margin: -45px; border-radius: 50%; border: 8px solid #fff3; border-top-color: #fff; animation: spin 1s linear infinite; display: none; }
 .player.is-buffering .spinner { display: block; }
 @keyframes spin { to { transform: rotate(360deg); } }

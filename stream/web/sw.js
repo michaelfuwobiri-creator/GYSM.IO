@@ -3,10 +3,10 @@
 // own cache and plays them from Blob URLs. (The Fire TV wrapper serves the
 // app from the APK and does not register this worker.)
 
-const SHELL = 'gysm-shell-v1';
+const SHELL = 'gysm-shell-v2';
 const FILES = [
   './', 'index.html', 'css/app.css', 'manifest.webmanifest', 'img/icon.svg',
-  'js/app.js', 'js/catalog.js', 'js/downloads.js', 'js/focus.js',
+  'js/app.js', 'js/catalog.js', 'js/config.js', 'js/downloads.js', 'js/feeds.js', 'js/focus.js',
   'js/platform.js', 'js/player.js', 'js/sources.js', 'js/store.js',
   'media/demo-bars.jpg', 'media/demo-fractal.jpg', 'media/demo-life.jpg',
 ];
