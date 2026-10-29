@@ -59,4 +59,4 @@ Free
 
 - Support email: **your support email address**
 - Website: **your site, for example https://gysm.io**
-- Privacy policy URL: **where you host `privacy-policy.html`, for example https://gysm.io/privacy**
+- Privacy policy URL: https://michaelfuwobiri-creator.github.io/GYSM.IO/privacy/ (published from `privacy/index.html` by GitHub Pages; see SUBMISSION.md)

@@ -6,7 +6,7 @@ A streaming app for **Amazon Fire TV**. Its distinctive feature is **smart downl
 | --- | --- |
 | `web/` | The app (HTML, CSS, JavaScript, no dependencies). Runs in any browser and inside the Fire TV app. |
 | `android/` | Fire OS app: a Kotlin WebView shell that meets Amazon's Fire TV requirements. |
-| `store-assets/` | Everything for the Amazon Appstore: icons, Fire TV icon, background, screenshots, logos, listing text, privacy policy and the step-by-step [`SUBMISSION.md`](store-assets/SUBMISSION.md). |
+| `store-assets/` | Everything for the Amazon Appstore: icons, Fire TV icon, background, screenshots, logos, listing text and the step-by-step [`SUBMISSION.md`](store-assets/SUBMISSION.md). |
 | `tools/filmhub-import.mjs` | Turns Filmhub delivery packages into the app's "More films" catalogue. See [Films from Filmhub](#films-from-filmhub). |
 
 ## Why there is no Netflix in it
@@ -99,6 +99,14 @@ The planner runs at start-up, every minute, and whenever the network or a settin
 | Landscape only, HTTPS only | Manifest: `screenOrientation`, `usesCleartextTraffic="false"` |
 | Respects limited storage (Fire TV Sticks have about 5 GB free) | Storage limit setting, default 2 GB |
 | Maturity ratings | Every title has a rating badge; 16+ titles can be hidden |
+
+## Web version on GitHub Pages
+
+With GitHub Pages switched on for this branch (Settings → Pages → Deploy from a branch → `claude/gifted-hawking-98io3u`, `/ (root)`):
+
+- https://michaelfuwobiri-creator.github.io/GYSM.IO/stream/ opens the app (it redirects to `stream/web/`)
+- https://michaelfuwobiri-creator.github.io/GYSM.IO/privacy/ is the privacy policy for the Amazon listing (`privacy/index.html`)
+- https://michaelfuwobiri-creator.github.io/GYSM.IO/ stays the Cadence&co shop homepage
 
 ## Run the web version
 

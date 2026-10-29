@@ -6,7 +6,7 @@ Everything for the Developer Console is in this folder. Work through the steps i
 
 - [ ] Amazon Developer account at https://developer.amazon.com (free). Accept the Developer Services Agreement.
 - [ ] A support email address and a website.
-- [ ] Host `privacy-policy.html` at a public URL, for example `https://gysm.io/privacy`. First replace "your support email address" in it with your real address.
+- [ ] Publish the privacy policy: replace "your support email address" in `privacy/index.html` (repository root) with your real address, then switch on GitHub Pages: **repository Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: `claude/gifted-hawking-98io3u`, folder `/ (root)` → Save**. After a minute or two it is live at https://michaelfuwobiri-creator.github.io/GYSM.IO/privacy/
 - [ ] Replace the placeholders under "Contact details" in `listing.md`.
 - [ ] A Fire TV device to test on.
 
