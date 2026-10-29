@@ -13,7 +13,7 @@ export const COLLECTIONS = [
   { id: 'open', title: 'Blender open movies' },
   { id: 'classic', title: 'Classic cinema' },
   { id: 'short', title: 'Under 15 minutes' },
-  { id: 'demo', title: 'Demo clips (bundled, always downloadable)' },
+  { id: 'demo', title: 'Try offline viewing' },
 ];
 
 export const TITLES = [

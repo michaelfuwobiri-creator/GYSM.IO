@@ -1,6 +1,15 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+}
+
+// Release signing key, kept out of git. Copy keystore.properties.example to
+// keystore.properties and fill it in (see store-assets/SUBMISSION.md).
+val keystoreProps = Properties().apply {
+    val f = rootProject.file("keystore.properties")
+    if (f.exists()) f.inputStream().use { load(it) }
 }
 
 android {
@@ -19,10 +28,23 @@ android {
     // from https://appassets.androidplatform.net/assets/ (see MainActivity).
     sourceSets["main"].assets.srcDirs("../../web")
 
+    signingConfigs {
+        if (keystoreProps.containsKey("storeFile")) {
+            create("release") {
+                storeFile = rootProject.file(keystoreProps.getProperty("storeFile"))
+                storePassword = keystoreProps.getProperty("storePassword")
+                keyAlias = keystoreProps.getProperty("keyAlias")
+                keyPassword = keystoreProps.getProperty("keyPassword")
+                enableV1Signing = true
+                enableV2Signing = true // required by Fire OS 8
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
-            // Sign with your own key for the Amazon Appstore, see README.
+            signingConfig = signingConfigs.findByName("release")
         }
     }
 

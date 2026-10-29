@@ -6,7 +6,7 @@ A streaming app for **Amazon Fire TV**. Its distinctive feature is **smart downl
 | --- | --- |
 | `web/` | The app (HTML, CSS, JavaScript, no dependencies). Runs in any browser and inside the Fire TV app. |
 | `android/` | Fire OS app: a Kotlin WebView shell that meets Amazon's Fire TV requirements. |
-| `store-assets/` | Amazon Appstore listing images: icons (512 and 114 px), 1920×1080 background, 1920×1080 screenshots. |
+| `store-assets/` | Everything for the Amazon Appstore: icons, Fire TV icon, background, screenshots, logos, listing text, privacy policy and the step-by-step [`SUBMISSION.md`](store-assets/SUBMISSION.md). |
 | `tools/filmhub-import.mjs` | Turns Filmhub delivery packages into the app's "More films" catalogue. See [Films from Filmhub](#films-from-filmhub). |
 
 ## Why there is no Netflix in it

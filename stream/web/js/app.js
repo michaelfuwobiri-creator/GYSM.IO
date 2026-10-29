@@ -23,8 +23,16 @@ const state = {
 
 // ---- helpers -------------------------------------------------------------
 
+// The bundled demo clips only show while no real film is available (first
+// start with no connection), so the store build never looks like test content.
+function hasRealFilms() {
+  return TITLES.some((t) => !t.local && !state.missing.has(t.id) && (t.filmhub || cachedSource(t)));
+}
+
 function visibleTitles() {
-  return TITLES.filter((t) => !(settings.hideMature && t.maturity === '16+') && !state.missing.has(t.id));
+  const showDemos = !hasRealFilms();
+  return TITLES.filter((t) => !(settings.hideMature && t.maturity === '16+') && !state.missing.has(t.id)
+    && (showDemos || !t.local || dl.isDownloaded(t.id)));
 }
 
 function posterOf(t) {
@@ -244,7 +252,7 @@ function detailsHtml(t) {
         <button class="btn focusable" data-key="d:dl" data-id="${t.id}" data-act="dl" ${dl.canDownload(t.id) || dl.records[t.id] ? '' : 'disabled'}>${dlButtonLabel(t.id)}</button>
         <button class="btn focusable" data-key="d:list" data-id="${t.id}" data-act="list">${myList.has(t.id) ? '✓ In My List' : '+ My List'}</button>
       </div>
-      <p class="details__dl">${dlLine}${dlBar(t.id)}</p>
+      <div class="details__dl">${dlLine}${dlBar(t.id)}</div>
       <p class="details__licence">${esc(licenceText(t, src))}</p>
       ${playable(t) ? '' : '<p class="notice">Connect to the internet to watch, or download this title next time you are online.</p>'}
     </div>`;
