@@ -88,3 +88,11 @@ jobs:
           - **captions.csv**: a ready-made caption with price, link and hashtags for every reel.
 
           Add music from Facebook's library when you upload. The videos have a silent audio track."
+
+      - name: Remove older reel releases
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release list --repo "${{ github.repository }}" --limit 100 --json tagName --jq '.[].tagName' \
+            | grep '^reels-' | grep -vx "reels-${{ github.run_number }}" \
+            | while read -r tag; do gh release delete "$tag" --repo "${{ github.repository }}" --cleanup-tag --yes; done

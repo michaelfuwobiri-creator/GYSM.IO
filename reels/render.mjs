@@ -69,12 +69,40 @@ function cleanTitle(raw) {
 
 function prepare(p) {
   const category = CATEGORY[p.type] || p.type;
-  const title = cleanTitle(p.title);
+  const title = shorten(cleanTitle(p.title));
   const price = new Intl.NumberFormat("it-IT", { style: "currency", currency: p.currency || "EUR" }).format(p.price);
   const caption =
     `${title} ✨\n${price} · Shop now at ${data.store}\n${p.url}\n\n` +
     `#cadenceandco ${HASHTAGS[category] || "#shopsmall"} #giftideas`;
   return { ...p, category, cleanTitle: title, priceText: price, caption };
+}
+
+// Very long marketplace titles are cut to ~60 characters at a word boundary.
+function shorten(t, max = 62) {
+  if (t.length <= max) return t;
+  return t.slice(0, t.lastIndexOf(" ", max)).replace(/[\s,;:&|/-]+$/, "") + "…";
+}
+
+// A packshot (product on a white or transparent background) is shown whole;
+// lifestyle photos fill the card. Decided from the image's outer border.
+function isPackshot(file) {
+  const N = 24;
+  try {
+    const px = execFileSync("ffmpeg", ["-v", "error", "-i", file, "-vf", `scale=${N}:${N}:flags=area`,
+      "-frames:v", "1", "-f", "rawvideo", "-pix_fmt", "rgba", "-"], { maxBuffer: 1 << 20 });
+    let light = 0, total = 0;
+    for (let y = 0; y < N; y++) {
+      for (let x = 0; x < N; x++) {
+        if (x > 1 && x < N - 2 && y > 1 && y < N - 2) continue;
+        const i = (y * N + x) * 4;
+        total++;
+        if (px[i + 3] < 40 || (px[i] > 222 && px[i + 1] > 222 && px[i + 2] > 222)) light++;
+      }
+    }
+    return light / total > 0.6;
+  } catch {
+    return false;
+  }
 }
 
 function download(url) {
@@ -83,7 +111,7 @@ function download(url) {
   if (!fs.existsSync(file) || fs.statSync(file).size === 0) {
     execFileSync("curl", ["-sSfL", "--retry", "2", "--max-time", "60", "-o", file, url], { stdio: ["ignore", "ignore", "pipe"] });
   }
-  return pathToFileURL(file).href;
+  return { src: pathToFileURL(file).href, fit: isPackshot(file) };
 }
 
 function placeholderImages() {
@@ -92,11 +120,11 @@ function placeholderImages() {
     ["#f3e4e6", "#dcc0c8", '<path d="M10 8c0 22 10 34 22 34S54 30 54 8"/><path d="M32 42l-6 8 6 8 6-8z"/>'],
     ["#e8eee3", "#c9d6c0", '<circle cx="32" cy="10" r="4"/><path d="M32 14v8"/><circle cx="32" cy="38" r="14"/>'],
   ];
-  return shapes.map(([a, b, d]) => "data:image/svg+xml," + encodeURIComponent(
+  return shapes.map(([a, b, d]) => ({ fit: false, src: "data:image/svg+xml," + encodeURIComponent(
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 600"><defs><linearGradient id="g" x2="1" y2="1">` +
     `<stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs>` +
     `<rect width="460" height="600" fill="url(#g)"/><g fill="none" stroke="#a8834a" stroke-width="6" stroke-linecap="round" ` +
-    `transform="translate(110 170) scale(3.75)">${d}</g></svg>`));
+    `transform="translate(110 170) scale(3.75)">${d}</g></svg>`) }));
 }
 
 async function renderOne(page, cdp, p) {
