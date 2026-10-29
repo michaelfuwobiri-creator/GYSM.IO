@@ -6,6 +6,7 @@
 //   node reels/render.mjs --limit=3          first N listings
 //   node reels/render.mjs --placeholder      use stand-in art instead of photos
 //   node reels/render.mjs --jobs=3 --out=reels/out
+//   node reels/render.mjs --shard=2/7        every 7th listing, starting at the 2nd (for CI)
 //
 // Needs Node 18+, Playwright with Chromium, ffmpeg and curl on PATH.
 
@@ -154,6 +155,8 @@ async function main() {
     list = list.filter((p) => wanted.has(p.handle));
   }
   if (args.limit) list = list.slice(0, Number(args.limit));
+  const [shard, shards] = String(args.shard || "1/1").split("/").map(Number);
+  list = list.filter((_, k) => k % shards === shard - 1);
   console.log(`Rendering ${list.length} reel(s) → ${OUT}`);
 
   const browser = await chromium.launch();
@@ -185,7 +188,8 @@ async function main() {
     if (failed.includes(p.handle)) continue;
     rows.push([`${p.handle}.mp4`, `${p.handle}.jpg`, p.cleanTitle, p.priceText, p.url, p.caption].map(csvCell).join(","));
   }
-  fs.writeFileSync(path.join(OUT, "captions.csv"), "﻿" + rows.join("\n") + "\n");
+  const csvName = shards > 1 ? `captions-${shard}.csv` : "captions.csv";
+  fs.writeFileSync(path.join(OUT, csvName), "﻿" + rows.join("\n") + "\n");
   console.log(`Done: ${list.length - failed.length} rendered${failed.length ? `, ${failed.length} failed: ${failed.join(", ")}` : ""}.`);
   if (failed.length) process.exitCode = 1;
 }

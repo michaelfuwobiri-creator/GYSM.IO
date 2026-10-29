@@ -18,7 +18,14 @@ Output per listing: `<handle>.mp4` (1080×1920, 30 fps, H.264 with a silent AAC 
 | `render.mjs` | Downloads the photos, records every frame and encodes the MP4s. |
 | `fonts/` | Cormorant Garamond and Inter (SIL Open Font License), embedded so rendering works offline. |
 
-## Render
+## Render on GitHub (no setup)
+
+Every push that changes `reels/` runs the **Render product reels** workflow (`.github/workflows/reels.yml`). You can also start it by hand under **Actions → Render product reels → Run workflow**.
+- It renders the reels in 7 parallel batches using the original Shopify photos.
+- It publishes a new **Release** with every reel as its own download, plus the cover images and `captions.csv`.
+- Find it under **Releases** on the repository page. It takes about 10–15 minutes.
+
+## Render on your computer
 
 Needs Node 18+, ffmpeg, curl, and Playwright with Chromium (`npm i -g playwright && npx playwright install chromium`).
 

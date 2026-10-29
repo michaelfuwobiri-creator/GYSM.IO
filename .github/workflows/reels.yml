@@ -1,0 +1,90 @@
+name: Render product reels
+
+# Renders a 3D reel for every listing in reels/products.json using the
+# original Shopify product photos, then publishes each MP4 (plus its cover
+# image and captions.csv) as a separate download on a GitHub Release.
+
+on:
+  push:
+    branches: [claude/stoic-brown-lg6cnw]
+    paths:
+      - "reels/**"
+      - ".github/workflows/reels.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: reels
+  cancel-in-progress: true
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4, 5, 6, 7]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install ffmpeg and Chromium
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          npm install --no-save --no-audit --no-fund playwright@1.63.0
+          npx playwright install --with-deps chromium
+
+      - name: Render batch ${{ matrix.shard }} of 7
+        run: node reels/render.mjs --shard=${{ matrix.shard }}/7 --jobs=2
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reels-${{ matrix.shard }}
+          path: reels/out/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  release:
+    needs: render
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: reels-*
+          path: out
+          merge-multiple: true
+
+      - name: Merge captions
+        run: |
+          shopt -s nullglob
+          files=(out/captions-*.csv)
+          if [ ${#files[@]} -eq 0 ]; then echo "No reels were rendered"; exit 1; fi
+          { head -n 1 "${files[0]}"; for f in "${files[@]}"; do tail -n +2 "$f"; done; } > out/captions.csv
+          rm "${files[@]}"
+          echo "$(ls out/*.mp4 | wc -l) reels ready"
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          count=$(ls out/*.mp4 | wc -l)
+          gh release create "reels-${{ github.run_number }}" out/*.mp4 out/*.jpg out/captions.csv \
+            --repo "${{ github.repository }}" \
+            --target "${{ github.sha }}" \
+            --title "Cadence & Co product reels #${{ github.run_number }} (${count} videos)" \
+            --notes "One 12-second 3D reel (1080×1920 MP4) per store listing, ready for Facebook and Instagram Reels.
+
+          - **<handle>.mp4**: the reel. Download each one separately below.
+          - **<handle>.jpg**: its cover image.
+          - **captions.csv**: a ready-made caption with price, link and hashtags for every reel.
+
+          Add music from Facebook's library when you upload. The videos have a silent audio track."

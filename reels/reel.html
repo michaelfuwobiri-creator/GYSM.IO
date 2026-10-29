@@ -72,6 +72,8 @@
     box-shadow: 0 50px 90px -30px rgba(0, 0, 0, .75);
   }
   .card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  /* Square/landscape packshots (watches, bags on white) are shown whole, not cropped. */
+  .card img.fit { object-fit: contain; padding: 28px; box-sizing: border-box; }
   .card::after {
     content: ""; position: absolute; inset: 0;
     border-radius: inherit;
@@ -230,7 +232,11 @@
     }
 
     var ready = document.fonts.ready.then(function () { fitTitle(); });
-    var decoded = cards.map(function (c) { return c.img.decode().catch(function () {}); });
+    var decoded = cards.map(function (c) {
+      return c.img.decode().then(function () {
+        if (c.img.naturalWidth / c.img.naturalHeight > .9) c.img.classList.add("fit");
+      }).catch(function () {});
+    });
     return Promise.all([ready].concat(decoded)).then(function () { window.renderFrame(0); return true; });
   };
 
