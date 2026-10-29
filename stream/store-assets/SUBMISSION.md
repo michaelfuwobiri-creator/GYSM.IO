@@ -26,6 +26,14 @@ You need Android Studio (or the Android SDK command-line tools) and JDK 17.
    - Command line: `gradle assembleRelease`
 5. The APK is `stream/android/app/build/outputs/apk/release/app-release.apk`. It is signed with v1 and v2 signatures, as Fire OS 8 requires.
 
+### Or let GitHub build it
+
+The workflow `.github/workflows/firetv-apk.yml` builds the APK on every push to this branch, with no Android Studio needed:
+
+1. Create the key with `keytool` as in step 1 above (keytool comes with any Java install).
+2. In the repository's **Settings → Secrets and variables → Actions**, add `FIRETV_KEYSTORE_BASE64` (the output of `base64 -w0 gysm-release.jks`; on a Mac, `base64 -i gysm-release.jks`), `FIRETV_KEYSTORE_PASSWORD`, `FIRETV_KEY_ALIAS` and `FIRETV_KEY_PASSWORD`.
+3. Open **Actions → Build Fire TV APK → Run workflow**. When it finishes, download **gysm-stream-release-apk** from the run page. Without the secrets you get only the debug APK, which is fine for sideloading but not for the store.
+
 ## 3. Test on a Fire TV (you)
 
 Install it with `adb install -r app-release.apk` (see the README for turning on ADB), then check:
