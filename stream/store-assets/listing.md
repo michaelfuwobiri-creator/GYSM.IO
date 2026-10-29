@@ -57,6 +57,6 @@ Free
 
 ## Contact details
 
-- Support email: **your support email address**
-- Website: **your site, for example https://gysm.io**
-- Privacy policy URL: https://michaelfuwobiri-creator.github.io/GYSM.IO/privacy/ (published from `privacy/index.html` by GitHub Pages; see SUBMISSION.md)
+- Support email: michaelfuwobiri@gmail.com
+- Website: https://gysm-stream.pages.dev/
+- Privacy policy URL: https://gysm-stream.pages.dev/privacy/ (published by Cloudflare Pages from `privacy/index.html`; if Cloudflare gave your project a different address, use that one)
