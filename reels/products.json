@@ -1,0 +1,880 @@
+{
+ "store": "Cadence & Co",
+ "shop_url": "https://cadence-co-store.myshopify.com",
+ "products": [
+  {
+   "handle": "aella-ring",
+   "title": "AELLA RING",
+   "type": "Rings",
+   "price": 18.3,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/aella-ring",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/aellaringmodel1.webp?v=1792646831",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/aelleRinggreen2_ac593c72-0c7d-45ef-95d6-071a7735ef4c.webp?v=1792646832",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/AELLA_RING_Packshot.png?v=1792646832"
+   ]
+  },
+  {
+   "handle": "alma-necklace",
+   "title": "ALMA NECKLACE",
+   "type": "Necklaces",
+   "price": 54.08,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/alma-necklace",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781892762090.png?v=1792646994",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/IMG-1341.png?v=1792646994",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781892770126.png?v=1792646993"
+   ]
+  },
+  {
+   "handle": "amalfi-coast-hoops",
+   "title": "AMALFI COAST HOOPS",
+   "type": "Earrings",
+   "price": 21.63,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/amalfi-coast-hoops",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/IMG-4120.png?v=1792646910",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1786986108518.png?v=1792646911",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/IMG_3381.jpg?v=1792646912"
+   ]
+  },
+  {
+   "handle": "annika-ring",
+   "title": "ANNIKA RING",
+   "type": "Rings",
+   "price": 57.2,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/annika-ring",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781886596473.png?v=1792442347",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/annika.webp?v=1792442347",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781886603083.png?v=1792442348"
+   ]
+  },
+  {
+   "handle": "blake-studs-multiple-colors",
+   "title": "BLAKE STUDS - MULTIPLE COLORS",
+   "type": "Earrings",
+   "price": 30.16,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/blake-studs-multiple-colors",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781892841069.png?v=1792646767",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/dusk-burcu-moana-blake_cac31ab9-fc08-4e00-88ea-59dbaa8dbd9d.webp?v=1792646769",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/IMG_9430_1_ecb45fe0-8d31-4507-b10c-dad2aff5c3ca.jpg?v=1792646768"
+   ]
+  },
+  {
+   "handle": "blue-aventurine-dalmatian-jasper-mookaite-and-sesame-jasper-yellow-gold-vermeil-or-18k-gold-earrings-by-nlanlavictory",
+   "title": "Blue Aventurine, Dalmatian Jasper, Mookaite and Sesame Jasper Yellow gold vermeil or 18k gold earrings | by nlanlaVictory",
+   "type": "Earring",
+   "price": 304.14,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/blue-aventurine-dalmatian-jasper-mookaite-and-sesame-jasper-yellow-gold-vermeil-or-18k-gold-earrings-by-nlanlavictory",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/tellmethetruthearrings1.jpg?v=1793268562",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/2-12-15-008-3.jpg?v=1793268563",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/tellmethetruthearrings2.jpg?v=1793268563"
+   ]
+  },
+  {
+   "handle": "bujairami-agha-eau-de-parfum",
+   "title": "Bujairami Agha Eau de Parfum",
+   "type": "Perfume",
+   "price": 3.89,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/bujairami-agha-eau-de-parfum",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/Bujairami-Agha_b175117e-4bc4-4994-ba5c-5f7b03621ef6.webp?v=1792327082",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/soghaat-agha-eau-de-parfum-100ml-woody-aromatic-a1b2c3d4_458d669e-2e10-4211-85c8-90ae225a7abf.webp?v=1792327082",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/agha-eau-de-parfum-wuerzig-gourmand-1.png?v=1792327087"
+   ]
+  },
+  {
+   "handle": "bujairami-drip-no7-eau-de-parfum",
+   "title": "Bujairami Drip No.7 Eau de Parfum",
+   "type": "Eau De Parfum",
+   "price": 5.19,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/bujairami-drip-no7-eau-de-parfum",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/bujairami-drip-no-7-100ml-2461275.webp?v=1793268583",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/bujairami-drip-no-7-100ml-2461275-1600.png?v=1793268585",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/images_4.jpg?v=1793268584"
+   ]
+  },
+  {
+   "handle": "capri-sea-star-drops",
+   "title": "CAPRI SEA STAR DROPS",
+   "type": "Earrings",
+   "price": 18.93,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/capri-sea-star-drops",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1786986081269.png?v=1792647010",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/E6AE8F88-49E3-45F8-B842-63993AC9C850.jpg?v=1792647011",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/21B85ED8-D23F-4F60-BFAC-7627791A1AB2.jpg?v=1792647011"
+   ]
+  },
+  {
+   "handle": "carda-ear-cuff",
+   "title": "CARDA EAR CUFF",
+   "type": "Earrings",
+   "price": 22.88,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/carda-ear-cuff",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781869737516.png?v=1792646924",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/DSC08397.webp?v=1792646926",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781870596646.png?v=1792646924"
+   ]
+  },
+  {
+   "handle": "caro-necklace",
+   "title": "CARO NECKLACE",
+   "type": "Necklaces",
+   "price": 57.2,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/caro-necklace",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781869745116.png?v=1792327084",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/IMG_5646.jpg?v=1792327086",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/diana-caro_506c7185-9ed8-4c76-9f37-2e08d7acc139.jpg?v=1792327088"
+   ]
+  },
+  {
+   "handle": "cecile-hoops",
+   "title": "CECILE HOOPS",
+   "type": "Earrings",
+   "price": 16.64,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/cecile-hoops",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/CecileHoopspink3_d71e0000-a411-4665-979c-da96c67cf500.webp?v=1792646866",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/Cecilehoopsblue3_63fa0901-edbf-4a05-b10d-de3b1b48a4f9.webp?v=1792646866",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/Cecilehoopsgreen1_d9ac5490-4e75-41aa-af2c-4ec6662beaf4.webp?v=1792646866"
+   ]
+  },
+  {
+   "handle": "cityc-2-in-1-travel-backpack",
+   "title": "CITYC 2 in 1 Travel Backpack",
+   "type": "BACKPACK",
+   "price": 50.63,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/cityc-2-in-1-travel-backpack",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/CitycBeigeduoFrecce.jpg?v=1792327082",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/BeigebackpackCitycsideview-f7f7f7.jpg?v=1792327082",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/Beigebackpackexpanded-side-f7f7f7.jpg?v=1792327082"
+   ]
+  },
+  {
+   "handle": "cityc-laptop-2-in-1-backpack-navy-blue",
+   "title": "CITYC Laptop 2 in 1 Backpack Navy Blue",
+   "type": "BACKPACK",
+   "price": 50.63,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/cityc-laptop-2-in-1-backpack-navy-blue",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/CitycduoBlueFrecce.jpg?v=1792327082",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/Bluebackpackfront-f7f7f7.jpg?v=1792327084",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/BluebackpackexpandedFront-f7f7f7.jpg?v=1792327089"
+   ]
+  },
+  {
+   "handle": "cityc-laptop-2-in-1-backpack-wet-road",
+   "title": "CITYC Laptop 2 in 1 Backpack Wet Road",
+   "type": "BACKPACK",
+   "price": 50.63,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/cityc-laptop-2-in-1-backpack-wet-road",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/CitycduoGreyFrecce.jpg?v=1792327088",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/graybackpackside-f7f7f7.jpg?v=1792327088",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/ExpandedbackpackFront-gray-f7f7f7.jpg?v=1792327090"
+   ]
+  },
+  {
+   "handle": "coco-shell-necklace",
+   "title": "COCO SHELL NECKLACE",
+   "type": "Necklaces",
+   "price": 60.32,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/coco-shell-necklace",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781871367161.png?v=1792327084",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1787044572198.png?v=1792327086",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/FullSizeRender_c9d48f1e-364c-4d7d-ac48-82628d1c2390.jpg?v=1792327086"
+   ]
+  },
+  {
+   "handle": "dakota-3-in-1-convertible-backpack-purse-black",
+   "title": "DAKOTA 3 in 1 Convertible Backpack Purse, Black",
+   "type": "BACKPACK",
+   "price": 121.78,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/dakota-3-in-1-convertible-backpack-purse-black",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/BackpackPocketF7f7f7_72.jpg?v=1792327082",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/Collage3bag1_1BLACK72-f7f7f7.jpg?v=1792327084",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/dakotablackDaypack_Back1_172_3_f7f7f7_f0161ce3-2ed8-46f6-adc8-995059acc096.jpg?v=1792327088"
+   ]
+  },
+  {
+   "handle": "dakota-3-in-1-convertible-backpack-purse-sand",
+   "title": "DAKOTA 3 in 1 Convertible Backpack Purse, Sand",
+   "type": "BACKPACK",
+   "price": 121.78,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/dakota-3-in-1-convertible-backpack-purse-sand",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/DakotabagSand-3versions-f7f7f7.jpg?v=1792327083",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/dakotaSandBackpackBack-f7f7f7.jpg?v=1792327087",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/dakotaSandhandbagFront-f7f7f7.jpg?v=1792327087"
+   ]
+  },
+  {
+   "handle": "festina-classics-f20357c-mens-watch-multifunctional",
+   "title": "Festina Classics F20357/C Men's Watch Multifunctional",
+   "type": "Watches",
+   "price": 62.92,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/festina-classics-f20357c-mens-watch-multifunctional",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/8259_0.jpg?v=1792327086"
+   ]
+  },
+  {
+   "handle": "flora-earrings",
+   "title": "FLORA EARRINGS",
+   "type": "Earrings",
+   "price": 23.92,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/flora-earrings",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/flora.webp?v=1792646932",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/FloraHoops1_17993aee-dc83-438c-85b2-7a0dd8284789.jpg?v=1792646930",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/Roschana-Fotografie_SomethingBlueStyledShooting2025_80.jpg?v=1792646932"
+   ]
+  },
+  {
+   "handle": "grace-ring",
+   "title": "GRACE RING",
+   "type": "Rings",
+   "price": 46.8,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/grace-ring",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781872283701.png?v=1792646775",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/IMG_1227.jpg?v=1792646775",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781872266733.png?v=1792646775"
+   ]
+  },
+  {
+   "handle": "guess-alice-gw1033l2-montre-femmes",
+   "title": "Guess Alice GW1033L2 Women's Watch",
+   "type": "Watches",
+   "price": 76.18,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/guess-alice-gw1033l2-montre-femmes",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/8160_0.jpg?v=1792327082"
+   ]
+  },
+  {
+   "handle": "guess-enchantment-gw0764l2-ladies-watch",
+   "title": "Guess Enchantment GW0764L2 Ladies Watch",
+   "type": "Watches",
+   "price": 90.74,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/guess-enchantment-gw0764l2-ladies-watch",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/GW0764L2.jpg?v=1792327085"
+   ]
+  },
+  {
+   "handle": "guess-mini-soho-gw1076l3-ladies-watch",
+   "title": "Guess Mini Soho GW1076L3 Ladies Watch",
+   "type": "Watches",
+   "price": 112.84,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/guess-mini-soho-gw1076l3-ladies-watch",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/8163_0.jpg?v=1792327083"
+   ]
+  },
+  {
+   "handle": "guess-damenarmband-jubb03172jwygl",
+   "title": "Guess Women's Bracelet JUBB03172JWYGL",
+   "type": "Bracelets",
+   "price": 27.82,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/guess-damenarmband-jubb03172jwygl",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/JUBB03172JWYGL.jpg?v=1792327082"
+   ]
+  },
+  {
+   "handle": "guess-bracelet-femmes-jubb03252jwrhygl",
+   "title": "Guess Women's Bracelet JUBB03252JWRHYGL",
+   "type": "Bracelets",
+   "price": 42.77,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/guess-bracelet-femmes-jubb03252jwrhygl",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/JUBB03252JWRHYGL.jpg?v=1792327083"
+   ]
+  },
+  {
+   "handle": "guess-bracelet-femmes-jubb05011jwygpkl",
+   "title": "Guess Women's Bracelet JUBB05011JWYGPKL",
+   "type": "Bracelets",
+   "price": 27.82,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/guess-bracelet-femmes-jubb05011jwygpkl",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/7452_0.jpg?v=1792327082"
+   ]
+  },
+  {
+   "handle": "guess-damenohrstecker-jube04495jwrhtu",
+   "title": "Guess Women's Stud Earrings JUBE04495JWRHTU",
+   "type": "Earrings",
+   "price": 34.19,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/guess-damenohrstecker-jube04495jwrhtu",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/JUBE04495JWRHTU.jpg?v=1792327082"
+   ]
+  },
+  {
+   "handle": "guess-zen-gw0707g2-mens-watch",
+   "title": "Guess Zen GW0707G2 Men's Watch",
+   "type": "Watches",
+   "price": 110.24,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/guess-zen-gw0707g2-mens-watch",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/GW0707G2.jpg?v=1792327082"
+   ]
+  },
+  {
+   "handle": "guess-zen-gw0707g3-montre-hommes",
+   "title": "Guess Zen GW0707G3 Men's Watch",
+   "type": "Watches",
+   "price": 115.18,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/guess-zen-gw0707g3-montre-hommes",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/GW0707G3.jpg?v=1792327082"
+   ]
+  },
+  {
+   "handle": "harlow-bracelet",
+   "title": "HARLOW BRACELET",
+   "type": "Bracelets",
+   "price": 46.8,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/harlow-bracelet",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781872484786.png?v=1792646902",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781872477316.png?v=1792646903",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/sofia-tiana-harlow.jpg?v=1792646903"
+   ]
+  },
+  {
+   "handle": "hattie-hoops",
+   "title": "HATTIE HOOPS",
+   "type": "Earrings",
+   "price": 60.32,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/hattie-hoops",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/IMG-5205.jpg?v=1792646960",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781872907264.png?v=1792646960",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/FullSizeRender_9a0f5d16-115a-4582-a149-69c82be1e321.jpg?v=1792646961"
+   ]
+  },
+  {
+   "handle": "jill-hairclip",
+   "title": "JILL HAIRCLIP",
+   "type": "Hair Claws & Clips",
+   "price": 23.92,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/jill-hairclip",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/orange2.webp?v=1792646840",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/jillhairclip1_0a70adc6-bb11-45b9-a24e-95b5774816a7.webp?v=1792646840",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/FullSizeRender_caaf989e-fe5f-4e75-a3ad-4e96deef72c1.jpg?v=1792646840"
+   ]
+  },
+  {
+   "handle": "jodi-hoops",
+   "title": "JODI HOOPS",
+   "type": "Earrings",
+   "price": 78.0,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/jodi-hoops",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781881228209.png?v=1792646841",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/FullSizeRender_7a29ed78-c172-4f3a-a57c-2beb3b89d1de.jpg?v=1792646841",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/FullSizeRender_4b23a143-bf7d-48a5-a1c1-37533201fc2f.jpg?v=1792646842"
+   ]
+  },
+  {
+   "handle": "jowissa-roma-j2191m-montre-femmes",
+   "title": "Jowissa Roma J2.191.M Women's Watch",
+   "type": "Watches",
+   "price": 76.18,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/jowissa-roma-j2191m-montre-femmes",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/J2.191.M.jpg?v=1792327084"
+   ]
+  },
+  {
+   "handle": "just-cavalli-signature-snake-ferocious-jc1l306m0045-ladies-watch",
+   "title": "Just Cavalli Signature Snake Ferocious JC1L306M0045 Ladies Watch",
+   "type": "Watches",
+   "price": 115.18,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/just-cavalli-signature-snake-ferocious-jc1l306m0045-ladies-watch",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/JC1L306M0045.jpg?v=1792327083"
+   ]
+  },
+  {
+   "handle": "just-cavalli-unleashed-set-jc1l266m0055-damenuhr",
+   "title": "Just Cavalli Unleashed Set JC1L266M0055 Ladies' Watch",
+   "type": "Watches",
+   "price": 107.64,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/just-cavalli-unleashed-set-jc1l266m0055-damenuhr",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/JC1L266M0055.jpg?v=1792327084"
+   ]
+  },
+  {
+   "handle": "lattafa-eclaire-pistache-eau-de-parfum",
+   "title": "Lattafa Eclaire Pistache Eau de Parfum",
+   "type": "Perfume",
+   "price": 3.89,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/lattafa-eclaire-pistache-eau-de-parfum",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/6_175d539e-e1cc-43d7-8f8d-e95f6ec4ccca.webp?v=1792327082",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/Eclaire_Pist.webp?v=1792327082",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/Eclaire-Pistache-Eau-De-Parfum-100ml-Lattafa-Lattafa-154619016.webp?v=1792327082"
+   ]
+  },
+  {
+   "handle": "lena-ear-cuff",
+   "title": "LENA EAR CUFF",
+   "type": "Earrings",
+   "price": 33.28,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/lena-ear-cuff",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781881942863.png?v=1792646869",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/InesBarwig-LoveLocalYewellery-18_366b5e98-d8a5-4429-aa5f-52b233b01331.jpg?v=1792646869",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781881949321.png?v=1792646869"
+   ]
+  },
+  {
+   "handle": "lilly-snowflake-studs",
+   "title": "LILLY SNOWFLAKE STUDS",
+   "type": "Earrings",
+   "price": 36.4,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/lilly-snowflake-studs",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781882281598.png?v=1792647051",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1787053361288.png?v=1792647053",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/FullSizeRender_a2ee148a-332d-4e40-bf62-8cf789554780.jpg?v=1792647052"
+   ]
+  },
+  {
+   "handle": "lily-helix-hoop",
+   "title": "LILY HELIX HOOP",
+   "type": "Earrings",
+   "price": 33.28,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/lily-helix-hoop",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/lily1_1.jpg?v=1792646779",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781882287977.png?v=1792646778",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781882294451.png?v=1792646778"
+   ]
+  },
+  {
+   "handle": "linn-hoops-14cm",
+   "title": "LINN HOOPS 1,4CM",
+   "type": "Earrings",
+   "price": 46.8,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/linn-hoops-14cm",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781882300970.png?v=1792646919",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781882308169.png?v=1792646919",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/linn.jpg?v=1792646919"
+   ]
+  },
+  {
+   "handle": "malea-hoops-11cm",
+   "title": "MALEA HOOPS 1,1CM",
+   "type": "Earrings",
+   "price": 36.4,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/malea-hoops-11cm",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781882933441.png?v=1792647000",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781882926363.png?v=1792646999",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/malea-11_c5abde08-c505-4c36-a20d-caabb58f3ce0.jpg?v=1792646999"
+   ]
+  },
+  {
+   "handle": "marbella-mosaic-hoops",
+   "title": "MARBELLA MOSAIC HOOPS",
+   "type": "Earrings",
+   "price": 27.04,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/marbella-mosaic-hoops",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/261CA5A9-147E-4CED-BA68-A1C1454E7D8A.png?v=1792646850",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1786986094821.png?v=1792646849",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/BFFE6631-9F09-4479-AD84-3838031E3E31.png?v=1792646849"
+   ]
+  },
+  {
+   "handle": "marie-wishbone-ring",
+   "title": "MARIE WISHBONE RING",
+   "type": "Rings",
+   "price": 46.8,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/marie-wishbone-ring",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781883125150.png?v=1792646865",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/218-_DSC7487_678327d0-66cd-4188-a3a8-430f534849e1.webp?v=1792646864"
+   ]
+  },
+  {
+   "handle": "matilda-clip",
+   "title": "MATILDA CLIP",
+   "type": "Hair Claws & Clips",
+   "price": 23.92,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/matilda-clip",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/matilda1.webp?v=1792646885",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/D6631FEC-05B1-468E-ABEE-84DB6087E618.jpg?v=1792646886",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/005ED1A9-15A1-48DF-A181-CBDA67FC8258.jpg?v=1792646887"
+   ]
+  },
+  {
+   "handle": "matilda-hoops",
+   "title": "MATILDA HOOPS",
+   "type": "Earrings",
+   "price": 22.88,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/matilda-hoops",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/Matildaearrings9.webp?v=1792442345",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/Matildaearrings7.webp?v=1792442346",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/MatildaEarrings1.webp?v=1792442346"
+   ]
+  },
+  {
+   "handle": "maya-necklace",
+   "title": "MAYA NECKLACE",
+   "type": "Necklaces",
+   "price": 60.32,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/maya-necklace",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781883153888.png?v=1792647019",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1787044597089.png?v=1792647020"
+   ]
+  },
+  {
+   "handle": "medium-hoops-with-letter-charms",
+   "title": "MEDIUM HOOPS with LETTER CHARMS",
+   "type": "Earrings",
+   "price": 60.32,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/medium-hoops-with-letter-charms",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781883173277.png?v=1792442353",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781883353704.png?v=1792442353",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781883161805.png?v=1792442351"
+   ]
+  },
+  {
+   "handle": "mini-hoops-with-letter-charms",
+   "title": "MINI HOOPS with LETTER CHARMS",
+   "type": "Earrings",
+   "price": 57.2,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/mini-hoops-with-letter-charms",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781883362069.png?v=1792646862",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781881980168.png?v=1792646866"
+   ]
+  },
+  {
+   "handle": "mini-malea-hoops-with-letter-charms",
+   "title": "MINI MALEA HOOPS with LETTER CHARMS",
+   "type": "Earrings",
+   "price": 57.2,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/mini-malea-hoops-with-letter-charms",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781883369400.png?v=1792646863",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781883380209.png?v=1792646868",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781881968482.png?v=1792646868"
+   ]
+  },
+  {
+   "handle": "miranda-moon-ring",
+   "title": "MIRANDA MOON RING",
+   "type": "Rings",
+   "price": 54.08,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/miranda-moon-ring",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781883387336.png?v=1792646942",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/miranda3.webp?v=1792646944",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781883393996.png?v=1792646944"
+   ]
+  },
+  {
+   "handle": "paloma-hairband",
+   "title": "PALOMA HAIRBAND",
+   "type": "Hair Claws & Clips",
+   "price": 16.64,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/paloma-hairband",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/green_db99d2eb-d8f1-4f79-a436-05a33a24c56a.webp?v=1792646829",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/palomahairband6_ce63c334-7715-4691-af27-5ad56727d559.webp?v=1792646828",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/IMG-5292.webp?v=1792646829"
+   ]
+  },
+  {
+   "handle": "pearl-ring",
+   "title": "PEARL RING",
+   "type": "Rings",
+   "price": 46.8,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/pearl-ring",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/IMG-4806_421e0fca-6414-4b1d-a27c-6a6e393a0bb0.png?v=1792647031",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/IMG-4799.png?v=1792647031",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/IMG-4807.png?v=1792647032"
+   ]
+  },
+  {
+   "handle": "rfid-blocking-wallet-minimalist-slim-card-holder-for-magsafe-with-adjustable-stand-metal-pop-up-magnetic-wallet-for-men-toyfid",
+   "title": "RFID Blocking Wallet Minimalist Slim Card Holder for Magsafe with Adjustable Stand, Metal Pop Up Magnetic Wallet  for Men TOYFID",
+   "type": "All Aluminum Basic Wallet",
+   "price": 54.07,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/rfid-blocking-wallet-minimalist-slim-card-holder-for-magsafe-with-adjustable-stand-metal-pop-up-magnetic-wallet-for-men-toyfid",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/Titanium_Gray_stand_wallet.jpg?v=1793268553",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/1_718974b4-52f2-43e8-aff3-eea2d63d52b2.jpg?v=1793268554",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/1_8037a6e1-a02e-4fc1-80a3-18e2fedc327f.jpg?v=1793268554"
+   ]
+  },
+  {
+   "handle": "rivoli-pearl-hoops",
+   "title": "RIVOLI PEARL HOOPS",
+   "type": "Earrings",
+   "price": 54.08,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/rivoli-pearl-hoops",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1787130954422.png?v=1792646894",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/Gemini_Generated_Image_880dlp880dlp880d.png?v=1792646897",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/ChatGPT_Image_Aug_19_2026_10_52_35_AM.png?v=1792646894"
+   ]
+  },
+  {
+   "handle": "sierra-ear-cuff",
+   "title": "SIERRA EAR CUFF",
+   "type": "Earrings",
+   "price": 27.04,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/sierra-ear-cuff",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781884297268.png?v=1792646772",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781884311285.png?v=1792646776",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/IMG_2022.jpg?v=1792646774"
+   ]
+  },
+  {
+   "handle": "sun-kissed-bloom-drops",
+   "title": "SUN KISSED BLOOM DROPS",
+   "type": "Earrings",
+   "price": 17.16,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/sun-kissed-bloom-drops",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/0ADC7C4B-901B-4D3A-8B07-92ECA0FCBAC2.jpg?v=1792646817",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1786986101639.png?v=1792646818",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/4881FC22-3EFF-489B-A9E0-05793BD19F94.jpg?v=1792646818"
+   ]
+  },
+  {
+   "handle": "sydney-hoops-19cm",
+   "title": "SYDNEY HOOPS 1,9CM",
+   "type": "Earrings",
+   "price": 54.08,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/sydney-hoops-19cm",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781889335062.png?v=1792442346",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/bondisydneyccardafridalily_e98c0784-0595-4e3d-a74d-98f2db3049a9.webp?v=1792442346",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781889341712.png?v=1792442347"
+   ]
+  },
+  {
+   "handle": "taurus-stier",
+   "title": "TAURUS / STIER",
+   "type": "Necklaces",
+   "price": 67.6,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/taurus-stier",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781884758193.png?v=1792442347",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/TAURUS.webp?v=1792442346",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781884765234.png?v=1792442347"
+   ]
+  },
+  {
+   "handle": "tiana-ring",
+   "title": "TIANA RING",
+   "type": "Rings",
+   "price": 49.92,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/tiana-ring",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781884902171.png?v=1792647023",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/leliatianaevaevelin.webp?v=1792647023",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781884909016.png?v=1792647024"
+   ]
+  },
+  {
+   "handle": "tina-hoops-1cm",
+   "title": "TINA HOOPS 1CM",
+   "type": "Earrings",
+   "price": 46.8,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/tina-hoops-1cm",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781884923242.png?v=1792646862",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781884915820.png?v=1792646861",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/tinag_cfe1d63f-5831-4623-914a-a6e4ba953309.jpg?v=1792646860"
+   ]
+  },
+  {
+   "handle": "tommy-hilfiger-alexa-1782157-damenuhr",
+   "title": "Tommy Hilfiger Alexa 1782157 Ladies' Watch",
+   "type": "Watches",
+   "price": 55.38,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/tommy-hilfiger-alexa-1782157-damenuhr",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/8124_0.jpg?v=1792327082"
+   ]
+  },
+  {
+   "handle": "tommy-hilfiger-mason-1791937-montre-hommes",
+   "title": "Tommy Hilfiger Mason 1791937 Men's Watch",
+   "type": "Watches",
+   "price": 77.48,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/tommy-hilfiger-mason-1791937-montre-hommes",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/7664_0.jpg?v=1792327083"
+   ]
+  },
+  {
+   "handle": "vivi-hoops-24cm",
+   "title": "VIVI HOOPS 2,4CM",
+   "type": "Earrings",
+   "price": 67.6,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/vivi-hoops-24cm",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781885139352.png?v=1792646745",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781885130153.png?v=1792646747",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/IMG_1017.webp?v=1792646746"
+   ]
+  },
+  {
+   "handle": "yara-hoops-18cm",
+   "title": "YARA HOOPS 1,8CM",
+   "type": "Earrings",
+   "price": 64.48,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/yara-hoops-18cm",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781885121059.png?v=1792442347",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/IMG_9775_1.webp?v=1792442346"
+   ]
+  },
+  {
+   "handle": "your-surprise-gift-valued-from-26",
+   "title": "Your Surprise Gift Valued From 26€",
+   "type": "Gift",
+   "price": 27.04,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/your-surprise-gift-valued-from-26",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/ChatGPT_Image_Mar_5_2026_12_32_39_PM.png?v=1792646967"
+   ]
+  },
+  {
+   "handle": "your-surprise-gift-valued-from-26-jewelry-travel-bag",
+   "title": "Your Surprise Gift Valued From 26€ & Jewelry Travel Bag",
+   "type": "Gift",
+   "price": 39.52,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/your-surprise-gift-valued-from-26-jewelry-travel-bag",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/B3881F35-E280-48D6-9F37-D21CA8633E94.jpg?v=1792646835",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/IMG_3176.png?v=1792646842",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/IMG_3171.png?v=1792646837"
+   ]
+  },
+  {
+   "handle": "zaya-chain",
+   "title": "ZAYA CHAIN",
+   "type": "Necklaces",
+   "price": 49.92,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/zaya-chain",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781885285160.png?v=1792647036",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781885292604.png?v=1792647036",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/IMG_7052.jpg?v=1792647037"
+   ]
+  },
+  {
+   "handle": "zoe-choker",
+   "title": "ZOÉ CHOKER",
+   "type": "Necklaces",
+   "price": 60.32,
+   "currency": "EUR",
+   "url": "https://cadence-co-store.myshopify.com/products/zoe-choker",
+   "images": [
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781885299279.png?v=1792646958",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1787053369495.png?v=1792646960",
+    "https://cdn.shopify.com/s/files/1/0970/7991/8972/files/badged-1781885306915.png?v=1792646958"
+   ]
+  }
+ ]
+}

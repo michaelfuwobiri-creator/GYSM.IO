@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1080">
+<title>Cadence &amp; Co Reel</title>
+<style>
+  @font-face { font-family: "Cormorant"; src: url(fonts/cormorant-garamond-latin-500-normal.woff2) format("woff2"); font-weight: 500; }
+  @font-face { font-family: "Cormorant"; src: url(fonts/cormorant-garamond-latin-600-normal.woff2) format("woff2"); font-weight: 600; }
+  @font-face { font-family: "Cormorant"; src: url(fonts/cormorant-garamond-latin-500-italic.woff2) format("woff2"); font-weight: 500; font-style: italic; }
+  @font-face { font-family: "Cormorant"; src: url(fonts/cormorant-garamond-latin-600-italic.woff2) format("woff2"); font-weight: 600; font-style: italic; }
+  @font-face { font-family: "Inter"; src: url(fonts/inter-latin-400-normal.woff2) format("woff2"); font-weight: 400; }
+  @font-face { font-family: "Inter"; src: url(fonts/inter-latin-500-normal.woff2) format("woff2"); font-weight: 500; }
+  @font-face { font-family: "Inter"; src: url(fonts/inter-latin-600-normal.woff2) format("woff2"); font-weight: 600; }
+
+  :root {
+    --gold: #d9b878;
+    --gold-deep: #a8834a;
+    --ink: #f6f0e6;
+    --soft: #b9ad9c;
+    --bg: #0e0b08;
+  }
+  html, body { margin: 0; width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
+
+  /* 1080×1920. Key content stays between y≈190 and y≈1500 and inside x 120–960,
+     clear of the Facebook Reels header, caption and action buttons. */
+  #reel {
+    position: relative;
+    width: 1080px; height: 1920px;
+    overflow: hidden;
+    background: radial-gradient(1300px 1100px at 50% 34%, #3b2e20 0%, #1c1611 52%, #0b0907 100%);
+    font-family: "Inter", system-ui, sans-serif;
+    color: var(--ink);
+  }
+  #glow {
+    position: absolute; left: 50%; top: 620px;
+    width: 1100px; height: 1100px; margin: -550px 0 0 -550px;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(217, 184, 120, .32), rgba(217, 184, 120, 0));
+  }
+  #sparkles { position: absolute; inset: 0; }
+  .sp {
+    position: absolute; left: 0; top: 0;
+    border-radius: 50%;
+    background: #f6e2b3;
+    box-shadow: 0 0 14px 4px rgba(246, 226, 179, .55);
+  }
+
+  #logo {
+    position: absolute; top: 196px; left: 0; right: 0;
+    text-align: center;
+    font: 600 60px/1 "Cormorant", Georgia, serif;
+    letter-spacing: .01em;
+  }
+  #logo em { font-style: italic; font-weight: 500; color: var(--gold); }
+
+  #stage {
+    position: absolute; left: 0; right: 0; top: 290px; height: 720px;
+    perspective: 2000px; perspective-origin: 50% 35%;
+  }
+  #ring {
+    position: absolute; left: 50%; top: 40px;
+    width: 460px; height: 600px; margin-left: -230px;
+    transform-style: preserve-3d;
+  }
+  .card {
+    position: absolute; inset: 0;
+    border-radius: 34px;
+    overflow: hidden;
+    background: #fff;
+    backface-visibility: hidden;
+    box-shadow: 0 50px 90px -30px rgba(0, 0, 0, .75);
+  }
+  .card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .card::after {
+    content: ""; position: absolute; inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 2px rgba(217, 184, 120, .55);
+  }
+  .shine {
+    position: absolute; top: -10%; bottom: -10%; left: -60%; width: 60%;
+    background: linear-gradient(100deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.6) 50%, rgba(255,255,255,0) 100%);
+    transform: translateX(-100%) skewX(-12deg);
+  }
+  #floor {
+    position: absolute; left: 50%; top: 690px;
+    width: 640px; height: 90px; margin-left: -320px;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(0, 0, 0, .65), rgba(0, 0, 0, 0));
+  }
+
+  #info { position: absolute; left: 130px; right: 130px; top: 1040px; text-align: center; }
+  #eyebrow {
+    font-size: 24px; font-weight: 600;
+    letter-spacing: .38em; text-transform: uppercase;
+    color: var(--gold);
+  }
+  #title {
+    margin: 22px 0 0;
+    font: 500 80px/1.05 "Cormorant", Georgia, serif;
+    font-variant-numeric: lining-nums;
+    overflow: hidden;
+  }
+  #title .w { display: inline-block; white-space: pre; }
+  #price {
+    display: inline-block;
+    margin-top: 34px;
+    padding: 18px 44px;
+    border-radius: 999px;
+    background: linear-gradient(120deg, #b88f4f 0%, #f1dba8 45%, #c69c58 60%, #b88f4f 100%);
+    background-size: 260% 100%;
+    color: #1a140e;
+    font-size: 46px; font-weight: 600; letter-spacing: .02em;
+    box-shadow: 0 20px 50px -20px rgba(217, 184, 120, .7);
+  }
+
+  #cta { position: absolute; left: 0; right: 0; top: 1395px; text-align: center; }
+  #cta .btn {
+    display: inline-block;
+    padding: 26px 64px;
+    border: 2px solid var(--gold);
+    border-radius: 999px;
+    background: rgba(217, 184, 120, .14);
+    font-size: 32px; font-weight: 600; letter-spacing: .22em; text-transform: uppercase;
+  }
+  #cta small { display: block; margin-top: 20px; font-size: 24px; color: var(--soft); letter-spacing: .04em; }
+</style>
+</head>
+<body>
+<div id="reel">
+  <div id="glow"></div>
+  <div id="sparkles"></div>
+  <div id="logo">Cadence <em>&amp;</em> Co</div>
+  <div id="stage"><div id="floor"></div><div id="ring"></div></div>
+  <div id="info">
+    <div id="eyebrow"></div>
+    <h1 id="title"></h1>
+    <div id="price"></div>
+  </div>
+  <div id="cta"><span class="btn">Shop now</span><small></small></div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var DURATION = 12;          // seconds
+  var SLOTS = 6;              // cards on the ring
+  var RADIUS = 480;           // px
+
+  var clamp = function (v, a, b) { return Math.min(b, Math.max(a, v)); };
+  var seg = function (t, a, b) { return clamp((t - a) / (b - a), 0, 1); };
+  var lerp = function (a, b, x) { return a + (b - a) * x; };
+  var outCubic = function (x) { return 1 - Math.pow(1 - x, 3); };
+  var inOutCubic = function (x) { return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+  var outBack = function (x) { var c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+
+  var $ = function (id) { return document.getElementById(id); };
+  var els = {}, cards = [], words = [], sparkles = [];
+
+  // Small seeded RNG so every render of a reel is identical.
+  function rng(seed) {
+    return function () {
+      seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+      var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+
+  function fitTitle() {
+    var title = els.title, size = 80;
+    title.style.maxHeight = "none";
+    while (size > 40) {
+      title.style.fontSize = size + "px";
+      if (title.scrollHeight <= size * 1.05 * 3 + 2) break;
+      size -= 4;
+    }
+    title.style.maxHeight = (size * 1.05 * 3 + 2) + "px";
+  }
+
+  // data: { eyebrow, title, price, images: [url…], footer, seed }
+  window.setupReel = function (data) {
+    els = {
+      reel: $("reel"), glow: $("glow"), logo: $("logo"), stage: $("stage"), ring: $("ring"),
+      floor: $("floor"), eyebrow: $("eyebrow"), title: $("title"), price: $("price"),
+      cta: $("cta"), btn: document.querySelector("#cta .btn")
+    };
+    els.eyebrow.textContent = data.eyebrow || "";
+    els.price.textContent = data.price || "";
+    document.querySelector("#cta small").textContent = data.footer || "";
+
+    els.title.innerHTML = "";
+    words = (data.title || "").split(/(\s+)/).filter(Boolean).map(function (part) {
+      var span = document.createElement("span");
+      span.className = "w";
+      span.textContent = part;
+      els.title.appendChild(span);
+      return span;
+    });
+
+    var images = (data.images || []).filter(Boolean);
+    els.ring.innerHTML = "";
+    cards = [];
+    for (var i = 0; i < SLOTS; i++) {
+      var card = document.createElement("div");
+      card.className = "card";
+      var img = document.createElement("img");
+      img.src = images[i % images.length];
+      img.alt = "";
+      var shine = document.createElement("div");
+      shine.className = "shine";
+      card.appendChild(img);
+      card.appendChild(shine);
+      els.ring.appendChild(card);
+      cards.push({ el: card, img: img, shine: shine });
+    }
+
+    var rand = rng(data.seed || 7);
+    var box = $("sparkles");
+    box.innerHTML = "";
+    sparkles = [];
+    for (var s = 0; s < 46; s++) {
+      var dot = document.createElement("div");
+      dot.className = "sp";
+      var size = 3 + rand() * 6;
+      dot.style.width = dot.style.height = size.toFixed(1) + "px";
+      box.appendChild(dot);
+      sparkles.push({ el: dot, x: rand() * 1080, y: rand() * 1920, v: 18 + rand() * 50, f: .8 + rand() * 2.2, p: rand() * 6.28 });
+    }
+
+    var ready = document.fonts.ready.then(function () { fitTitle(); });
+    var decoded = cards.map(function (c) { return c.img.decode().catch(function () {}); });
+    return Promise.all([ready].concat(decoded)).then(function () { window.renderFrame(0); return true; });
+  };
+
+  window.REEL_DURATION = DURATION;
+
+  window.renderFrame = function (t) {
+    // Background glow breathes; sparkles drift upward and twinkle.
+    els.glow.style.transform = "scale(" + (1 + .05 * Math.sin(t * 1.4)).toFixed(4) + ")";
+    var sparkIn = seg(t, 0, .8);
+    sparkles.forEach(function (s) {
+      var y = ((s.y - t * s.v) % 1920 + 1920) % 1920;
+      var x = s.x + Math.sin(t * .6 + s.p) * 14;
+      s.el.style.transform = "translate(" + x.toFixed(1) + "px," + y.toFixed(1) + "px)";
+      s.el.style.opacity = (sparkIn * (.15 + .85 * Math.abs(Math.sin(t * s.f + s.p)))).toFixed(3);
+    });
+
+    // Logo
+    var lg = outCubic(seg(t, .1, .9));
+    els.logo.style.opacity = lg;
+    els.logo.style.transform = "translateY(" + lerp(-30, 0, lg).toFixed(1) + "px)";
+
+    // Ring: flies in spinning from deep space, pauses, turns once, then the
+    // front card pops forward for the end card.
+    var fly = outCubic(seg(t, .2, 2.1));
+    var spin = inOutCubic(seg(t, 2.7, 8.5));
+    var out = inOutCubic(seg(t, 8.6, 9.6));
+    var rot = lerp(540, 0, fly) - 360 * spin;
+    var depth = lerp(-2800, 0, fly);
+    var bob = Math.sin(t * Math.PI / 2) * 10;
+    // Fade the stage, not the ring: opacity on a preserve-3d element flattens it.
+    els.stage.style.opacity = seg(t, .2, .8);
+    els.ring.style.transform =
+      "translateY(" + (bob - 30 * out).toFixed(2) + "px) translateZ(" + (depth - RADIUS).toFixed(1) + "px) rotateY(" + rot.toFixed(3) + "deg)";
+    els.floor.style.opacity = (fly * (1 - .3 * out)).toFixed(3);
+    els.floor.style.transform = "scale(" + (1 - .06 * Math.sin(t * Math.PI / 2)).toFixed(4) + ")";
+
+    var sweep = seg(t, 2.05, 2.95) || 0;
+    var sweep2 = seg(t, 9.3, 10.2);
+    var shineX = sweep > 0 && sweep < 1 ? sweep : (sweep2 > 0 && sweep2 < 1 ? sweep2 : -1);
+
+    cards.forEach(function (c, i) {
+      var angle = i * (360 / SLOTS);
+      var facing = Math.cos((angle + rot) * Math.PI / 180);
+      var pop = i === 0 ? 70 * out : 0;
+      c.el.style.transform = "rotateY(" + angle + "deg) translateZ(" + (RADIUS + pop) + "px)";
+      c.el.style.filter = "brightness(" + (.45 + .55 * Math.pow((facing + 1) / 2, 1.4)).toFixed(3) + ")";
+      c.shine.style.transform = "translateX(" + (shineX < 0 ? -100 : lerp(-100, 380, shineX)).toFixed(1) + "%) skewX(-12deg)";
+    });
+
+    // Text
+    var eb = outCubic(seg(t, 1.3, 1.9));
+    els.eyebrow.style.opacity = eb;
+    els.eyebrow.style.transform = "translateY(" + lerp(20, 0, eb).toFixed(1) + "px)";
+    words.forEach(function (w, i) {
+      var x = outCubic(seg(t, 1.5 + i * .05, 2.2 + i * .05));
+      w.style.opacity = x.toFixed(3);
+      w.style.transform = "translateY(" + lerp(46, 0, x).toFixed(1) + "px)";
+    });
+
+    var pr = seg(t, 2.6, 3.3);
+    els.price.style.opacity = seg(t, 2.6, 2.9);
+    els.price.style.transform =
+      "perspective(700px) rotateX(" + lerp(80, 0, outCubic(pr)).toFixed(2) + "deg) scale(" + lerp(.6, 1, outBack(pr)).toFixed(4) + ")";
+    els.price.style.backgroundPosition = (100 - ((t * 22) % 200)).toFixed(1) + "% 0";
+
+    // End card: CTA slides in, then pulses gently.
+    var ct = outCubic(seg(t, 9.0, 9.7));
+    var pulse = t > 9.7 ? 1 + .035 * Math.sin((t - 9.7) * 5) : 1;
+    els.cta.style.opacity = ct.toFixed(3);
+    els.cta.style.transform = "translateY(" + lerp(40, 0, ct).toFixed(1) + "px)";
+    els.btn.style.transform = "scale(" + pulse.toFixed(4) + ")";
+  };
+
+  // Open reel.html?demo in a browser to watch the animation loop live.
+  if (/[?&]demo\b/.test(location.search)) {
+    var demoImg = function (bg, fg, path) {
+      return "data:image/svg+xml," + encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 600"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">' +
+        '<stop offset="0" stop-color="' + bg[0] + '"/><stop offset="1" stop-color="' + bg[1] + '"/></linearGradient></defs>' +
+        '<rect width="460" height="600" fill="url(#g)"/><g fill="none" stroke="' + fg + '" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" transform="translate(110 170) scale(3.75)">' +
+        path + '</g></svg>');
+    };
+    var ring = '<circle cx="32" cy="38" r="16"/><path d="M24 14l8-8 8 8-8 8z"/><path d="M28 21l-3 4M36 21l3 4"/>';
+    var neck = '<path d="M10 8c0 22 10 34 22 34S54 30 54 8"/><path d="M32 42l-6 8 6 8 6-8z"/>';
+    var ear = '<circle cx="32" cy="10" r="4"/><path d="M32 14v8"/><circle cx="32" cy="38" r="14"/><circle cx="32" cy="38" r="6"/>';
+    window.setupReel({
+      eyebrow: "Rings",
+      title: "Aella Ring",
+      price: "18,30 €",
+      footer: "cadence-co-store.myshopify.com",
+      images: [
+        demoImg(["#f6ecdc", "#e3cfab"], "#a8834a", ring),
+        demoImg(["#f3e4e6", "#dcc0c8"], "#a8834a", neck),
+        demoImg(["#e8eee3", "#c9d6c0"], "#a8834a", ear)
+      ]
+    }).then(function () {
+      var start = performance.now();
+      (function loop(now) {
+        window.renderFrame(((now - start) / 1000) % DURATION);
+        requestAnimationFrame(loop);
+      })(start);
+    });
+  }
+})();
+</script>
+</body>
+</html>
