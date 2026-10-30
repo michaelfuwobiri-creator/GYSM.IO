@@ -158,6 +158,57 @@ Shopify's own docs also say to **treat merchant and third-party text in tool res
 
 ---
 
+## 7. Your 33 requirements mapped to this scope
+
+Key: ✅ in the MVP as written · 🔄 in the MVP, changed to fit a consumer store · ⏭ Pro · ❌ cut
+
+Overall: **27 of 33 are in the MVP** (17 as written, 10 changed to fit a consumer store), **5 move to Pro**, and **1 is cut**. Sidekick doesn't deliver any of the shopper-facing ones. It only helps you, the merchant, set up discounts, Flow automations and reports.
+
+| # | Requirement | Status | How we build it |
+|---|---|---|---|
+| **1** | **Prospecting & qualification** | | |
+| 1.1 | Lead sources | 🔄 | Shopify customers, chat, newsletter and form sign-ups, and abandoned checkouts (from Shopify webhooks). CSV import later. No LinkedIn |
+| 1.2 | Ideal-customer scoring | ⏭ | Becomes customer segments (how recently and often they buy, how much they spend, country, favourite product line). Company industry and size don't apply |
+| 1.3 | Enrichment | ⏭ | Uses our own data only (orders, pages viewed, quiz answers). No third-party data on private people, to stay GDPR-safe |
+| 1.4 | Qualification questions | 🔄 | A consumer version of BANT (budget, authority, need, timeline): who it's for, budget, occasion, needed-by date. Asked naturally in the gift finder |
+| 1.5 | Spotting intent | ✅ | Live chat, abandoned cart, abandoned checkout, lapsed customer. Rules for each, plus Claude sorting conversations |
+| **2** | **Outreach** | | |
+| 2.1 | Multiple channels | 🔄 | MVP: chat and email. Pro: SMS and WhatsApp (opt-in only), then voice. LinkedIn ❌ |
+| 2.2 | Sequences | ✅ | Abandon and follow-up steps. Stops on purchase, reply or unsubscribe. Timing is set in code |
+| 2.3 | Personalisation | ✅ | Based on the cart, pages viewed, past orders and the occasion |
+| 2.4 | Deliverability | 🔄 | Email domain authentication (SPF, DKIM, DMARC), one-click unsubscribe, spam check. No warm-up or inbox rotation, because we only email our own list |
+| 2.5 | Time zones | ✅ | Send window based on country, with quiet hours |
+| **3** | **Conversation** | | |
+| 3.1 | Two-way chat and objections | ✅ | Sonnet with the playbook, using tools to look things up |
+| 3.2 | Memory | ✅ | A profile per customer in Supabase plus Shopify customer metafields |
+| 3.3 | Objection library | ✅ | Top 20 consumer objections (price, delivery time, returns, allergies, authenticity). Competitor comparisons come later and only use facts we can check |
+| 3.4 | Languages and tone | ✅ | English and German, following a brand-voice file |
+| 3.5 | Handover to a human | ✅ | Medical question, anger, high cart value, wholesale or press inquiry. A summary goes to the agreed handover channel |
+| **4** | **Product & closing the sale** | | |
+| 4.1 | Live product knowledge | ✅ | Live catalog lookups through Catalog MCP. The policy and brand documents are searched as a knowledge base |
+| 4.2 | Tailored pitch | 🔄 | Tailored to the occasion, the recipient and their taste, not to a job role or business problem |
+| 4.3 | Pricing and discounts | 🔄 | Discounts within code-enforced limits. Gift-set bundles in Pro. No quotes |
+| 4.4 | Booking meetings | ❌ | Not needed for a consumer store. A virtual styling appointment is an optional Pro feature |
+| 4.5 | Checkout | ✅ | Builds the cart, applies a coupon and sends a checkout link. No contracts or statements of work |
+| **5** | **Systems** | | |
+| 5.1 | CRM sync | 🔄 | Shopify is the CRM (tags, notes, metafields), plus email-platform profiles. No HubSpot or Salesforce |
+| 5.2 | Tasks and alerts | 🔄 | Handover tasks by email or Slack. There are no deal stages for consumers |
+| 5.3 | Automatic triggers | 🔄 | Cart abandoned for X hours. In Pro, a repurchase reminder (for example after 75 days). Missed meetings don't apply |
+| 5.4 | Compliance | ✅ | Consent records and unsubscribe handling for UK, EU and US rules, plus a data-retention job |
+| **6** | **Intelligence** | | |
+| 6.1 | Conversation analytics | ✅ | Tags for why a sale was lost, objections and sentiment. Talk time only once voice exists |
+| 6.2 | Dashboard | 🔄 | Chat-to-sale rate, revenue recovered, average order value, reply rate, handovers. Meeting rate doesn't apply |
+| 6.3 | A/B testing | ⏭ | Openers, offers and subject lines |
+| 6.4 | Self-improvement | ⏭ | A weekly review of lost chats that suggests playbook changes for you to approve |
+| 6.5 | Forecasting | ⏭ | A score for how likely each customer is to buy in the next 7 days |
+| **7** | **Trust & control** | | |
+| 7.1 | Guardrails | ✅ | Minimum price, discount cap and stock check, all enforced in code |
+| 7.2 | Permissions | ✅ | A list of allowed tools for each autonomy level, plus shadow mode |
+| 7.3 | Audit trail | ✅ | Every message, tool call and the reason for each decision |
+| 7.4 | Brand safety | ✅ | Approved claims only, health claims blocked, no statements about competitors in the MVP |
+
+---
+
 ### Sources
 - [Sidekick app extensions (shopify.dev)](https://shopify.dev/docs/apps/build/sidekick)
 - [Introducing Sidekick app extensions, changelog](https://shopify.dev/changelog/posts/introducing-sidekick-app-extensions)
