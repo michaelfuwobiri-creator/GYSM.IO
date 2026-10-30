@@ -142,16 +142,19 @@ Shopify's own docs also say to **treat merchant and third-party text in tool res
 
 ---
 
-## 6. Open questions to answer before building
+## 6. Decisions and open questions
 
-- **Q1.** Consumer-only (Cadence&co shoppers), or also B2B wholesale and stockists?
-- **Q2.** Markets and languages: UK, DE, EU, US? This decides the consent rules and the languages.
-- **Q3.** Channels for the MVP: on-site chat plus email only, or SMS or WhatsApp from day one?
+### Decided (30 Oct 2026)
+- **Q1. Who it sells to:** consumer shoppers only. The B2B wholesale track is dropped.
+- **Q2. Markets:** UK, Germany/EU and US from the start. That means English and German, and three consent regimes: UK GDPR + PECR, EU GDPR + UWG §7, and US CAN-SPAM (plus TCPA if SMS is added later).
+- **Q3. Channels for the MVP:** on-site chat and email. No SMS (to be confirmed: the answer said "sales is not included", which I read as "SMS is not included").
+- **Q8. Autonomy:** shadow mode for weeks 1–2 (the agent drafts, a human approves), then low-risk messages are sent automatically.
+
+### Still open
 - **Q4.** Discount policy: the maximum %, whether discounts stack, and which products are excluded.
 - **Q5.** Stack: Supabase plus Vercel (both already connected), and Klaviyo or Shopify Email?
 - **Q6.** Shopify plan, and whether the store has a custom domain (Customer Accounts MCP needs one).
 - **Q7.** Who receives handovers, and through which channel (email, Slack, Shopify Inbox)?
-- **Q8.** Autonomy on day 1: shadow mode, or sending automatically straight away?
 
 ---
 
