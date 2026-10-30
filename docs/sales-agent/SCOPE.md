@@ -209,6 +209,47 @@ Overall: **27 of 33 are in the MVP** (17 as written, 10 changed to fit a consume
 
 ---
 
+## 8. Competing agents on the Shopify App Store (Oct 2026)
+
+This section is based on 2026 review roundups. Many of them were written by the vendors themselves, and prices differ from source to source, so check each App Store listing before deciding. The App Store has hundreds of chat apps. These are the ones that come up most often.
+
+| App | What it is | Channels | Price (as reported) | Rating (as reported) |
+|---|---|---|---|---|
+| **Shopify Inbox agent** | Shopify's own agent, learns from the catalog and policies | Store chat only | Free | — |
+| **Buddy AI** | Sales agent: discounts and haggling, cart recovery | Chat | Free trial | 4.8 (69), #1 in App Store search |
+| **Zipchat** | Sales and support agent for the store | Chat (+ WhatsApp) | From about $49/mo, paid per reply | 4.8–4.9 |
+| **Rep AI** | Sales agent that also cancels orders and handles returns | Chat | About $104–$2,000/mo, based on traffic | — |
+| **Tidio + Lyro** | Live chat with an AI add-on (runs on Claude) | Chat, email, Messenger | $29–59 plus about $39 for Lyro | 4.8 (1,343) |
+| **Gorgias AI Agent** | Help desk with AI, focused on support | Chat, email, SMS, social | From $10–40 plus about $1 per AI-resolved conversation | 4.2 (617) |
+| **Klaviyo Customer Agent** | Consumer agent inside Klaviyo, recommends products, can check out in chat | Web chat, SMS, email | Part of Klaviyo | English only (German planned for 2026) |
+| **Manifest AI** | Budget shopping assistant | Chat | Free to about $14/mo | — |
+| Others | Flyweight, Visito, Yuma, Chizy, BuyScout, Rebuy (smart cart, not chat) | | | |
+
+### How our agent compares
+| Area | Typical apps | Our agent |
+|---|---|---|
+| Chat, product finder, adding to cart | ✅ Everyone | ✅ Same, built on Shopify's UCP tools |
+| Abandoned cart recovery | Buddy, Zipchat, Klaviyo | ✅ Chat and email share one memory of the customer |
+| Discounts | Buddy negotiates. Limits are set in the app's own settings | ✅ The limit, minimum price and one-code-per-customer rule are **enforced in code**, so the model can't go past them |
+| Health-claims safety (homeopathy) | ❌ None advertise it | ✅ **Approved-claims list plus a block on health claims**. This is the biggest gap in what they offer |
+| German and English | Mixed. Klaviyo is English only | ✅ From day one |
+| Consent records for UK, EU and US | Basic unsubscribe handling | ✅ A record of when and how each customer agreed, checked before every message |
+| Audit trail with the reason for each decision | ❌ Usually only the transcript | ✅ Every tool call and the reason for it |
+| Shadow mode, then gradual autonomy | Rare | ✅ Yes |
+| Test set run before every release | ❌ Users can't see any | ✅ About 200 test cases |
+| Who owns the data and prompts | The vendor | ✅ You (Supabase plus this repo) |
+| Time to launch | Minutes | ❌ About 4–6 weeks |
+| Running cost | $0–400/mo | Claude usage (based on volume) plus about $25–50 for hosting |
+| Maintenance | The vendor does it | ❌ We do it |
+| Help desk, returns, order cancellation | Rep AI, Gorgias | ⏭ Order status only. Returns go to a human |
+
+### Verdict
+- If all you need is chat that answers questions and adds products to the cart, **the free Shopify Inbox agent or Zipchat at $49 covers it today.** Use the Inbox agent as the baseline our agent has to beat.
+- Building is worth it for what the apps don't offer: **the health-claims block, discount limits enforced in code, consent records across UK, EU and US, German, an audit trail with reasons, and owning the data and the playbook.**
+- Suggested plan: switch on the free Inbox agent now, so you get results from day one and a baseline conversion rate. Our MVP runs in shadow mode alongside it and replaces it only when it beats that baseline.
+
+---
+
 ### Sources
 - [Sidekick app extensions (shopify.dev)](https://shopify.dev/docs/apps/build/sidekick)
 - [Introducing Sidekick app extensions, changelog](https://shopify.dev/changelog/posts/introducing-sidekick-app-extensions)
