@@ -1,5 +1,7 @@
 # Cadence&co — Shopify homepage
 
+> This repo also contains **[Nollywood TV](nollywood-tv/README.md)**, a streaming app for Amazon Fire TV with thirdweb sign-in and an on-chain membership pass.
+
 Homepage for the **Cadence&co** Shopify store: jewellery, perfumes and homeopathy, with products gliding across the page in infinite marquee rows.
 
 | File | What it is |
