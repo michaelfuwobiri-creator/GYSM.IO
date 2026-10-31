@@ -1,4 +1,205 @@
 {
-  "updated": "",
-  "films": {}
+  "updated": "2026-10-31T08:05:47.089Z",
+  "films": {
+    "agent-327": {
+      "mime": "video/mp4",
+      "seconds": 3371,
+      "videos": [
+        {
+          "height": 480,
+          "file": "agent-327-480.mp4",
+          "size": 220423872
+        },
+        {
+          "height": 720,
+          "file": "agent-327-720.mp4",
+          "size": 363670945
+        }
+      ],
+      "poster": "agent-327-poster.jpg",
+      "licence": "CC BY 3.0",
+      "credit": "Blender",
+      "source": "https://commons.wikimedia.org/wiki/File:Making_of_Agent_327,_Operation_Barbershop_@_Blender_Conference_2017.webm"
+    },
+    "big-buck-bunny": {
+      "mime": "video/mp4",
+      "seconds": 635,
+      "videos": [
+        {
+          "height": 480,
+          "file": "big-buck-bunny-480.mp4",
+          "size": 82401077
+        },
+        {
+          "height": 720,
+          "file": "big-buck-bunny-720.mp4",
+          "size": 145170543
+        }
+      ],
+      "poster": "big-buck-bunny-poster.jpg",
+      "licence": "CC BY 3.0",
+      "credit": "Blender Foundation",
+      "source": "https://commons.wikimedia.org/wiki/File:Big_Buck_Bunny_4K.webm"
+    },
+    "caminandes": {
+      "mime": "video/mp4",
+      "seconds": 90,
+      "videos": [
+        {
+          "height": 480,
+          "file": "caminandes-480.mp4",
+          "size": 6181523
+        },
+        {
+          "height": 720,
+          "file": "caminandes-720.mp4",
+          "size": 10731790
+        }
+      ],
+      "poster": "caminandes-poster.jpg",
+      "licence": "CC BY 3.0",
+      "credit": "Pablo Vazquez, Beorn Leonard, and Francesco Siddi. Music and Sound by Jan Morgenstern",
+      "source": "https://commons.wikimedia.org/wiki/File:Caminandes-_Llama_Drama_-_Short_Movie.ogv"
+    },
+    "cosmos-laundromat": {
+      "mime": "video/mp4",
+      "seconds": 731,
+      "videos": [
+        {
+          "height": 480,
+          "file": "cosmos-laundromat-480.mp4",
+          "size": 100386887
+        },
+        {
+          "height": 720,
+          "file": "cosmos-laundromat-720.mp4",
+          "size": 189768509
+        }
+      ],
+      "poster": "cosmos-laundromat-poster.jpg",
+      "licence": "CC BY-SA 3.0",
+      "credit": "Blender Foundation",
+      "source": "https://commons.wikimedia.org/wiki/File:Cosmos_Laundromat_-_First_Cycle_-_Official_Blender_Foundation_release.webm"
+    },
+    "elephants-dream": {
+      "mime": "video/mp4",
+      "seconds": 658,
+      "videos": [
+        {
+          "height": 480,
+          "file": "elephants-dream-480.mp4",
+          "size": 73131835
+        },
+        {
+          "height": 720,
+          "file": "elephants-dream-720.mp4",
+          "size": 128254445
+        }
+      ],
+      "poster": "elephants-dream-poster.jpg",
+      "licence": "CC BY 2.5",
+      "credit": "Orange Open Movie Team",
+      "source": "https://commons.wikimedia.org/wiki/File:Elephants_Dream_(2006).webm"
+    },
+    "nosferatu": {
+      "mime": "video/mp4",
+      "seconds": 5519,
+      "videos": [
+        {
+          "height": 360,
+          "file": "nosferatu-360.mp4",
+          "size": 278408279
+        },
+        {
+          "height": 480,
+          "file": "nosferatu-480.mp4",
+          "size": 465469063
+        }
+      ],
+      "poster": "nosferatu-poster.jpg",
+      "licence": "Public domain",
+      "credit": "F. W. Murnau / Henrik Galeen",
+      "source": "https://commons.wikimedia.org/wiki/File:Nosferatu_(1922).webm"
+    },
+    "sintel": {
+      "mime": "video/mp4",
+      "seconds": 888,
+      "videos": [
+        {
+          "height": 480,
+          "file": "sintel-480.mp4",
+          "size": 117887236
+        },
+        {
+          "height": 720,
+          "file": "sintel-720.mp4",
+          "size": 217465475
+        }
+      ],
+      "poster": "sintel-poster.jpg",
+      "licence": "CC BY 3.0",
+      "credit": "Durian Open Movie project; about page (archived link 31 March 2014); see also the credits roll.",
+      "source": "https://commons.wikimedia.org/wiki/File:Sintel_movie_4K.webm"
+    },
+    "spring": {
+      "mime": "video/mp4",
+      "seconds": 464,
+      "videos": [
+        {
+          "height": 480,
+          "file": "spring-480.mp4",
+          "size": 53720006
+        },
+        {
+          "height": 720,
+          "file": "spring-720.mp4",
+          "size": 95621893
+        }
+      ],
+      "poster": "spring-poster.jpg",
+      "licence": "CC BY 4.0",
+      "credit": "Andy Goralczyk / Blender Foundation",
+      "source": "https://commons.wikimedia.org/wiki/File:Spring_-_Blender_Open_Movie.webm"
+    },
+    "tears-of-steel": {
+      "mime": "video/mp4",
+      "seconds": 734,
+      "videos": [
+        {
+          "height": 480,
+          "file": "tears-of-steel-480.mp4",
+          "size": 108973908
+        },
+        {
+          "height": 720,
+          "file": "tears-of-steel-720.mp4",
+          "size": 196066824
+        }
+      ],
+      "poster": "tears-of-steel-poster.jpg",
+      "licence": "CC BY 3.0",
+      "credit": "Blender Foundation",
+      "source": "https://commons.wikimedia.org/wiki/File:Tears_of_Steel_in_4k_-_Official_Blender_Foundation_release.webm"
+    },
+    "trip-to-the-moon": {
+      "mime": "video/mp4",
+      "seconds": 3009,
+      "videos": [
+        {
+          "height": 360,
+          "file": "trip-to-the-moon-360.mp4",
+          "size": 208071925
+        },
+        {
+          "height": 480,
+          "file": "trip-to-the-moon-480.mp4",
+          "size": 313528989
+        }
+      ],
+      "poster": "trip-to-the-moon-poster.jpg",
+      "licence": "Public domain",
+      "credit": "NASA Kennedy Space Center",
+      "source": "https://commons.wikimedia.org/wiki/File:Apollo_11_-_30th_Anniversary_(KSC-19990601-MH-NAS01-0001-Apollo_11_30th_Anniversary_Highlights_and_Magnificent_Desolation_Our_Journeys_to_the_Moon-B_2865).webm"
+    }
+  }
 }
