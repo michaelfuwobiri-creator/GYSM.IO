@@ -16,23 +16,37 @@ import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import androidx.webkit.WebViewAssetLoader
 import androidx.webkit.WebViewClientCompat
+import java.io.File
+import org.json.JSONObject
 
 /**
  * Fire TV shell for the web app in stream/web.
  *
  * The app is served from the APK's assets over https://appassets.androidplatform.net,
- * a secure origin, so Cache Storage (used for offline films) works.
+ * a secure origin. Films saved for offline viewing are downloaded natively by
+ * OfflineStore into the app's private storage and served back to the page at
+ * /offline/<id> with Range support, so they play and seek without a connection.
  * Back, Menu and the media keys are passed to the page through GYSM.remote();
  * the D-pad and Select reach the page as normal key events.
  */
 class MainActivity : Activity() {
 
     private lateinit var webView: WebView
+    private lateinit var offline: OfflineStore
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG)
+
+        offline = OfflineStore(File(filesDir, "offline")) { id, state, done, total, error ->
+            val event = JSONObject()
+                .put("id", id).put("state", state).put("done", done).put("total", total)
+                .put("error", error ?: JSONObject.NULL)
+            runOnUiThread {
+                if (::webView.isInitialized) webView.evaluateJavascript("window.GYSM && GYSM.nativeDownload($event)", null)
+            }
+        }
 
         val assetLoader = WebViewAssetLoader.Builder()
             .addPathHandler("/assets/", WebViewAssetLoader.AssetsPathHandler(this))
@@ -48,8 +62,13 @@ class MainActivity : Activity() {
             settings.allowFileAccess = false
             settings.allowContentAccess = false
             webViewClient = object : WebViewClientCompat() {
-                override fun shouldInterceptRequest(view: WebView, request: WebResourceRequest): WebResourceResponse? =
-                    assetLoader.shouldInterceptRequest(request.url)
+                override fun shouldInterceptRequest(view: WebView, request: WebResourceRequest): WebResourceResponse? {
+                    val url = request.url
+                    if (url.host == APP_HOST && url.path?.startsWith("/offline/") == true) {
+                        return serveOffline(url.lastPathSegment, request.requestHeaders)
+                    }
+                    return assetLoader.shouldInterceptRequest(url)
+                }
 
                 // Stay inside the app: never open other pages in the WebView.
                 override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean =
@@ -66,6 +85,29 @@ class MainActivity : Activity() {
         setContentView(webView)
         webView.loadUrl(START_URL)
         webView.requestFocus()
+    }
+
+    // A saved film, or the requested byte range of it (the player seeks this way).
+    private fun serveOffline(id: String?, headers: Map<String, String>): WebResourceResponse {
+        val range = headers.entries.firstOrNull { it.key.equals("Range", ignoreCase = true) }?.value
+        val slice = try {
+            if (id != null) offline.open(id, range) else null
+        } catch (e: Exception) {
+            null
+        }
+        if (slice == null) {
+            return WebResourceResponse("text/plain", "utf-8", 404, "Not Found", emptyMap(), null)
+        }
+        val out = mutableMapOf("Accept-Ranges" to "bytes", "Cache-Control" to "no-store")
+        val reason = when (slice.status) {
+            206 -> "Partial Content"
+            416 -> "Range Not Satisfiable"
+            else -> "OK"
+        }
+        if (slice.status == 206) out["Content-Range"] = "bytes ${slice.start}-${slice.end}/${slice.total}"
+        if (slice.status == 416) out["Content-Range"] = "bytes */${slice.total}"
+        if (slice.status != 416) out["Content-Length"] = slice.length().toString()
+        return WebResourceResponse(slice.mime, null, slice.status, reason, out, slice.body)
     }
 
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
@@ -119,6 +161,20 @@ class MainActivity : Activity() {
 
         @JavascriptInterface
         fun exit() = runOnUiThread { finish() }
+
+        // Native offline downloads (see OfflineStore). Progress arrives in the
+        // page through GYSM.nativeDownload({id, state, done, total, error}).
+        @JavascriptInterface
+        fun offlineStart(id: String, url: String, mime: String) = offline.start(id, url, mime)
+
+        @JavascriptInterface
+        fun offlineCancel(id: String) = offline.cancel(id)
+
+        @JavascriptInterface
+        fun offlineDelete(id: String) = offline.delete(id)
+
+        @JavascriptInterface
+        fun offlineStatus(id: String): String = offline.status(id)
     }
 
     private companion object {
