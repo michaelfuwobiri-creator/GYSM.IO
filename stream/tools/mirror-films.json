@@ -1,15 +1,151 @@
 {
-  "_comment": "Films GYSM hosts itself. mirror-films.mjs fetches each one ONCE from Wikimedia Commons (free licences only), converts it to MP4 and uploads it to our own storage; the app never contacts Commons. ids must match web/js/catalog.js. heights: video variants to make (the app picks one by its quality setting).",
+  "_comment": "Films GYSM hosts itself. mirror-films.mjs fetches each one ONCE from Wikimedia Commons (free licences only), converts it to MP4 and uploads it to our own storage; the app never contacts Commons. ids must match web/js/catalog.js. heights: video variants to make (the app picks one by its quality setting). match: words that must all appear in the Commons file name (stops a search picking a different video). rev: raise it to republish a film. credit: shown instead of the Commons author field.",
   "films": [
-    { "id": "big-buck-bunny", "commons": "File:Big Buck Bunny 4K.webm", "search": "Big Buck Bunny Blender", "minutes": 10, "heights": [480, 720] },
-    { "id": "sintel", "commons": "File:Sintel movie 4K.webm", "search": "Sintel Blender open movie", "minutes": 15, "heights": [480, 720] },
-    { "id": "tears-of-steel", "commons": "File:Tears of Steel in 4k - Official Blender Foundation release.webm", "search": "Tears of Steel Blender", "minutes": 12, "heights": [480, 720] },
-    { "id": "cosmos-laundromat", "commons": "File:Cosmos Laundromat - First Cycle - Official Blender Foundation release.webm", "search": "Cosmos Laundromat Blender", "minutes": 12, "heights": [480, 720] },
-    { "id": "elephants-dream", "commons": "File:Elephants Dream (2006).webm", "search": "Elephants Dream 2006 Blender", "minutes": 11, "heights": [480, 720] },
-    { "id": "spring", "commons": "File:Spring - Blender Open Movie.webm", "search": "Spring Blender Open Movie", "minutes": 8, "heights": [480, 720] },
-    { "id": "agent-327", "commons": "File:Agent 327 Operation Barbershop.webm", "search": "Agent 327 Operation Barbershop", "minutes": 4, "heights": [480, 720] },
-    { "id": "caminandes", "commons": "File:Caminandes- Llama Drama - Short Movie.ogv", "search": "Caminandes Llama Drama", "minutes": 2, "heights": [480, 720] },
-    { "id": "trip-to-the-moon", "commons": "File:Le Voyage dans la lune.webm", "search": "A Trip to the Moon 1902 Melies", "minutes": 13, "heights": [360, 480] },
-    { "id": "nosferatu", "commons": "File:Nosferatu (1922).webm", "search": "Nosferatu 1922 Murnau film", "minutes": 94, "heights": [360, 480] }
+    {
+      "id": "big-buck-bunny",
+      "commons": "File:Big Buck Bunny 4K.webm",
+      "search": "Big Buck Bunny Blender",
+      "minutes": 10,
+      "heights": [
+        480,
+        720
+      ],
+      "match": [
+        "buck",
+        "bunny"
+      ],
+      "rev": 1
+    },
+    {
+      "id": "sintel",
+      "commons": "File:Sintel movie 4K.webm",
+      "search": "Sintel Blender open movie",
+      "minutes": 15,
+      "heights": [
+        480,
+        720
+      ],
+      "match": [
+        "sintel"
+      ],
+      "credit": "Blender Foundation (Durian Open Movie Project)",
+      "rev": 2
+    },
+    {
+      "id": "tears-of-steel",
+      "commons": "File:Tears of Steel in 4k - Official Blender Foundation release.webm",
+      "search": "Tears of Steel Blender",
+      "minutes": 12,
+      "heights": [
+        480,
+        720
+      ],
+      "match": [
+        "tears",
+        "steel"
+      ],
+      "rev": 1
+    },
+    {
+      "id": "cosmos-laundromat",
+      "commons": "File:Cosmos Laundromat - First Cycle - Official Blender Foundation release.webm",
+      "search": "Cosmos Laundromat Blender",
+      "minutes": 12,
+      "heights": [
+        480,
+        720
+      ],
+      "match": [
+        "cosmos",
+        "laundromat"
+      ],
+      "rev": 1
+    },
+    {
+      "id": "elephants-dream",
+      "commons": "File:Elephants Dream (2006).webm",
+      "search": "Elephants Dream 2006 Blender",
+      "minutes": 11,
+      "heights": [
+        480,
+        720
+      ],
+      "match": [
+        "elephants",
+        "dream"
+      ],
+      "rev": 1
+    },
+    {
+      "id": "spring",
+      "commons": "File:Spring - Blender Open Movie.webm",
+      "search": "Spring Blender Open Movie",
+      "minutes": 8,
+      "heights": [
+        480,
+        720
+      ],
+      "match": [
+        "spring"
+      ],
+      "rev": 1
+    },
+    {
+      "id": "agent-327",
+      "commons": "File:Agent 327 Operation Barbershop.webm",
+      "search": "Agent 327 Operation Barbershop",
+      "minutes": 4,
+      "heights": [
+        480,
+        720
+      ],
+      "match": [
+        "agent",
+        "327"
+      ],
+      "rev": 2
+    },
+    {
+      "id": "caminandes",
+      "commons": "File:Caminandes- Llama Drama - Short Movie.ogv",
+      "search": "Caminandes Llama Drama",
+      "minutes": 2,
+      "heights": [
+        480,
+        720
+      ],
+      "match": [
+        "caminandes"
+      ],
+      "rev": 1
+    },
+    {
+      "id": "trip-to-the-moon",
+      "commons": "File:Le Voyage dans la lune.webm",
+      "search": "Le Voyage dans la Lune 1902 Méliès",
+      "minutes": 13,
+      "heights": [
+        360,
+        480
+      ],
+      "match": [
+        "lune"
+      ],
+      "rev": 2
+    },
+    {
+      "id": "nosferatu",
+      "commons": "File:Nosferatu (1922).webm",
+      "search": "Nosferatu 1922 Murnau film",
+      "minutes": 94,
+      "heights": [
+        360,
+        480
+      ],
+      "match": [
+        "nosferatu"
+      ],
+      "rev": 1
+    }
   ]
 }

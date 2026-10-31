@@ -66,14 +66,25 @@ const lengthOf = (info) => {
   return m ? Number(m.value) || 0 : 0;
 };
 
+// A hit must name the film and run close to its known length; otherwise a
+// search can return a different video under the right title.
+export function isRightFilm(film, pageTitle, seconds) {
+  const name = String(pageTitle).toLowerCase();
+  if (!(film.match || []).every((w) => name.includes(w.toLowerCase()))) return false;
+  if (!seconds) return false;
+  const expected = film.minutes * 60;
+  return seconds >= expected * 0.6 && seconds <= expected * 1.6;
+}
+
 async function findOnCommons(film) {
-  const pages = (await query({ titles: film.commons })).filter((p) => !p.missing && p.videoinfo);
-  if (pages.length) return pages[0];
-  // Renamed file: keep the longest search hit that is at least half the expected length.
-  const hits = (await query({ generator: 'search', gsrnamespace: '6', gsrlimit: '6', gsrsearch: film.search + ' filetype:video' }))
-    .filter((p) => p.videoinfo)
-    .sort((a, b) => lengthOf(b.videoinfo[0]) - lengthOf(a.videoinfo[0]));
-  return hits.find((p) => lengthOf(p.videoinfo[0]) >= film.minutes * 30) || null;
+  const exact = (await query({ titles: film.commons })).filter((p) => !p.missing && p.videoinfo);
+  if (exact.length && isRightFilm(film, exact[0].title, lengthOf(exact[0].videoinfo[0]))) return exact[0];
+  // Renamed file: the matching search hit closest to the expected length.
+  const expected = film.minutes * 60;
+  const hits = (await query({ generator: 'search', gsrnamespace: '6', gsrlimit: '10', gsrsearch: film.search + ' filetype:video' }))
+    .filter((p) => p.videoinfo && isRightFilm(film, p.title, lengthOf(p.videoinfo[0])))
+    .sort((a, b) => Math.abs(lengthOf(a.videoinfo[0]) - expected) - Math.abs(lengthOf(b.videoinfo[0]) - expected));
+  return hits[0] || null;
 }
 
 // The smallest Commons transcode that is still at least as tall as our largest
@@ -109,11 +120,11 @@ async function mirrorFilm(id) {
   let page = '';
   if (!source) {
     const hit = await findOnCommons(film);
-    if (!hit) throw new Error(`${id}: not found on Commons`);
+    if (!hit) throw new Error(`${id}: no Commons video with the right name and length; left out`);
     const info = hit.videoinfo[0];
     const meta = info.extmetadata || {};
     licence = stripHtml(meta.LicenseShortName && meta.LicenseShortName.value);
-    credit = stripHtml(meta.Artist && meta.Artist.value).slice(0, 160);
+    credit = film.credit || stripHtml(meta.Artist && meta.Artist.value).split(/[;(]/)[0].trim().slice(0, 120);
     page = info.descriptionurl || '';
     console.log(`${id}: ${hit.title} (${licence})`);
     if (!licenceAllowed(licence)) throw new Error(`${id}: licence "${licence}" does not allow redistribution`);
@@ -140,7 +151,7 @@ async function mirrorFilm(id) {
     '-frames:v', '1', '-vf', 'scale=1280:-2', '-q:v', '3', path.join(out, `${id}-poster.jpg`)]);
   if (!opt('from-file')) fs.rmSync(source);
 
-  const meta = { id, mime: 'video/mp4', seconds: Math.round(seconds), videos, poster: `${id}-poster.jpg`, licence, credit, source: page };
+  const meta = { id, rev: film.rev || 1, mime: 'video/mp4', seconds: Math.round(seconds), videos, poster: `${id}-poster.jpg`, licence, credit, source: page };
   fs.writeFileSync(path.join(out, `${id}.meta.json`), JSON.stringify(meta, null, 2) + '\n');
   console.log(`${id}: done, ${videos.map((v) => `${v.height}p ${(v.size / 1e6).toFixed(0)} MB`).join(', ')}`);
 }
@@ -148,10 +159,12 @@ async function mirrorFilm(id) {
 function buildManifest() {
   const dir = path.resolve(opt('in') || 'mirror-out');
   const result = { updated: new Date().toISOString(), films: {} };
+  const wanted = new Map(films.map((f) => [f.id, f.rev || 1]));
   const metas = fs.readdirSync(dir, { recursive: true }).filter((f) => String(f).endsWith('.meta.json'));
   for (const rel of metas) {
     const m = JSON.parse(fs.readFileSync(path.join(dir, rel), 'utf8'));
-    if (!films.some((x) => x.id === m.id) || !licenceAllowed(m.licence)) continue;
+    // Only films still in the list, at their current revision, with an allowed licence.
+    if (!wanted.has(m.id) || (m.rev || 1) !== wanted.get(m.id) || !licenceAllowed(m.licence)) continue;
     const { id: _, ...entry } = m;
     result.films[m.id] = entry;
   }
@@ -160,6 +173,7 @@ function buildManifest() {
 }
 
 if (cmd === 'list') console.log(JSON.stringify(films.map((f) => f.id)));
+else if (cmd === 'rev') console.log((films.find((f) => f.id === rest[0]) || {}).rev || 1);
 else if (cmd === 'film') mirrorFilm(rest[0]).catch((e) => { console.error(e.message); process.exit(1); });
 else if (cmd === 'manifest') buildManifest();
 else { console.error('usage: mirror-films.mjs list | film <id> --out DIR | manifest --in DIR --out FILE'); process.exit(1); }
