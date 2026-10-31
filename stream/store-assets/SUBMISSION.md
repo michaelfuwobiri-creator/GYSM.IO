@@ -6,7 +6,7 @@ Everything for the Developer Console is in this folder. Work through the steps i
 
 - [ ] Amazon Developer account at https://developer.amazon.com (free). Accept the Developer Services Agreement.
 - [ ] A support email address and a website.
-- [ ] Publish the website and privacy policy on Cloudflare Pages: **Workers & Pages → Create → Pages → Connect to Git → `michaelfuwobiri-creator/GYSM.IO`**, project name `gysm-stream`, production branch `claude/gifted-hawking-98io3u`, framework preset None, build command `bash stream/build-site.sh`, output directory `_site`. The privacy policy is then at https://gysm-stream.pages.dev/privacy/ (the support email in it is already filled in).
+- [x] Privacy policy: published at https://github.com/michaelfuwobiri-creator/GYSM.IO/blob/claude/gifted-hawking-98io3u/PRIVACY.md (the repository is public, and GitHub shows `PRIVACY.md` as a web page). No Cloudflare setup is needed.
 - [ ] Replace the placeholders under "Contact details" in `listing.md`.
 - [ ] A Fire TV device to test on.
 

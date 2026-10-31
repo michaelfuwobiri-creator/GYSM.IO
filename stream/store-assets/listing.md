@@ -58,5 +58,5 @@ Free
 ## Contact details
 
 - Support email: michaelfuwobiri@gmail.com
-- Website: https://gysm-stream.pages.dev/
-- Privacy policy URL: https://gysm-stream.pages.dev/privacy/ (published by Cloudflare Pages from `privacy/index.html`; if Cloudflare gave your project a different address, use that one)
+- Website: https://github.com/michaelfuwobiri-creator/GYSM.IO
+- Privacy policy URL: https://github.com/michaelfuwobiri-creator/GYSM.IO/blob/claude/gifted-hawking-98io3u/PRIVACY.md

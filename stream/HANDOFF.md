@@ -57,7 +57,6 @@ Everything another assistant or person needs to finish deploying and submitting 
 - The signed release build: it can only run once the secrets are added.
 - The app on a real Fire TV device.
 - Real films playing from Wikimedia Commons: the development sandbox couldn't reach Wikimedia, so tests used the bundled demo clips.
-- The final Cloudflare address: `gysm-stream.pages.dev` is assumed; Cloudflare may assign a different one.
 
 ## 4. GitHub secrets
 
@@ -126,8 +125,8 @@ Go to **developer.amazon.com → Apps & Services → My Apps → Add New App →
 - Category: Movies & TV (or the closest Fire TV category offered)
 - Short description, long description, feature bullets and keywords: copy them from `listing.md`.
 - Support email: michaelfuwobiri@gmail.com
-- Website: https://gysm-stream.pages.dev/
-- Privacy policy: https://gysm-stream.pages.dev/privacy/
+- Website: https://github.com/michaelfuwobiri-creator/GYSM.IO
+- Privacy policy: https://github.com/michaelfuwobiri-creator/GYSM.IO/blob/claude/gifted-hawking-98io3u/PRIVACY.md
 
 **Images** (all in `stream/store-assets/`):
 
