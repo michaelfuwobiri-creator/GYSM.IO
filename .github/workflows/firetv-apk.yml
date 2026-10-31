@@ -20,7 +20,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write # publishes the test APK to the "test-build" release
 
 concurrency:
   group: firetv-apk
@@ -69,6 +69,18 @@ jobs:
         if: always()
         working-directory: stream/android
         run: rm -f gysm-release.jks keystore.properties
+
+      # A fixed public link for testing on a Fire TV with the Downloader app:
+      # https://github.com/<owner>/<repo>/releases/download/test-build/gysm-stream-test.apk
+      - name: Publish the test APK
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp stream/android/app/build/outputs/apk/debug/app-debug.apk gysm-stream-test.apk
+          gh release view test-build >/dev/null 2>&1 || gh release create test-build --prerelease --latest=false \
+            --target "${{ github.ref_name }}" --title "GYSM Stream test build" \
+            --notes "Debug build for testing on a Fire TV. Not for the Appstore. Updated on every push."
+          gh release upload test-build gysm-stream-test.apk --clobber
 
       - uses: actions/upload-artifact@v4
         with:
