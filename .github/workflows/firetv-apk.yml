@@ -56,7 +56,16 @@ jobs:
           KEY_PASS: ${{ secrets.FIRETV_KEY_PASSWORD }}
         run: |
           trim() { printf '%s' "$1" | tr -d '\r' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'; }
-          printf '%s' "$KEYSTORE_B64" | tr -d ' \r\n\t' | base64 -d > gysm-release.jks
+          # Describe each secret without showing it, so a wrong paste is easy to spot.
+          b64=$(printf '%s' "$KEYSTORE_B64" | tr -d ' \r\n\t')
+          echo "FIRETV_KEYSTORE_BASE64: ${#b64} characters (the key is 5704)"
+          echo "FIRETV_KEYSTORE_PASSWORD: $(trim "$STORE_PASS" | wc -c | tr -d ' ') characters (28)"
+          echo "FIRETV_KEY_PASSWORD: $(trim "$KEY_PASS" | wc -c | tr -d ' ') characters (28)"
+          echo "FIRETV_KEY_ALIAS: $(trim "$KEY_ALIAS" | wc -c | tr -d ' ') characters (4)"
+          case "$b64" in
+            *[!A-Za-z0-9+/=]*) echo "::error::FIRETV_KEYSTORE_BASE64 is not the key text. Paste the whole contents of FIRETV_KEYSTORE_BASE64.txt into it."; exit 1 ;;
+          esac
+          printf '%s' "$b64" | base64 -d > gysm-release.jks
           {
             echo "storeFile=gysm-release.jks"
             echo "storePassword=$(trim "$STORE_PASS")"
