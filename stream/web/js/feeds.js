@@ -60,7 +60,9 @@ function addFeed(url, data) {
 // Synchronous: the copies saved last time, so downloads resolve at start-up.
 export function loadCachedFeeds() {
   let n = 0;
-  for (const url of CATALOG_FEEDS) n += addFeed(url, load('feed:' + url, null));
+  // The Vega build embeds bundled feeds (pages loaded from local files cannot fetch them).
+  const embedded = window.GYSM_EMBEDDED_FEEDS || {};
+  for (const url of CATALOG_FEEDS) n += addFeed(url, embedded[url] || load('feed:' + url, null));
   return n;
 }
 
@@ -68,6 +70,7 @@ export function loadCachedFeeds() {
 export async function refreshFeeds() {
   let n = 0;
   await Promise.all(CATALOG_FEEDS.map(async (url) => {
+    if (location.protocol === 'file:' && !/^https:/.test(url)) return; // embedded instead
     try {
       const res = await fetch(url, { cache: 'no-cache' });
       if (!res.ok) return;

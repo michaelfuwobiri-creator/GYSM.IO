@@ -43,7 +43,7 @@ function posterOf(t) {
   return dl.offlinePoster(t.id) || (t.local && t.local.poster) || (cachedSource(t) || {}).poster || '';
 }
 
-function playable(t) { return dl.isDownloaded(t.id) || state.online; }
+function playable(t) { return dl.isDownloaded(t.id) || state.online || (t.local && dl.localPackage); }
 
 function art(t, cls = '') {
   const src = posterOf(t);
@@ -97,6 +97,7 @@ function metaLine(t) {
 function dlButtonLabel(id) {
   const r = dl.records[id];
   if (!dl.supported) return 'Downloads not supported';
+  if (byId.get(id)?.local && dl.localPackage) return 'Included in the app';
   if (!dl.canDownload(id) && !r) return 'Streaming only';
   if (!r || r.status === 'error') return r ? 'Retry download' : 'Download';
   if (r.status === 'done') return 'Delete download';

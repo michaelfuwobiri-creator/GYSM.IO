@@ -21,7 +21,11 @@ const CACHE = 'gysm-films-v1';
 const CHUNK = 4 * 1024 * 1024;
 const MAX_TRIES = 5;
 
-export const supported = typeof caches !== 'undefined' && window.isSecureContext;
+// Cache Storage can exist and still refuse to open (for example on a page
+// loaded from a local file in the Vega OS WebView); start() checks it.
+// The Vega OS build runs from files inside the app package.
+export const localPackage = location.protocol === 'file:';
+export let supported = typeof caches !== 'undefined' && window.isSecureContext;
 export const records = load('downloads', {});
 const blobUrls = new Map();
 const posterUrls = new Map();
@@ -41,6 +45,7 @@ export function subscribe(fn) { listeners.add(fn); return () => listeners.delete
 // Licensed titles may only be downloaded if their licence allows it.
 export function canDownload(id) {
   const t = byId.get(id);
+  if (t && t.local && localPackage) return false; // already on the device
   return supported && !!t && (!t.filmhub || t.filmhub.licence.offline);
 }
 
@@ -346,7 +351,10 @@ export function plan() {
   pump();
 }
 
-export function start() {
+export async function start() {
+  if (supported) {
+    try { await caches.open(CACHE); } catch { supported = false; emit('change'); }
+  }
   loadPosters();
   addEventListener('online', plan);
   addEventListener('offline', () => { if (active) active.controller.abort(); setBlocker('offline'); });

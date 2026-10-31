@@ -1,9 +1,18 @@
-// Bridge to the Fire TV (Fire OS) wrapper in ../android. In a normal browser
-// the same calls fall back to web APIs, so the app also runs on the web.
+// Bridges to the Fire TV wrappers: the Fire OS app in ../android exposes
+// window.FireTVNative; the Vega OS app in ../vega is a React Native for Vega
+// WebView, which injects window.ReactNativeWebView (messages go to its
+// onMessage handler). In a normal browser the same calls fall back to web
+// APIs, so the app also runs on the web.
 
 const native = window.FireTVNative || null;
+const vega = window.ReactNativeWebView || null;
 
 export const isFireTV = !!native;
+export const isVega = !!vega;
+
+function toVega(type, data = {}) {
+  try { vega.postMessage(JSON.stringify({ type, ...data })); } catch { /* ignore */ }
+}
 
 export function isMetered() {
   if (native) {
@@ -15,11 +24,13 @@ export function isMetered() {
 
 export function keepScreenOn(on) {
   if (native) try { native.keepScreenOn(!!on); } catch { /* ignore */ }
+  if (vega) toVega('keepScreenOn', { on: !!on });
 }
 
 // Back pressed on the home screen: Amazon requires the app to exit.
 export function exitApp() {
   if (native) try { native.exit(); } catch { /* ignore */ }
+  if (vega) toVega('exit');
 }
 
 // Remote-control keys. On Fire TV the wrapper sends Back, Menu and the media
