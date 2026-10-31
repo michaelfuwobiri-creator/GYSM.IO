@@ -47,14 +47,24 @@ jobs:
       - name: Write signing key
         if: env.HAS_KEY == 'true'
         working-directory: stream/android
+        # Secrets pasted into GitHub often pick up a space or line break at the
+        # start or end; strip them so they still work.
+        env:
+          KEYSTORE_B64: ${{ secrets.FIRETV_KEYSTORE_BASE64 }}
+          STORE_PASS: ${{ secrets.FIRETV_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.FIRETV_KEY_ALIAS }}
+          KEY_PASS: ${{ secrets.FIRETV_KEY_PASSWORD }}
         run: |
-          echo "${{ secrets.FIRETV_KEYSTORE_BASE64 }}" | base64 -d > gysm-release.jks
-          cat > keystore.properties <<EOF
-          storeFile=gysm-release.jks
-          storePassword=${{ secrets.FIRETV_KEYSTORE_PASSWORD }}
-          keyAlias=${{ secrets.FIRETV_KEY_ALIAS }}
-          keyPassword=${{ secrets.FIRETV_KEY_PASSWORD }}
-          EOF
+          trim() { printf '%s' "$1" | tr -d '\r' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'; }
+          printf '%s' "$KEYSTORE_B64" | tr -d ' \r\n\t' | base64 -d > gysm-release.jks
+          {
+            echo "storeFile=gysm-release.jks"
+            echo "storePassword=$(trim "$STORE_PASS")"
+            echo "keyAlias=$(trim "$KEY_ALIAS")"
+            echo "keyPassword=$(trim "$KEY_PASS")"
+          } > keystore.properties
+          keytool -list -keystore gysm-release.jks -storepass "$(trim "$STORE_PASS")" -alias "$(trim "$KEY_ALIAS")" >/dev/null \
+            && echo "Signing key OK" || { echo "::error::The signing key or its password/alias secret is wrong. Check the 4 FIRETV_ secrets."; exit 1; }
 
       - name: Build debug APK
         working-directory: stream/android
