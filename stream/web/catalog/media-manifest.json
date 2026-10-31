@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-31T08:05:47.089Z",
+  "updated": "2026-10-31T08:20:54.058Z",
   "films": {
     "big-buck-bunny": {
       "mime": "video/mp4",
@@ -102,23 +102,24 @@
       "source": "https://commons.wikimedia.org/wiki/File:Nosferatu_(1922).webm"
     },
     "sintel": {
+      "rev": 2,
       "mime": "video/mp4",
       "seconds": 888,
       "videos": [
         {
           "height": 480,
           "file": "sintel-480.mp4",
-          "size": 117887236
+          "size": 117885317
         },
         {
           "height": 720,
           "file": "sintel-720.mp4",
-          "size": 217465475
+          "size": 217487007
         }
       ],
       "poster": "sintel-poster.jpg",
       "licence": "CC BY 3.0",
-      "credit": "Durian Open Movie project; about page (archived link 31 March 2014); see also the credits roll.",
+      "credit": "Blender Foundation (Durian Open Movie Project)",
       "source": "https://commons.wikimedia.org/wiki/File:Sintel_movie_4K.webm"
     },
     "spring": {
@@ -160,6 +161,27 @@
       "licence": "CC BY 3.0",
       "credit": "Blender Foundation",
       "source": "https://commons.wikimedia.org/wiki/File:Tears_of_Steel_in_4k_-_Official_Blender_Foundation_release.webm"
+    },
+    "trip-to-the-moon": {
+      "rev": 2,
+      "mime": "video/mp4",
+      "seconds": 766,
+      "videos": [
+        {
+          "height": 360,
+          "file": "trip-to-the-moon-360.mp4",
+          "size": 75942965
+        },
+        {
+          "height": 480,
+          "file": "trip-to-the-moon-480.mp4",
+          "size": 130907326
+        }
+      ],
+      "poster": "trip-to-the-moon-poster.jpg",
+      "licence": "Public domain",
+      "credit": "Georges Méliès",
+      "source": "https://commons.wikimedia.org/wiki/File:Le_Voyage_dans_la_Lune_(1902).webm"
     }
   }
 }
