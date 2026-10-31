@@ -1,0 +1,187 @@
+{
+  "updated": "2026-10-31T08:20:54.058Z",
+  "films": {
+    "big-buck-bunny": {
+      "mime": "video/mp4",
+      "seconds": 635,
+      "videos": [
+        {
+          "height": 480,
+          "file": "big-buck-bunny-480.mp4",
+          "size": 82401077
+        },
+        {
+          "height": 720,
+          "file": "big-buck-bunny-720.mp4",
+          "size": 145170543
+        }
+      ],
+      "poster": "big-buck-bunny-poster.jpg",
+      "licence": "CC BY 3.0",
+      "credit": "Blender Foundation",
+      "source": "https://commons.wikimedia.org/wiki/File:Big_Buck_Bunny_4K.webm"
+    },
+    "caminandes": {
+      "mime": "video/mp4",
+      "seconds": 90,
+      "videos": [
+        {
+          "height": 480,
+          "file": "caminandes-480.mp4",
+          "size": 6181523
+        },
+        {
+          "height": 720,
+          "file": "caminandes-720.mp4",
+          "size": 10731790
+        }
+      ],
+      "poster": "caminandes-poster.jpg",
+      "licence": "CC BY 3.0",
+      "credit": "Pablo Vazquez, Beorn Leonard, and Francesco Siddi. Music and Sound by Jan Morgenstern",
+      "source": "https://commons.wikimedia.org/wiki/File:Caminandes-_Llama_Drama_-_Short_Movie.ogv"
+    },
+    "cosmos-laundromat": {
+      "mime": "video/mp4",
+      "seconds": 731,
+      "videos": [
+        {
+          "height": 480,
+          "file": "cosmos-laundromat-480.mp4",
+          "size": 100386887
+        },
+        {
+          "height": 720,
+          "file": "cosmos-laundromat-720.mp4",
+          "size": 189768509
+        }
+      ],
+      "poster": "cosmos-laundromat-poster.jpg",
+      "licence": "CC BY-SA 3.0",
+      "credit": "Blender Foundation",
+      "source": "https://commons.wikimedia.org/wiki/File:Cosmos_Laundromat_-_First_Cycle_-_Official_Blender_Foundation_release.webm"
+    },
+    "elephants-dream": {
+      "mime": "video/mp4",
+      "seconds": 658,
+      "videos": [
+        {
+          "height": 480,
+          "file": "elephants-dream-480.mp4",
+          "size": 73131835
+        },
+        {
+          "height": 720,
+          "file": "elephants-dream-720.mp4",
+          "size": 128254445
+        }
+      ],
+      "poster": "elephants-dream-poster.jpg",
+      "licence": "CC BY 2.5",
+      "credit": "Orange Open Movie Team",
+      "source": "https://commons.wikimedia.org/wiki/File:Elephants_Dream_(2006).webm"
+    },
+    "nosferatu": {
+      "mime": "video/mp4",
+      "seconds": 5519,
+      "videos": [
+        {
+          "height": 360,
+          "file": "nosferatu-360.mp4",
+          "size": 278408279
+        },
+        {
+          "height": 480,
+          "file": "nosferatu-480.mp4",
+          "size": 465469063
+        }
+      ],
+      "poster": "nosferatu-poster.jpg",
+      "licence": "Public domain",
+      "credit": "F. W. Murnau / Henrik Galeen",
+      "source": "https://commons.wikimedia.org/wiki/File:Nosferatu_(1922).webm"
+    },
+    "sintel": {
+      "rev": 2,
+      "mime": "video/mp4",
+      "seconds": 888,
+      "videos": [
+        {
+          "height": 480,
+          "file": "sintel-480.mp4",
+          "size": 117885317
+        },
+        {
+          "height": 720,
+          "file": "sintel-720.mp4",
+          "size": 217487007
+        }
+      ],
+      "poster": "sintel-poster.jpg",
+      "licence": "CC BY 3.0",
+      "credit": "Blender Foundation (Durian Open Movie Project)",
+      "source": "https://commons.wikimedia.org/wiki/File:Sintel_movie_4K.webm"
+    },
+    "spring": {
+      "mime": "video/mp4",
+      "seconds": 464,
+      "videos": [
+        {
+          "height": 480,
+          "file": "spring-480.mp4",
+          "size": 53720006
+        },
+        {
+          "height": 720,
+          "file": "spring-720.mp4",
+          "size": 95621893
+        }
+      ],
+      "poster": "spring-poster.jpg",
+      "licence": "CC BY 4.0",
+      "credit": "Andy Goralczyk / Blender Foundation",
+      "source": "https://commons.wikimedia.org/wiki/File:Spring_-_Blender_Open_Movie.webm"
+    },
+    "tears-of-steel": {
+      "mime": "video/mp4",
+      "seconds": 734,
+      "videos": [
+        {
+          "height": 480,
+          "file": "tears-of-steel-480.mp4",
+          "size": 108973908
+        },
+        {
+          "height": 720,
+          "file": "tears-of-steel-720.mp4",
+          "size": 196066824
+        }
+      ],
+      "poster": "tears-of-steel-poster.jpg",
+      "licence": "CC BY 3.0",
+      "credit": "Blender Foundation",
+      "source": "https://commons.wikimedia.org/wiki/File:Tears_of_Steel_in_4k_-_Official_Blender_Foundation_release.webm"
+    },
+    "trip-to-the-moon": {
+      "rev": 2,
+      "mime": "video/mp4",
+      "seconds": 766,
+      "videos": [
+        {
+          "height": 360,
+          "file": "trip-to-the-moon-360.mp4",
+          "size": 75942965
+        },
+        {
+          "height": 480,
+          "file": "trip-to-the-moon-480.mp4",
+          "size": 130907326
+        }
+      ],
+      "poster": "trip-to-the-moon-poster.jpg",
+      "licence": "Public domain",
+      "credit": "Georges Méliès",
+      "source": "https://commons.wikimedia.org/wiki/File:Le_Voyage_dans_la_Lune_(1902).webm"
+    }
+  }
+}

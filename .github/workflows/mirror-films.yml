@@ -1,0 +1,113 @@
+name: Publish films to GYSM storage
+
+# Copies the free films listed in stream/tools/mirror-films.json into GYSM's
+# own hosting: downloads of this repository's "films" release (one job per
+# film). Then it commits the film list (stream/web/catalog/media-manifest.json)
+# and rebuilds the Fire TV APK. The app streams and saves films only from
+# here, never from a third-party site. Uses the built-in GITHUB_TOKEN; no
+# secrets needed.
+
+on:
+  push:
+    branches: [claude/gifted-hawking-98io3u]
+    paths:
+      - "stream/tools/mirror-films.json"
+      - "stream/tools/mirror-films.mjs"
+      - ".github/workflows/mirror-films.yml"
+  workflow_dispatch:
+    inputs:
+      only:
+        description: "Film id to (re)publish, or empty for all"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: mirror-films
+  cancel-in-progress: false
+
+env:
+  GH_TOKEN: ${{ github.token }}
+  RELEASE: films
+
+jobs:
+  list:
+    runs-on: ubuntu-latest
+    outputs:
+      ids: ${{ steps.ids.outputs.ids }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Make sure the release exists
+        run: |
+          gh release view "$RELEASE" >/dev/null 2>&1 || gh release create "$RELEASE" \
+            --title "GYSM Stream films" --target "${{ github.ref_name }}" --latest=false \
+            --notes "Films hosted by GYSM Stream. Blender Foundation open movies (CC BY) and public-domain films; licence and credit are in each film's .meta.json."
+      - id: ids
+        run: |
+          if [ -n "${{ inputs.only }}" ]; then echo "ids=[\"${{ inputs.only }}\"]" >> "$GITHUB_OUTPUT"
+          else echo "ids=$(node stream/tools/mirror-films.mjs list)" >> "$GITHUB_OUTPUT"; fi
+
+  film:
+    needs: list
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        id: ${{ fromJson(needs.list.outputs.ids) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Skip films already published at this revision
+        id: have
+        run: |
+          want=$(node stream/tools/mirror-films.mjs rev "${{ matrix.id }}")
+          have=$(gh release download "$RELEASE" --pattern "${{ matrix.id }}.meta.json" --output - 2>/dev/null \
+            | node -e 'let s="";process.stdin.on("data",(d)=>s+=d).on("end",()=>{try{console.log(JSON.parse(s).rev||1)}catch{console.log(0)}})')
+          echo "${{ matrix.id }}: published revision ${have:-0}, wanted $want"
+          if [ -z "${{ inputs.only }}" ] && [ "$have" = "$want" ]; then echo "skip=true" >> "$GITHUB_OUTPUT"; fi
+      - name: Remove the old copy
+        if: steps.have.outputs.skip != 'true'
+        run: |
+          for a in $(gh release view "$RELEASE" --json assets -q '.assets[].name' | grep -E "^${{ matrix.id }}([-.])" || true); do
+            gh release delete-asset "$RELEASE" "$a" -y
+          done
+      - name: Install ffmpeg
+        if: steps.have.outputs.skip != 'true'
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - name: Fetch, check licence, convert
+        if: steps.have.outputs.skip != 'true'
+        run: node stream/tools/mirror-films.mjs film "${{ matrix.id }}" --out mirror-out
+      - name: Upload to the release
+        if: steps.have.outputs.skip != 'true'
+        run: gh release upload "$RELEASE" mirror-out/${{ matrix.id }}/* --clobber
+
+  publish:
+    needs: film
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the film list from every published film
+        run: |
+          mkdir -p metas
+          gh release download "$RELEASE" --pattern "*.meta.json" --dir metas --clobber || true
+          node stream/tools/mirror-films.mjs manifest --in metas --out stream/web/catalog/media-manifest.json
+          cat stream/web/catalog/media-manifest.json
+      - name: Commit the film list and rebuild the app
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add stream/web/catalog/media-manifest.json
+          if git diff --cached --quiet; then echo "Film list unchanged"; else
+            git commit -m "Update the published film list"
+            git pull --rebase origin "${{ github.ref_name }}"
+            git push origin "HEAD:${{ github.ref_name }}"
+          fi
+          gh workflow run firetv-apk.yml --ref "${{ github.ref_name }}"

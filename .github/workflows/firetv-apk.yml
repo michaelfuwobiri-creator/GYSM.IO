@@ -1,0 +1,115 @@
+name: Build Fire TV APK
+
+# Builds the Fire TV app in stream/android. Every run produces a debug APK
+# for sideloading. When the four signing secrets below are set, it also
+# produces a signed release APK for the Amazon Appstore.
+#
+# Secrets (Settings -> Secrets and variables -> Actions):
+#   FIRETV_KEYSTORE_BASE64   base64 of your .jks file:  base64 -w0 gysm-release.jks
+#   FIRETV_KEYSTORE_PASSWORD
+#   FIRETV_KEY_ALIAS         e.g. gysm
+#   FIRETV_KEY_PASSWORD
+
+on:
+  push:
+    branches: [claude/gifted-hawking-98io3u]
+    paths:
+      - "stream/web/**"
+      - "stream/android/**"
+      - ".github/workflows/firetv-apk.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write # publishes the test APK to the "test-build" release
+
+concurrency:
+  group: firetv-apk
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      HAS_KEY: ${{ secrets.FIRETV_KEYSTORE_BASE64 != '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.9"
+
+      - name: Write signing key
+        if: env.HAS_KEY == 'true'
+        working-directory: stream/android
+        # Secrets pasted into GitHub often pick up a space or line break at the
+        # start or end; strip them so they still work.
+        env:
+          KEYSTORE_B64: ${{ secrets.FIRETV_KEYSTORE_BASE64 }}
+          STORE_PASS: ${{ secrets.FIRETV_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.FIRETV_KEY_ALIAS }}
+          KEY_PASS: ${{ secrets.FIRETV_KEY_PASSWORD }}
+        run: |
+          trim() { printf '%s' "$1" | tr -d '\r' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'; }
+          # Describe each secret without showing it, so a wrong paste is easy to spot.
+          b64=$(printf '%s' "$KEYSTORE_B64" | tr -d ' \r\n\t')
+          echo "FIRETV_KEYSTORE_BASE64: ${#b64} characters (the key is 5704)"
+          echo "FIRETV_KEYSTORE_PASSWORD: $(trim "$STORE_PASS" | wc -c | tr -d ' ') characters (28)"
+          echo "FIRETV_KEY_PASSWORD: $(trim "$KEY_PASS" | wc -c | tr -d ' ') characters (28)"
+          echo "FIRETV_KEY_ALIAS: $(trim "$KEY_ALIAS" | wc -c | tr -d ' ') characters (4)"
+          case "$b64" in
+            *[!A-Za-z0-9+/=]*) echo "::error::FIRETV_KEYSTORE_BASE64 is not the key text. Paste the whole contents of FIRETV_KEYSTORE_BASE64.txt into it."; exit 1 ;;
+          esac
+          printf '%s' "$b64" | base64 -d > gysm-release.jks
+          {
+            echo "storeFile=gysm-release.jks"
+            echo "storePassword=$(trim "$STORE_PASS")"
+            echo "keyAlias=$(trim "$KEY_ALIAS")"
+            echo "keyPassword=$(trim "$KEY_PASS")"
+          } > keystore.properties
+          keytool -list -keystore gysm-release.jks -storepass "$(trim "$STORE_PASS")" -alias "$(trim "$KEY_ALIAS")" >/dev/null \
+            && echo "Signing key OK" || { echo "::error::The signing key or its password/alias secret is wrong. Check the 4 FIRETV_ secrets."; exit 1; }
+
+      - name: Build debug APK
+        working-directory: stream/android
+        run: gradle assembleDebug --no-daemon --stacktrace
+
+      - name: Build signed release APK
+        if: env.HAS_KEY == 'true'
+        working-directory: stream/android
+        run: gradle assembleRelease --no-daemon --stacktrace
+
+      - name: Remove signing key
+        if: always()
+        working-directory: stream/android
+        run: rm -f gysm-release.jks keystore.properties
+
+      # A fixed public link for testing on a Fire TV with the Downloader app:
+      # https://github.com/<owner>/<repo>/releases/download/test-build/gysm-stream-test.apk
+      - name: Publish the test APK
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp stream/android/app/build/outputs/apk/debug/app-debug.apk gysm-stream-test.apk
+          gh release view test-build >/dev/null 2>&1 || gh release create test-build --prerelease --latest=false \
+            --target "${{ github.ref_name }}" --title "GYSM Stream test build" \
+            --notes "Debug build for testing on a Fire TV. Not for the Appstore. Updated on every push."
+          gh release upload test-build gysm-stream-test.apk --clobber
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gysm-stream-debug-apk
+          path: stream/android/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v4
+        if: env.HAS_KEY == 'true'
+        with:
+          name: gysm-stream-release-apk
+          path: stream/android/app/build/outputs/apk/release/*.apk
+          if-no-files-found: error
