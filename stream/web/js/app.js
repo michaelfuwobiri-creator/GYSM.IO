@@ -395,7 +395,7 @@ function activate(el) {
     }
     case 'dl': {
       const r = dl.records[id];
-      if (r && r.status !== 'error') dl.remove(id);
+      if (r && r.status !== 'error') dl.remove(id, true);
       else dl.enqueue(id, 'manual');
       break;
     }

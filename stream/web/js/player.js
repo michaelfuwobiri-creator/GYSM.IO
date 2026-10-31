@@ -20,6 +20,8 @@ let saveTimer = 0;
 let lastTime = 0;
 let onClose = () => {};
 let captionUrls = [];
+let retried = false;
+let lastSrc = '';
 
 export function isOpen() { return !!title; }
 
@@ -34,6 +36,15 @@ export function init(closeHandler) {
   video.addEventListener('playing', () => layer.classList.remove('is-buffering'));
   video.addEventListener('ended', () => { save(); close(); });
   video.addEventListener('error', () => {
+    // Streaming links to our film storage are signed for a limited time; after
+    // a long pause, ask for a fresh one once and carry on from the same spot.
+    if (title && !offline && !retried && lastSrc) {
+      retried = true;
+      const at = lastTime;
+      video.src = lastSrc;
+      video.addEventListener('loadedmetadata', () => { video.currentTime = at; video.play().catch(() => {}); }, { once: true });
+      return;
+    }
     $('#osd-state').textContent = navigator.onLine ? 'This film could not be played.' : 'You are offline and this film is not downloaded.';
     showOsd(true);
   });
@@ -65,6 +76,8 @@ export async function open(id) {
     return;
   }
   video.src = src;
+  lastSrc = src;
+  retried = false;
   await addCaptions(id, offline);
   if (title !== t) return;
   const p = progress[id];

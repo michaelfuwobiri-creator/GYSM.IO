@@ -1,17 +1,19 @@
 name: Publish films to GYSM storage
 
 # Copies the free films listed in stream/tools/mirror-films.json into GYSM's
-# own Cloudflare R2 bucket (one job per film), then publishes manifest.json.
-# The app streams and saves films only from this bucket (MEDIA_BASE in
-# stream/web/js/config.js), never from a third-party site.
-#
-# Secrets (Settings -> Secrets and variables -> Actions):
-#   R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY   an R2 API token with Object Read & Write
-# Variables (same page, Variables tab; optional):
-#   R2_ACCOUNT_ID   default e77d696e4f79b98cd6bc3e7a3c65d854
-#   R2_BUCKET       default gysm-media
+# own hosting: downloads of this repository's "films" release (one job per
+# film). Then it commits the film list (stream/web/catalog/media-manifest.json)
+# and rebuilds the Fire TV APK. The app streams and saves films only from
+# here, never from a third-party site. Uses the built-in GITHUB_TOKEN; no
+# secrets needed.
 
 on:
+  push:
+    branches: [claude/gifted-hawking-98io3u]
+    paths:
+      - "stream/tools/mirror-films.json"
+      - "stream/tools/mirror-films.mjs"
+      - ".github/workflows/mirror-films.yml"
   workflow_dispatch:
     inputs:
       only:
@@ -20,21 +22,16 @@ on:
         default: ""
 
 permissions:
-  contents: read
+  contents: write
+  actions: write
 
 concurrency:
   group: mirror-films
   cancel-in-progress: false
 
 env:
-  R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || 'e77d696e4f79b98cd6bc3e7a3c65d854' }}
-  R2_BUCKET: ${{ vars.R2_BUCKET || 'gysm-media' }}
-  AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
-  AWS_DEFAULT_REGION: auto
-  # R2 rejects the newer default checksum headers of the AWS CLI.
-  AWS_REQUEST_CHECKSUM_CALCULATION: when_required
-  AWS_RESPONSE_CHECKSUM_VALIDATION: when_required
+  GH_TOKEN: ${{ github.token }}
+  RELEASE: films
 
 jobs:
   list:
@@ -43,6 +40,11 @@ jobs:
       ids: ${{ steps.ids.outputs.ids }}
     steps:
       - uses: actions/checkout@v4
+      - name: Make sure the release exists
+        run: |
+          gh release view "$RELEASE" >/dev/null 2>&1 || gh release create "$RELEASE" \
+            --title "GYSM Stream films" --target "${{ github.ref_name }}" --latest=false \
+            --notes "Films hosted by GYSM Stream. Blender Foundation open movies (CC BY) and public-domain films; licence and credit are in each film's .meta.json."
       - id: ids
         run: |
           if [ -n "${{ inputs.only }}" ]; then echo "ids=[\"${{ inputs.only }}\"]" >> "$GITHUB_OUTPUT"
@@ -62,15 +64,21 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Skip films already published
+        id: have
+        run: |
+          if [ -z "${{ inputs.only }}" ] && gh release view "$RELEASE" --json assets -q '.assets[].name' | grep -qx "${{ matrix.id }}.meta.json"; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"; echo "${{ matrix.id }} is already published"
+          fi
       - name: Install ffmpeg
+        if: steps.have.outputs.skip != 'true'
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
       - name: Fetch, check licence, convert
+        if: steps.have.outputs.skip != 'true'
         run: node stream/tools/mirror-films.mjs film "${{ matrix.id }}" --out mirror-out
-      - name: Upload to R2
-        run: |
-          aws s3 cp "mirror-out/${{ matrix.id }}" "s3://$R2_BUCKET/${{ matrix.id }}/" --recursive \
-            --endpoint-url "https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com" \
-            --cache-control "public, max-age=604800"
+      - name: Upload to the release
+        if: steps.have.outputs.skip != 'true'
+        run: gh release upload "$RELEASE" mirror-out/${{ matrix.id }}/* --clobber
 
   publish:
     needs: film
@@ -78,19 +86,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Allow the app to read the bucket (CORS with Range)
+      - name: Build the film list from every published film
         run: |
-          cat > cors.json <<'EOF'
-          {"CORSRules":[{"AllowedOrigins":["*"],"AllowedMethods":["GET","HEAD"],"AllowedHeaders":["*"],"ExposeHeaders":["Content-Length","Content-Range","Accept-Ranges"],"MaxAgeSeconds":86400}]}
-          EOF
-          aws s3api put-bucket-cors --bucket "$R2_BUCKET" --cors-configuration file://cors.json \
-            --endpoint-url "https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com"
-      - name: Build and upload manifest.json from every published film
+          mkdir -p metas
+          gh release download "$RELEASE" --pattern "*.meta.json" --dir metas --clobber || true
+          node stream/tools/mirror-films.mjs manifest --in metas --out stream/web/catalog/media-manifest.json
+          cat stream/web/catalog/media-manifest.json
+      - name: Commit the film list and rebuild the app
         run: |
-          mkdir -p mirror-out
-          aws s3 cp "s3://$R2_BUCKET/" mirror-out/ --recursive --exclude "*" --include "*/meta.json" \
-            --endpoint-url "https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com"
-          node stream/tools/mirror-films.mjs manifest --in mirror-out --out manifest.json
-          cat manifest.json
-          aws s3 cp manifest.json "s3://$R2_BUCKET/manifest.json" --content-type application/json \
-            --cache-control "no-cache" --endpoint-url "https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add stream/web/catalog/media-manifest.json
+          if git diff --cached --quiet; then echo "Film list unchanged"; else
+            git commit -m "Update the published film list"
+            git pull --rebase origin "${{ github.ref_name }}"
+            git push origin "HEAD:${{ github.ref_name }}"
+          fi
+          gh workflow run firetv-apk.yml --ref "${{ github.ref_name }}"

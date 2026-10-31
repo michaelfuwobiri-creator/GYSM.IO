@@ -5,23 +5,30 @@
 // tools/mirror-films.mjs), and licensed Filmhub titles from our feeds. It never
 // searches or downloads from third-party sites.
 //
-// MEDIA_BASE/manifest.json lists which films are published, their video
-// variants, licence and credit. The last copy is kept for offline use.
+// The media manifest lists which films are published, their video variants,
+// licence and credit. The newest copy found is kept for offline use.
 
-import { MEDIA_BASE } from './config.js';
+import { MEDIA_BASE, MEDIA_MANIFESTS } from './config.js';
 import { load, save, settings } from './store.js';
 
 let manifest = load('media-manifest', null);
 
+const newer = (a, b) => !b || String(a.updated || '') > String(b.updated || '');
+
 export async function loadManifest() {
   if (!MEDIA_BASE) return null;
-  try {
-    const res = await fetch(MEDIA_BASE + 'manifest.json', { cache: 'no-cache' });
-    if (res.ok) {
+  const embedded = (window.GYSM_EMBEDDED_FEEDS || {})['catalog/media-manifest.json'];
+  if (embedded && embedded.films && newer(embedded, manifest)) manifest = embedded;
+  for (const url of MEDIA_MANIFESTS) {
+    if (location.protocol === 'file:' && !/^https:/.test(url)) continue; // embedded instead
+    try {
+      const res = await fetch(url, { cache: 'no-cache' });
+      if (!res.ok) continue;
       const data = await res.json();
-      if (data && data.films) { manifest = data; save('media-manifest', data); }
-    }
-  } catch { /* offline: keep the saved copy */ }
+      if (data && data.films && newer(data, manifest)) manifest = data;
+    } catch { /* offline or not published yet */ }
+  }
+  if (manifest) save('media-manifest', manifest);
   return manifest;
 }
 
@@ -37,7 +44,7 @@ function pickVariant(videos) {
 
 function fromMedia(title) {
   const m = manifest.films[title.id];
-  const base = MEDIA_BASE + title.id + '/';
+  const base = MEDIA_BASE; // release downloads are flat: <id>-480.mp4, <id>-poster.jpg
   const v = pickVariant(m.videos);
   return {
     url: base + v.file,

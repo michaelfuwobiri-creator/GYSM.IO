@@ -5,6 +5,11 @@
 // the pieces are joined into one Blob (no copy in memory: cached blobs are
 // file-backed) and handed to <video> as an object URL.
 //
+// GYSM's own films are hosted as GitHub release downloads, which web pages
+// cannot fetch (no CORS). On Fire OS they are saved by the app's native
+// downloader instead, which resumes on its own and serves the saved file back
+// at /offline/<id>; the web version streams them only.
+//
 // Smart downloads: when the network is unmetered and there is room under the
 // storage limit, the engine keeps `keepCount` titles ready offline, picked
 // from Continue Watching, then My List, then featured titles. A title that
@@ -15,7 +20,7 @@ import {
   settings, load, save, myList, progress, isFinished, estimateBytes,
 } from './store.js';
 import { resolve, cachedSource } from './sources.js';
-import { isMetered } from './platform.js';
+import { isMetered, nativeOffline } from './platform.js';
 
 const CACHE = 'gysm-films-v1';
 const CHUNK = 4 * 1024 * 1024;
@@ -27,6 +32,9 @@ const MAX_TRIES = 5;
 export const localPackage = location.protocol === 'file:';
 export let supported = typeof caches !== 'undefined' && window.isSecureContext;
 export const records = load('downloads', {});
+// Titles the viewer deleted themselves: smart downloads leave them alone.
+const declined = new Set(load('declined', []));
+const saveDeclined = () => save('declined', [...declined]);
 const blobUrls = new Map();
 const posterUrls = new Map();
 const listeners = new Set();
@@ -46,6 +54,7 @@ export function subscribe(fn) { listeners.add(fn); return () => listeners.delete
 export function canDownload(id) {
   const t = byId.get(id);
   if (t && t.local && localPackage) return false; // already on the device
+  if (t && t.media) return !!nativeOffline;
   return supported && !!t && (!t.filmhub || t.filmhub.licence.offline);
 }
 
@@ -71,6 +80,7 @@ function reservedBytes() {
 
 export function enqueue(id, reason = 'manual') {
   if (!canDownload(id)) return;
+  if (reason === 'manual' && declined.delete(id)) saveDeclined();
   const r = records[id];
   if (r && r.status !== 'error') {
     if (reason === 'manual' && r.reason !== 'manual') { r.reason = 'manual'; persist(); emit('change', id); }
@@ -83,8 +93,12 @@ export function enqueue(id, reason = 'manual') {
   pump();
 }
 
-export async function remove(id) {
+export async function remove(id, byViewer = false) {
+  if (byViewer) { declined.add(id); saveDeclined(); }
   if (active && active.id === id) active.controller.abort();
+  if (records[id] && records[id].native && nativeOffline) {
+    try { nativeOffline.offlineDelete(id); nativeOffline.offlineDelete(id + '__poster'); } catch { /* ignore */ }
+  }
   delete records[id];
   persist();
   for (const map of [blobUrls, posterUrls]) {
@@ -110,7 +124,7 @@ function nextQueued() {
 }
 
 export function pump() {
-  if (active || !supported) return;
+  if (active || !(supported || nativeOffline)) return;
   if (!navigator.onLine) return setBlocker('offline');
   if (settings.unmeteredOnly && isMetered()) return setBlocker('metered');
   setBlocker(null);
@@ -166,6 +180,7 @@ async function run(id, signal) {
   if (!src) throw new PermanentError('Not available right now');
   if (r.url && r.url !== src.url) { r.next = 0; r.done = 0; } // source changed: start over
   Object.assign(r, { url: src.url, mime: src.mime || 'video/webm', poster: src.poster });
+  if (title.media) return runNative(id, r, src, signal);
 
   if (!r.size) {
     let head;
@@ -226,6 +241,55 @@ async function run(id, signal) {
   emit('done', id);
 }
 
+// ---- native downloads (Fire OS) ------------------------------------------
+
+const nativeWaiters = new Map();
+
+// Progress from the app: {id, state, done, total, error}.
+export function onNativeEvent(e) {
+  if (!e || !e.id || e.id.endsWith('__poster')) return;
+  const r = records[e.id];
+  const waiter = nativeWaiters.get(e.id);
+  if (r && e.total) r.size = e.total;
+  if (r && e.done) r.done = e.done;
+  if (e.state === 'downloading' || e.state === 'queued') { emit('progress', e.id); return; }
+  if (!waiter) return;
+  nativeWaiters.delete(e.id);
+  if (e.state === 'done') waiter.resolve();
+  else if (e.state === 'cancelled') waiter.reject(new DOMException('Cancelled', 'AbortError'));
+  else waiter.reject(new Error(e.error || 'Download failed'));
+}
+
+async function runNative(id, r, src, signal) {
+  if (!nativeOffline) throw new PermanentError('Downloads need the Fire TV app');
+  if (src.size) r.size = src.size;
+  if (r.size && usedBytes() - (r.done || 0) + r.size > settings.storageLimit) {
+    if (r.reason === 'auto') { delete records[id]; return; }
+    throw new PermanentError('Over your storage limit');
+  }
+  r.native = true;
+  await new Promise((resolve, reject) => {
+    nativeWaiters.set(id, { resolve, reject });
+    signal.addEventListener('abort', () => {
+      try { nativeOffline.offlineCancel(id); } catch { /* ignore */ }
+      nativeWaiters.delete(id);
+      reject(new DOMException('Cancelled', 'AbortError'));
+    }, { once: true });
+    nativeOffline.offlineStart(id, src.url, r.mime);
+  });
+  r.done = r.size || r.done;
+  if (src.poster) {
+    try { nativeOffline.offlineStart(id + '__poster', src.poster, 'image/jpeg'); r.nativePoster = true; } catch { /* optional */ }
+  }
+  r.status = 'done';
+  r.tries = 0;
+  r.completedAt = Date.now();
+  r.expiresAt = 0;
+  emit('done', id);
+}
+
+const nativeUrl = (id) => new URL('/offline/' + id, location.href).href;
+
 // Servers without Range support (and the bundled demo files) arrive in one go.
 async function fetchWhole(cache, id, r, signal, res) {
   res = res || (await fetch(r.url, { signal }));
@@ -253,8 +317,9 @@ async function fetchWhole(cache, id, r, signal, res) {
 
 export async function offlineUrl(id) {
   if (!isDownloaded(id)) return null;
-  if (blobUrls.has(id)) return blobUrls.get(id);
   const r = records[id];
+  if (r.native) return nativeUrl(id);
+  if (blobUrls.has(id)) return blobUrls.get(id);
   const cache = await caches.open(CACHE);
   const parts = [];
   for (let i = 0; i < r.chunks; i++) {
@@ -267,7 +332,11 @@ export async function offlineUrl(id) {
   return url;
 }
 
-export function offlinePoster(id) { return posterUrls.get(id) || null; }
+export function offlinePoster(id) {
+  const r = records[id];
+  if (r && r.native && r.nativePoster && isDownloaded(id)) return nativeUrl(id + '__poster');
+  return posterUrls.get(id) || null;
+}
 
 // Blob URLs for the saved subtitle files, in the order of the title's captions.
 export async function offlineCaptions(id) {
@@ -297,7 +366,7 @@ async function loadPosters() {
 
 function candidates() {
   const allowed = (t) => !(settings.hideMature && t.maturity === '16+') && !isFinished(t.id)
-    && canDownload(t.id) && !!cachedSource(t);
+    && canDownload(t.id) && !!cachedSource(t) && !declined.has(t.id);
   const inProgress = Object.entries(progress)
     .filter(([id]) => byId.has(id))
     .sort(([, a], [, b]) => b.at - a.at)
@@ -310,7 +379,7 @@ function candidates() {
 }
 
 export function plan() {
-  if (!supported) return;
+  if (!(supported || nativeOffline)) return;
   // Expired downloads, and titles whose licence has ended, must go.
   for (const [id, r] of Object.entries(records)) {
     const t = byId.get(id);
@@ -351,7 +420,21 @@ export function plan() {
   pump();
 }
 
+// Saved native files can disappear (storage cleared); re-check them at start.
+function checkNativeFiles() {
+  if (!nativeOffline) return;
+  for (const [id, r] of Object.entries(records)) {
+    if (!r.native) continue;
+    let state = 'none';
+    try { state = JSON.parse(nativeOffline.offlineStatus(id)).state; } catch { /* ignore */ }
+    if (r.status === 'done' && state !== 'done') { r.status = 'queued'; r.done = 0; }
+  }
+  persist();
+}
+
 export async function start() {
+  window.GYSM = Object.assign(window.GYSM || {}, { nativeDownload: onNativeEvent });
+  checkNativeFiles();
   if (supported) {
     try { await caches.open(CACHE); } catch { supported = false; emit('change'); }
   }

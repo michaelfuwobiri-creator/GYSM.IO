@@ -8,6 +8,8 @@ const native = window.FireTVNative || null;
 const vega = window.ReactNativeWebView || null;
 
 export const isFireTV = !!native;
+// The Fire OS app's native downloader (android/.../OfflineStore.java).
+export const nativeOffline = native && typeof native.offlineStart === 'function' ? native : null;
 export const isVega = !!vega;
 
 function toVega(type, data = {}) {

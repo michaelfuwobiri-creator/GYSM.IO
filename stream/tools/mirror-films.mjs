@@ -6,12 +6,14 @@
 // checked for a licence that allows redistribution (CC BY, CC BY-SA, CC0 or
 // public domain; never NC or ND), converted to H.264 MP4 at the listed heights
 // and given a poster. .github/workflows/mirror-films.yml runs this for every
-// film and uploads the results to Cloudflare R2.
+// film and publishes the files as downloads of the repository's "films"
+// release. File names are flat (<id>-480.mp4, <id>-poster.jpg) because
+// release downloads have no folders.
 //
 //   node mirror-films.mjs list                       ids, as a JSON array
-//   node mirror-films.mjs film <id> --out DIR        make DIR/<id>/{film-*.mp4,poster.jpg,meta.json}
+//   node mirror-films.mjs film <id> --out DIR        make DIR/<id>/{<id>-*.mp4,<id>-poster.jpg,<id>.meta.json}
 //        [--from-file video] [--licence "CC0"]       use a local file (for testing)
-//   node mirror-films.mjs manifest --in DIR --out F  merge DIR/*/meta.json into the manifest
+//   node mirror-films.mjs manifest --in DIR --out F  merge every *.meta.json under DIR into the manifest
 //
 // Needs Node 18+ and ffmpeg/ffprobe on PATH.
 
@@ -124,7 +126,7 @@ async function mirrorFilm(id) {
   const seconds = probeSeconds(source);
   const videos = [];
   for (const h of film.heights) {
-    const file = `film-${h}.mp4`;
+    const file = `${id}-${h}.mp4`;
     console.log(`${id}: encoding ${h}p`);
     run('ffmpeg', [
       '-y', '-v', 'error', '-i', source, '-map', '0:v:0', '-map', '0:a:0?',
@@ -135,21 +137,20 @@ async function mirrorFilm(id) {
     videos.push({ height: h, file, size: fs.statSync(path.join(out, file)).size });
   }
   run('ffmpeg', ['-y', '-v', 'error', '-ss', String(Math.max(1, seconds * 0.1)), '-i', source,
-    '-frames:v', '1', '-vf', 'scale=1280:-2', '-q:v', '3', path.join(out, 'poster.jpg')]);
+    '-frames:v', '1', '-vf', 'scale=1280:-2', '-q:v', '3', path.join(out, `${id}-poster.jpg`)]);
   if (!opt('from-file')) fs.rmSync(source);
 
-  const meta = { id, mime: 'video/mp4', seconds: Math.round(seconds), videos, poster: 'poster.jpg', licence, credit, source: page };
-  fs.writeFileSync(path.join(out, 'meta.json'), JSON.stringify(meta, null, 2) + '\n');
+  const meta = { id, mime: 'video/mp4', seconds: Math.round(seconds), videos, poster: `${id}-poster.jpg`, licence, credit, source: page };
+  fs.writeFileSync(path.join(out, `${id}.meta.json`), JSON.stringify(meta, null, 2) + '\n');
   console.log(`${id}: done, ${videos.map((v) => `${v.height}p ${(v.size / 1e6).toFixed(0)} MB`).join(', ')}`);
 }
 
 function buildManifest() {
   const dir = path.resolve(opt('in') || 'mirror-out');
   const result = { updated: new Date().toISOString(), films: {} };
-  for (const id of fs.readdirSync(dir)) {
-    const f = path.join(dir, id, 'meta.json');
-    if (!fs.existsSync(f)) continue;
-    const m = JSON.parse(fs.readFileSync(f, 'utf8'));
+  const metas = fs.readdirSync(dir, { recursive: true }).filter((f) => String(f).endsWith('.meta.json'));
+  for (const rel of metas) {
+    const m = JSON.parse(fs.readFileSync(path.join(dir, rel), 'utf8'));
     if (!films.some((x) => x.id === m.id) || !licenceAllowed(m.licence)) continue;
     const { id: _, ...entry } = m;
     result.films[m.id] = entry;

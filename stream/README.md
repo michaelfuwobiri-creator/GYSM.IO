@@ -20,14 +20,14 @@ Netflix has had no public API since 2014, and its films are DRM-protected. Downl
 
 ## Hosting the films
 
-`tools/mirror-films.mjs` fetches each film in `tools/mirror-films.json` once from Wikimedia Commons, checks that its licence allows redistribution (CC BY, CC BY-SA, CC0 or public domain; never NC or ND), converts it to H.264 MP4 (480p and 720p for the shorts, 360p and 480p for the features) and makes a poster. The workflow **Publish films to GYSM storage** (`.github/workflows/mirror-films.yml`) runs it for every film on GitHub's servers, uploads the files to R2, sets CORS and publishes `manifest.json`. The app shows a film only once it is listed in that manifest, along with the licence and credit recorded there.
+GYSM hosts its films as downloads of the **`films` release** in this repository, so no outside account is needed.
 
-One-time setup:
-1. Cloudflare dashboard → **R2** → enable R2 (the free tier covers 10 GB; the catalogue uses about 3 GB) → **Create bucket** `gysm-media`.
-2. Bucket → **Settings → Public access → R2.dev subdomain → Allow**. Copy the `https://pub-….r2.dev` address. A custom domain works too and is better for production.
-3. R2 → **Manage R2 API tokens → Create API token** with **Object Read & Write** on `gysm-media`. Add its **Access Key ID** and **Secret Access Key** to GitHub (Settings → Secrets and variables → Actions) as `R2_ACCESS_KEY_ID` and `R2_SECRET_ACCESS_KEY`.
-4. GitHub → Actions → **Publish films to GYSM storage** → **Run workflow**.
-5. Put the public address, ending in `/`, in `MEDIA_BASE` in `web/js/config.js` and push. The APK workflow rebuilds the app.
+- **Copying the films in.** `tools/mirror-films.mjs` fetches each film in `tools/mirror-films.json` once from Wikimedia Commons. It checks that the licence allows redistribution (CC BY, CC BY-SA, CC0 or public domain; never NC or ND), converts the film to H.264 MP4 (480p and 720p for the shorts, 360p and 480p for the features) and makes a poster.
+- **Publishing.** The workflow **Publish films to GYSM storage** (`.github/workflows/mirror-films.yml`) runs automatically when those files change, or from the Actions tab. It uploads the files to the release, commits the film list to `web/catalog/media-manifest.json` and rebuilds the APK. It uses GitHub's built-in token, so no secrets are needed.
+- **What the app shows.** A film appears once it's in that list, with the licence and credit recorded there. The app reads the bundled copy first and then the live copy in the repository.
+- **Offline saving.** On Fire TV, films are saved by the app's native downloader (`android/.../OfflineStore.java`), because release downloads don't allow web pages to fetch them (no CORS). The web and Vega versions stream these films only.
+
+To move to a CDN later (for example Cloudflare R2 once many people use the app), upload the same files there and change `MEDIA_BASE` in `web/js/config.js`.
 
 For more films, add titles you license through Filmhub. See [Films from Filmhub](#films-from-filmhub) and [Legal sources of films](#legal-sources-of-films) below.
 
