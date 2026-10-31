@@ -138,6 +138,7 @@ h1, h2, h3, p { margin: 0; }
 .setting__help { font-size: 24px; color: var(--muted); }
 .setting__value { font-weight: 700; color: var(--muted); white-space: nowrap; }
 .setting__value.is-on { color: var(--ok); }
+.setting--info { background: transparent; border: 2px solid var(--surface-2); }
 .setting:focus { background: var(--surface-2); transform: scale(1.02); }
 .legal { color: var(--muted); font-size: 24px; margin: 26px 0 40px; max-width: 1400px; }
 

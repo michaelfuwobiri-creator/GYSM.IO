@@ -1,0 +1,96 @@
+name: Publish films to GYSM storage
+
+# Copies the free films listed in stream/tools/mirror-films.json into GYSM's
+# own Cloudflare R2 bucket (one job per film), then publishes manifest.json.
+# The app streams and saves films only from this bucket (MEDIA_BASE in
+# stream/web/js/config.js), never from a third-party site.
+#
+# Secrets (Settings -> Secrets and variables -> Actions):
+#   R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY   an R2 API token with Object Read & Write
+# Variables (same page, Variables tab; optional):
+#   R2_ACCOUNT_ID   default e77d696e4f79b98cd6bc3e7a3c65d854
+#   R2_BUCKET       default gysm-media
+
+on:
+  workflow_dispatch:
+    inputs:
+      only:
+        description: "Film id to (re)publish, or empty for all"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mirror-films
+  cancel-in-progress: false
+
+env:
+  R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID || 'e77d696e4f79b98cd6bc3e7a3c65d854' }}
+  R2_BUCKET: ${{ vars.R2_BUCKET || 'gysm-media' }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: auto
+  # R2 rejects the newer default checksum headers of the AWS CLI.
+  AWS_REQUEST_CHECKSUM_CALCULATION: when_required
+  AWS_RESPONSE_CHECKSUM_VALIDATION: when_required
+
+jobs:
+  list:
+    runs-on: ubuntu-latest
+    outputs:
+      ids: ${{ steps.ids.outputs.ids }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: ids
+        run: |
+          if [ -n "${{ inputs.only }}" ]; then echo "ids=[\"${{ inputs.only }}\"]" >> "$GITHUB_OUTPUT"
+          else echo "ids=$(node stream/tools/mirror-films.mjs list)" >> "$GITHUB_OUTPUT"; fi
+
+  film:
+    needs: list
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        id: ${{ fromJson(needs.list.outputs.ids) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install ffmpeg
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - name: Fetch, check licence, convert
+        run: node stream/tools/mirror-films.mjs film "${{ matrix.id }}" --out mirror-out
+      - name: Upload to R2
+        run: |
+          aws s3 cp "mirror-out/${{ matrix.id }}" "s3://$R2_BUCKET/${{ matrix.id }}/" --recursive \
+            --endpoint-url "https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com" \
+            --cache-control "public, max-age=604800"
+
+  publish:
+    needs: film
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Allow the app to read the bucket (CORS with Range)
+        run: |
+          cat > cors.json <<'EOF'
+          {"CORSRules":[{"AllowedOrigins":["*"],"AllowedMethods":["GET","HEAD"],"AllowedHeaders":["*"],"ExposeHeaders":["Content-Length","Content-Range","Accept-Ranges"],"MaxAgeSeconds":86400}]}
+          EOF
+          aws s3api put-bucket-cors --bucket "$R2_BUCKET" --cors-configuration file://cors.json \
+            --endpoint-url "https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com"
+      - name: Build and upload manifest.json from every published film
+        run: |
+          mkdir -p mirror-out
+          aws s3 cp "s3://$R2_BUCKET/" mirror-out/ --recursive --exclude "*" --include "*/meta.json" \
+            --endpoint-url "https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com"
+          node stream/tools/mirror-films.mjs manifest --in mirror-out --out manifest.json
+          cat manifest.json
+          aws s3 cp manifest.json "s3://$R2_BUCKET/manifest.json" --content-type application/json \
+            --cache-control "no-cache" --endpoint-url "https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com"

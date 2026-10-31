@@ -142,7 +142,7 @@ Go to **developer.amazon.com → Apps & Services → My Apps → Add New App →
 The screenshots were taken in a test browser, where only the bundled demo clips could load. Real captures from a Fire TV with films showing would make a stronger listing: `adb shell screencap -p /sdcard/s.png && adb pull /sdcard/s.png`.
 
 **Content rating:** Suggested answers are in `SUBMISSION.md`. In short:
-- Horror themes: yes. The catalogue includes Night of the Living Dead, Nosferatu and Carnival of Souls.
+- Horror themes: yes (Nosferatu).
 - Realistic and fantasy violence: mild.
 - Sexual content and gambling: none.
 - Profanity, and drugs, alcohol or tobacco: mild.
@@ -153,7 +153,7 @@ Expect a teen rating.
 **Binary:** upload `app-release.apk`, select Fire TV devices, language English. For export compliance, the app uses only standard HTTPS.
 
 **Notes for the reviewer:**
-> No login is needed. Films stream from Wikimedia Commons (open movies and public-domain classics). To test the offline feature, add a title to My List (press Menu on it) while on Wi-Fi, wait for "ready to watch offline", then disconnect the network: the title still plays from the Downloads screen. Settings controls the storage limit and the Wi-Fi-only rule. Credits for CC BY films are shown on each title's details screen and in the description.
+> No login or account exists in this app (Settings shows "Account: None required"). All films are hosted on GYSM's own servers; the app does not access, save or convert media from any third-party site. The catalogue is Blender Foundation open movies (Creative Commons Attribution, which permits redistribution) and public-domain silent films. "Save for offline" keeps our own titles inside the app's private storage, like downloads in other streaming apps; files cannot be exported. To test it, add a title to My List (press Menu) on Wi-Fi, wait for "ready to watch offline", then disconnect the network and play it from Downloads.
 
 **Submit.** Review usually takes a few days. If it is rejected, fix the named test case, raise `versionCode` in `stream/android/app/build.gradle.kts`, push (GitHub rebuilds the APK), and upload the new APK.
 

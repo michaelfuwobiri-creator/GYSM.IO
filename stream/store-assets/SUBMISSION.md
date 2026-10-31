@@ -42,7 +42,7 @@ Install it with `adb install -r app-release.apk` (see the README for turning on 
 - [ ] Everything works with the remote alone: D-pad, Select, Back, Menu, Play/Pause, Rewind, Fast-forward
 - [ ] Back on the home screen returns to the Fire TV launcher
 - [ ] Pressing Home during a film pauses it
-- [ ] Films load and play (open movies and classics come from Wikimedia Commons)
+- [ ] Films load and play (from GYSM's own storage; MEDIA_BASE in `stream/web/js/config.js` must be set)
 - [ ] Smart downloads start on Wi-Fi; with the network unplugged, saved films still play
 - [ ] Nothing is cut off at the screen edges
 - [ ] Optional: replace the screenshots here with real captures (`adb shell screencap -p /sdcard/s.png && adb pull /sdcard/s.png`). The ones included were taken in a test browser, where only the bundled clips could load.
@@ -74,8 +74,8 @@ Answer the questionnaire honestly for the whole catalogue. Suggested answers for
 
 | Topic | Suggested answer | Why |
 | --- | --- | --- |
-| Violence | Realistic violence: infrequent or mild (horror) | Night of the Living Dead, Nosferatu, Carnival of Souls |
-| Horror or fear themes | Yes | Same titles |
+| Violence | Realistic violence: infrequent or mild (horror) | Nosferatu |
+| Horror or fear themes | Yes | Nosferatu |
 | Cartoon or fantasy violence | Infrequent or mild | Sintel, Agent 327, Tears of Steel |
 | Sexual content or nudity | None | |
 | Profanity or crude humour | Infrequent or mild | Older and independent films; review any Filmhub titles you add |
@@ -98,7 +98,7 @@ Expect a teen-level rating. The app shows its own age badges, and Settings can h
 ### Testing instructions for the reviewer
 Paste this into the notes for Amazon's testers:
 
-> No login is needed. Films stream from Wikimedia Commons (open movies and public-domain classics). To test the offline feature, add a title to My List (press Menu on it) while on Wi-Fi, wait for "ready to watch offline", then disconnect the network: the title still plays from the Downloads screen. Settings controls the storage limit and the Wi-Fi-only rule. Credits for CC BY films are shown on each title's details screen and in the description.
+> No login or account exists in this app (Settings shows "Account: None required"). All films are hosted on GYSM's own servers; the app does not access, save or convert media from any third-party site. The catalogue is Blender Foundation open movies (Creative Commons Attribution, which permits redistribution) and public-domain silent films. "Save for offline" keeps our own titles inside the app's private storage, like downloads in other streaming apps; files cannot be exported. To test it, add a title to My List (press Menu) on Wi-Fi, wait for "ready to watch offline", then disconnect the network and play it from Downloads.
 
 ## 5. Submit
 

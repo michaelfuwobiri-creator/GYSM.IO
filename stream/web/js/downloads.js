@@ -14,7 +14,7 @@ import { TITLES, byId } from './catalog.js';
 import {
   settings, load, save, myList, progress, isFinished, estimateBytes,
 } from './store.js';
-import { resolve } from './sources.js';
+import { resolve, cachedSource } from './sources.js';
 import { isMetered } from './platform.js';
 
 const CACHE = 'gysm-films-v1';
@@ -291,7 +291,8 @@ async function loadPosters() {
 // ---- smart auto-download ------------------------------------------------
 
 function candidates() {
-  const allowed = (t) => !(settings.hideMature && t.maturity === '16+') && !isFinished(t.id) && canDownload(t.id);
+  const allowed = (t) => !(settings.hideMature && t.maturity === '16+') && !isFinished(t.id)
+    && canDownload(t.id) && !!cachedSource(t);
   const inProgress = Object.entries(progress)
     .filter(([id]) => byId.has(id))
     .sort(([, a], [, b]) => b.at - a.at)

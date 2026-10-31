@@ -3,7 +3,7 @@ import {
   settings, saveSettings, myList, toggleMyList, progressOf, isInProgress, stats,
   formatBytes, formatMinutes, estimateBytes, GB, progress,
 } from './store.js';
-import { resolve, resolveAll, cachedSource } from './sources.js';
+import { resolve, cachedSource, loadManifest } from './sources.js';
 import * as dl from './downloads.js';
 import * as focus from './focus.js';
 import * as player from './player.js';
@@ -17,7 +17,6 @@ const state = {
   page: 'home',
   heroId: null,
   detailsId: null,
-  missing: new Set(), // titles Commons could not resolve
   online: navigator.onLine,
 };
 
@@ -26,12 +25,17 @@ const state = {
 // The bundled demo clips only show while no real film is available (first
 // start with no connection), so the store build never looks like test content.
 function hasRealFilms() {
-  return TITLES.some((t) => !t.local && !state.missing.has(t.id) && (t.filmhub || cachedSource(t)));
+  return TITLES.some((t) => !t.local && cachedSource(t));
+}
+
+// Our own films appear once their files are published in our media storage.
+function available(t) {
+  return t.local || t.filmhub || cachedSource(t) || dl.isDownloaded(t.id);
 }
 
 function visibleTitles() {
   const showDemos = !hasRealFilms();
-  return TITLES.filter((t) => !(settings.hideMature && t.maturity === '16+') && !state.missing.has(t.id)
+  return TITLES.filter((t) => !(settings.hideMature && t.maturity === '16+') && available(t)
     && (showDemos || !t.local || dl.isDownloaded(t.id)));
 }
 
@@ -199,7 +203,12 @@ const SETTINGS = [
 ];
 
 function settingsHtml() {
-  return `<div class="page-head"><h1>Settings</h1></div><div class="settings">${SETTINGS.map((s) => {
+  return `<div class="page-head"><h1>Settings</h1></div><div class="settings">
+  <div class="setting setting--info">
+    <span class="setting__text"><span class="setting__label">Account</span>
+      <span class="setting__help">Not needed. GYSM Stream has no sign-in, no sign-up and no payments. Everything works straight away.</span></span>
+    <span class="setting__value">None required</span>
+  </div>${SETTINGS.map((s) => {
     const v = settings[s.key];
     const shown = s.show ? s.show(v) : v ? 'On' : 'Off';
     return `<button class="setting focusable" data-key="set:${s.key}" data-act="setting" data-setting="${s.key}">
@@ -207,7 +216,7 @@ function settingsHtml() {
       <span class="setting__value ${v === true ? 'is-on' : ''}">${esc(shown)}</span>
     </button>`;
   }).join('')}
-  <p class="legal">Films in this app are either free to stream and download (Blender Foundation open movies under Creative Commons Attribution, and public-domain classics from Wikimedia Commons) or licensed through Filmhub, whose licences may allow streaming only or keep downloads for a set number of days. The licence is shown on each title.</p></div>`;
+  <p class="legal">All films are hosted by GYSM. They are Blender Foundation open movies under Creative Commons Attribution and silent classics in the public domain, which their licences allow us to stream and to save for offline viewing inside this app. Saved films can only be played in GYSM Stream. The licence and credit are shown on each title.</p></div>`;
 }
 
 function expiryText(id) {
@@ -484,11 +493,7 @@ function start() {
   dl.start();
   refreshFeeds().then((added) => { if (added) { dl.plan(); scheduleRender(); } });
 
-  resolveAll(TITLES, (t, r) => {
-    if (!r && navigator.onLine) state.missing.add(t.id);
-    else state.missing.delete(t.id);
-    scheduleRender();
-  });
+  loadManifest().then(() => { dl.plan(); scheduleRender(); });
 
   if ('serviceWorker' in navigator && !isFireTV && window.isSecureContext) {
     navigator.serviceWorker.register('sw.js').catch(() => {});

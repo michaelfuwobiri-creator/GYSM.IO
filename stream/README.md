@@ -14,9 +14,20 @@ A streaming app for **Amazon Fire TV**. Its distinctive feature is **smart downl
 Netflix has had no public API since 2014, and its films are DRM-protected. Downloading them outside the Netflix app would mean breaking that protection, which is copyright infringement and against Netflix's terms. This app uses only films that may be streamed **and** downloaded:
 
 - **Blender Foundation open movies** (Big Buck Bunny, Sintel, Tears of Steel, and others) under Creative Commons Attribution.
-- **Public-domain classics** (Night of the Living Dead, Nosferatu, The General, and others).
-- Both are served by **Wikimedia Commons**, which only hosts freely licensed media. Its API is public, needs no key and allows browser (CORS) access. The licence and author of each title are read from Commons and shown on its details screen, as CC-BY requires.
+- **Silent classics in the public domain worldwide** (A Trip to the Moon, Nosferatu). Titles that are public domain only in the US were left out, because the Appstore distributes worldwide.
+- **GYSM hosts every film itself** in its own Cloudflare R2 bucket (see [Hosting the films](#hosting-the-films)). The app never searches, streams or downloads from a third-party site. Amazon's content policy rejects apps that save or stream media from third-party sources, which is why the first version, which streamed from Wikimedia Commons, was rejected.
 - Three short demo clips are bundled in `web/media/` so downloads and offline playback can be tried with no network.
+
+## Hosting the films
+
+`tools/mirror-films.mjs` fetches each film in `tools/mirror-films.json` once from Wikimedia Commons, checks that its licence allows redistribution (CC BY, CC BY-SA, CC0 or public domain; never NC or ND), converts it to H.264 MP4 (480p and 720p for the shorts, 360p and 480p for the features) and makes a poster. The workflow **Publish films to GYSM storage** (`.github/workflows/mirror-films.yml`) runs it for every film on GitHub's servers, uploads the files to R2, sets CORS and publishes `manifest.json`. The app shows a film only once it is listed in that manifest, along with the licence and credit recorded there.
+
+One-time setup:
+1. Cloudflare dashboard → **R2** → enable R2 (the free tier covers 10 GB; the catalogue uses about 3 GB) → **Create bucket** `gysm-media`.
+2. Bucket → **Settings → Public access → R2.dev subdomain → Allow**. Copy the `https://pub-….r2.dev` address. A custom domain works too and is better for production.
+3. R2 → **Manage R2 API tokens → Create API token** with **Object Read & Write** on `gysm-media`. Add its **Access Key ID** and **Secret Access Key** to GitHub (Settings → Secrets and variables → Actions) as `R2_ACCESS_KEY_ID` and `R2_SECRET_ACCESS_KEY`.
+4. GitHub → Actions → **Publish films to GYSM storage** → **Run workflow**.
+5. Put the public address, ending in `/`, in `MEDIA_BASE` in `web/js/config.js` and push. The APK workflow rebuilds the app.
 
 For more films, add titles you license through Filmhub. See [Films from Filmhub](#films-from-filmhub) and [Legal sources of films](#legal-sources-of-films) below.
 
@@ -164,7 +175,7 @@ To debug the WebView, open `chrome://inspect` on your computer while a debug bui
 
 | Source | What you get | Offline downloads |
 | --- | --- | --- |
-| **Wikimedia Commons API** (used now) | Free-licensed and public-domain films; licence data included | Allowed. Keep the attribution. |
+| **Wikimedia Commons** (source for the mirror tool) | Free-licensed and public-domain films; licence data included | Allowed when you host the copy yourself and keep the attribution |
 | **Internet Archive** (`archive.org/metadata/{id}`, `advancedsearch.php`) | Large public-domain feature film collection | Allowed for public-domain items. Licences vary by item, so check each one. |
 | **Blender Studio** (studio.blender.org) | The open movies in high quality | Allowed (CC-BY) |
 | **Pexels Videos API** / **Pixabay API** | Free stock footage and short clips, free API key | Allowed under their licences |

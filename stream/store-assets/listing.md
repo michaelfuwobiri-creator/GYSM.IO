@@ -25,14 +25,14 @@ YOU'RE IN CONTROL
 • See how much data you have saved
 
 FILMS YOU'RE FREE TO KEEP
-Every film in GYSM Stream is licensed for streaming and offline viewing: Blender Foundation open movies such as Big Buck Bunny, Sintel and Tears of Steel (Creative Commons Attribution) and public-domain classics such as Night of the Living Dead, Nosferatu and The General.
+Every film is hosted by GYSM and licensed for streaming and offline viewing: Blender Foundation open movies such as Big Buck Bunny, Sintel, Tears of Steel and Cosmos Laundromat (Creative Commons Attribution), and silent classics in the public domain, such as A Trip to the Moon and Nosferatu. Saved films play only inside GYSM Stream.
 
 MADE FOR FIRE TV
 Designed for the remote: a simple D-pad interface, Play/Pause, Rewind and Fast-forward support, resume where you left off, subtitles where available, and age ratings on every title, with an option to hide 16+ titles.
 
 No account, no sign-up, no ads.
 
-Credits: films © Blender Foundation (www.blender.org), licensed CC BY. Public-domain films are served by Wikimedia Commons.
+Credits: open movies © Blender Foundation (www.blender.org), licensed CC BY. The licence and credit for each film are shown on its details screen.
 
 ## Product feature bullets
 

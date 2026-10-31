@@ -20,8 +20,8 @@ android {
         applicationId = "io.gysm.stream"
         minSdk = 22 // Fire OS 5 (Fire TV Stick 2nd gen) and newer
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = 2
+        versionName = "1.0.1"
     }
 
     // The web app in ../../web is packaged as the APK's assets and served
