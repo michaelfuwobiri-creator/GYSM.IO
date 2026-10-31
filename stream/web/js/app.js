@@ -253,6 +253,7 @@ function detailsHtml(t) {
       : `About ${formatBytes(size)} to download`;
   return `<div class="details__art">${art(t, 'art--hero')}</div>
     <div class="details__body">
+      <button class="btn focusable pointer-only details__back" data-key="d:back" data-act="back">&#8249; Back</button>
       <h1>${esc(t.title)}</h1>
       <p class="hero__meta">${metaLine(t)}</p>
       <p class="hero__blurb">${esc(t.blurb)}</p>
@@ -384,6 +385,7 @@ function activate(el) {
   switch (el.dataset.act) {
     case 'nav': go(el.dataset.page); break;
     case 'details': openDetails(id); break;
+    case 'back': handle('back'); break;
     case 'play': play(id); break;
     case 'restart': play(id, { restart: true }); break;
     case 'list': {

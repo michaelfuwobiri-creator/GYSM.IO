@@ -37,6 +37,14 @@
         <div class="osd__top"><h2 id="osd-title"></h2><span id="osd-mode" class="osd__mode"></span></div>
         <p id="osd-state" class="osd__state"></p>
         <div class="osd__bottom">
+          <!-- Touch and mouse only; a TV remote uses its own buttons. -->
+          <div class="osd__controls pointer-only">
+            <button type="button" class="osd__btn" data-player-act="back">&#10005; Close</button>
+            <button type="button" class="osd__btn" data-player-act="rewind">&minus;10 s</button>
+            <button type="button" class="osd__btn osd__btn--main" data-player-act="playpause" id="osd-pp">Pause</button>
+            <button type="button" class="osd__btn" data-player-act="forward">+30 s</button>
+            <button type="button" class="osd__btn" data-player-act="menu" id="osd-cc-btn" hidden>Subtitles</button>
+          </div>
           <div class="osd__track"><i id="osd-bar"></i></div>
           <div class="osd__row"><span id="osd-time">0:00 / 0:00</span>
             <span id="osd-cc" class="osd__cc" hidden>Subtitles: off (Menu)</span>

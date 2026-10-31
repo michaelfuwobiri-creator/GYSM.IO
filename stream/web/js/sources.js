@@ -70,8 +70,18 @@ function fromFilmhub(title) {
   };
 }
 
+function canPlayWebm() {
+  try { return document.createElement('video').canPlayType('video/webm; codecs="vp8, vorbis"') !== ''; } catch { return true; }
+}
+
+function localSource(title) {
+  const l = title.local;
+  if (l.mp4 && !canPlayWebm()) return { ...l, url: l.mp4, mime: 'video/mp4', sameOrigin: true };
+  return { ...l, sameOrigin: true };
+}
+
 export function cachedSource(title) {
-  if (title.local) return { ...title.local, sameOrigin: true };
+  if (title.local) return localSource(title);
   if (title.filmhub) return fromFilmhub(title);
   if (isPublished(title)) return fromMedia(title);
   return null;

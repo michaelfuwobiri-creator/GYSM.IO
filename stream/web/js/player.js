@@ -20,6 +20,20 @@ let saveTimer = 0;
 let lastTime = 0;
 let onClose = () => {};
 let captionUrls = [];
+let stallTimer = 0;
+
+// A video that never starts must not leave the viewer stuck on a spinner.
+function watchStall() {
+  clearTimeout(stallTimer);
+  stallTimer = setTimeout(() => {
+    if (!title || !layer.classList.contains('is-buffering')) return;
+    layer.classList.remove('is-buffering');
+    $('#osd-state').textContent = navigator.onLine
+      ? 'This video is taking too long to load. Check your connection, or press Back to close.'
+      : 'You are offline and this film is not downloaded. Press Back to close.';
+    showOsd(true);
+  }, 15000);
+}
 let retried = false;
 let lastSrc = '';
 
@@ -32,8 +46,18 @@ export function init(closeHandler) {
   video.addEventListener('timeupdate', tick);
   video.addEventListener('play', () => { keepScreenOn(true); showOsd(); });
   video.addEventListener('pause', () => { keepScreenOn(false); showOsd(true); });
-  video.addEventListener('waiting', () => layer.classList.add('is-buffering'));
-  video.addEventListener('playing', () => layer.classList.remove('is-buffering'));
+  video.addEventListener('waiting', () => { layer.classList.add('is-buffering'); watchStall(); });
+  video.addEventListener('playing', () => { layer.classList.remove('is-buffering'); clearTimeout(stallTimer); $('#osd-state').textContent = ''; });
+  video.addEventListener('play', () => { $('#osd-pp').textContent = 'Pause'; });
+  video.addEventListener('pause', () => { $('#osd-pp').textContent = 'Play'; });
+
+  // Touch and mouse: any tap brings the controls up (they hide again on their
+  // own while playing); a tap on a button does what it says.
+  layer.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-player-act]');
+    if (btn) { e.stopPropagation(); handle(btn.dataset.playerAct); return; }
+    showOsd();
+  });
   video.addEventListener('ended', () => { save(); close(); });
   video.addEventListener('error', () => {
     // Streaming links to our film storage are signed for a limited time; after
@@ -57,6 +81,7 @@ export async function open(id) {
   lastTime = 0;
   layer.hidden = false;
   layer.classList.add('is-buffering');
+  watchStall();
   $('#osd-title').textContent = t.title;
   $('#osd-state').textContent = '';
 
@@ -115,6 +140,7 @@ async function addCaptions(id, fromDownload) {
     video.appendChild(track);
   });
   $('#osd-cc').hidden = !captionUrls.length;
+  $('#osd-cc-btn').hidden = !captionUrls.length;
 }
 
 // Subtitles are drawn in #subs rather than by the browser, so they can be
@@ -147,6 +173,7 @@ export function close() {
   if (!title) return;
   save();
   clearInterval(saveTimer);
+  clearTimeout(stallTimer);
   video.pause();
   video.removeAttribute('src');
   video.querySelectorAll('track').forEach((tr) => tr.remove());

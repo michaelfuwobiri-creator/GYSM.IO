@@ -71,19 +71,19 @@ export const TITLES = [
     id: 'demo-bars', title: 'Signal Test', year: 2026, minutes: 0.5, maturity: 'All',
     genres: ['Demo'], collections: ['demo'],
     blurb: 'A 30-second test clip bundled with the app. Use it to try downloads and offline playback.',
-    local: { url: 'media/demo-bars.webm', poster: 'media/demo-bars.jpg', mime: 'video/webm', licence: 'CC0', artist: 'GYSM' },
+    local: { url: 'media/demo-bars.webm', poster: 'media/demo-bars.jpg', mime: 'video/webm', mp4: 'media/demo-bars.mp4', licence: 'CC0', artist: 'GYSM' },
   },
   {
     id: 'demo-fractal', title: 'Mandelbrot Drift', year: 2026, minutes: 0.5, maturity: 'All',
     genres: ['Demo'], collections: ['demo'],
     blurb: 'A 30-second fractal zoom bundled with the app.',
-    local: { url: 'media/demo-fractal.webm', poster: 'media/demo-fractal.jpg', mime: 'video/webm', licence: 'CC0', artist: 'GYSM' },
+    local: { url: 'media/demo-fractal.webm', poster: 'media/demo-fractal.jpg', mime: 'video/webm', mp4: 'media/demo-fractal.mp4', licence: 'CC0', artist: 'GYSM' },
   },
   {
     id: 'demo-life', title: 'Game of Life', year: 2026, minutes: 0.5, maturity: 'All',
     genres: ['Demo'], collections: ['demo'],
     blurb: 'Thirty seconds of Conway’s Game of Life, bundled with the app.',
-    local: { url: 'media/demo-life.webm', poster: 'media/demo-life.jpg', mime: 'video/webm', licence: 'CC0', artist: 'GYSM' },
+    local: { url: 'media/demo-life.webm', poster: 'media/demo-life.jpg', mime: 'video/webm', mp4: 'media/demo-life.mp4', licence: 'CC0', artist: 'GYSM' },
   },
 ];
 
