@@ -1,5 +1,7 @@
 # GYSM Stream: free films that download themselves
 
+**Test it:** in a browser at https://michaelfuwobiri-creator.github.io/GYSM.IO/stream/ (keyboard: arrows, Enter, Esc = Back, M = Menu, Space = play/pause), or install the Fire TV/Android test build: https://github.com/michaelfuwobiri-creator/GYSM.IO/releases/download/test-build/gysm-stream-test.apk
+
 A streaming app for **Amazon Fire TV**. Its distinctive feature is **smart downloads**: while the TV is on an unmetered connection, the app downloads films in the background. Viewers can then watch offline, and a film already on the device uses no data when it plays.
 
 | Folder | What it is |
