@@ -7,7 +7,8 @@
     "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview --host",
-    "android:assets": "npm run build && rm -rf android/app/src/main/assets/www && mkdir -p android/app/src/main/assets && cp -r dist android/app/src/main/assets/www"
+    "android:assets": "npm run build && rm -rf android/app/src/main/assets/www && mkdir -p android/app/src/main/assets && cp -r dist android/app/src/main/assets/www",
+    "test:e2e": "node tests/e2e.cjs"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.2.6",

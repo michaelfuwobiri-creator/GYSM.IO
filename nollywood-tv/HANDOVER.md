@@ -51,15 +51,35 @@ nollywood-tv/
 
 ## Status
 
-**Done and checked** in headless Chromium at 1920×1080, using simulated key presses:
+**Automated test suite:** `tests/e2e.cjs` has 68 checks, and all of them pass. To run it, start `npm run build && npm run preview`, then run `npm run test:e2e`. It covers navigation, rows, details, video playback with seeking and the Fire TV media keys, the stream-error screen, demo sign-in, buying the pass, search, grids, Back/exit, saved state after relaunch, the phone page, and the 1280×720 and 960×540 layouts.
+
+**Bugs fixed in the testing pass:**
+- Rows never slid sideways, so cards past the screen edge stayed off-screen.
+- Focus was lost every time the hero banner rotated.
+- Home lists went stale after changes made in a details page.
+- The hero reset to the first slide after playback.
+- Buying the pass left an open details page locked.
+- The free first episode of a locked series opened the paywall.
+- Up/Down could jump into or out of the side menu.
+- "Use another email" left nothing focused.
+- A failed stream spun forever; it now shows an error screen.
+- Sign-in errors showed a raw "Failed to fetch"; they are now readable.
+
+**Also checked:**
+- `MainActivity.java` compiles against the Android 14 framework classes (Robolectric android-all), using a stub for androidx.webkit. The manifest XML is valid.
+- A build with a thirdweb client ID boots and fails gracefully when thirdweb can't be reached.
+
+**Backend research:** `docs/backend-options.md` recommends Supabase alongside the thirdweb wallet (Web3 sign-in, plus Postgres with Row Level Security), checking pass ownership on the server, and signed playback URLs and DRM to protect video.
+
+**Earlier manual checks** in headless Chromium at 1920×1080, using simulated key presses:
 - Moving around with the arrows, row memory, side menu, Back behaviour
 - Details pages, demo sign-in, the QR modal, the simulated purchase with its celebration screen, and the account page with the pass active
 - Search, the player screen and its controls
 - `vite build` passes with no warnings
 
 **Not tested:**
-- **The Android APK has never been built.** The sandbox blocked `dl.google.com` (Google's Maven repo). Build it locally with `npm run android:assets` and then `cd android && ./gradlew assembleDebug`.
-- **Video playback.** The test streams were blocked by the network, so only the loading spinner was seen.
+- **The Android APK has never been built.** The Java code type-checks, but the full Gradle build needs Google's Maven repo. The sandbox blocked `dl.google.com` (Google's Maven repo). Build it locally with `npm run android:assets` and then `cd android && ./gradlew assembleDebug`.
+- **Real streams.** Playback, seeking and resume were tested with a local test clip. The real sample streams and HLS (H.264) could not be fetched or decoded in this sandbox.
 - **Real thirdweb flows.** There was no client ID, so email codes, `autoConnect`, the `balanceOf` check and the phone `ClaimButton` have not run against a real contract.
 - On a real Fire TV: whether the WebView delivers the media keys as 179/227/228, and how fast the app runs on a Stick.
 

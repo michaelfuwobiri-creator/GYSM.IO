@@ -25,6 +25,10 @@ export function play(title, root) {
   el.innerHTML = `
     <video class="player__video" playsinline preload="auto"></video>
     <div class="player__spinner" aria-hidden="true"></div>
+    <div class="player__error" role="alert">
+      <h2>We couldn't play this title</h2>
+      <p>Check your internet connection and try again. Press Back to return.</p>
+    </div>
     <div class="player__ui">
       <div class="player__top">
         <div class="player__brand">NOLLYWOOD</div>
@@ -63,6 +67,12 @@ export function play(title, root) {
     import("hls.js").then(({ default: Hls }) => {
       if (closed) return;
       hls = new Hls({ maxBufferLength: 30, capLevelToPlayerSize: true });
+      hls.on(Hls.Events.ERROR, (_, data) => {
+        if (!data.fatal) return;
+        // One recovery attempt for media errors, otherwise show the error.
+        if (data.type === Hls.ErrorTypes.MEDIA_ERROR && !hls.recovered) { hls.recovered = true; hls.recoverMediaError(); }
+        else fail();
+      });
       hls.loadSource(title.stream);
       hls.attachMedia(video);
       video.play().catch(() => el.classList.add("is-paused"));
@@ -85,6 +95,8 @@ export function play(title, root) {
   video.addEventListener("progress", () => {
     if (video.buffered.length && video.duration) buffer.style.width = `${(video.buffered.end(video.buffered.length - 1) / video.duration) * 100}%`;
   });
+  el.classList.add("is-loading");
+  video.addEventListener("error", () => fail());
   video.addEventListener("waiting", () => el.classList.add("is-loading"));
   video.addEventListener("playing", () => el.classList.remove("is-loading"));
   video.addEventListener("playing", () => keepAwake(true));
@@ -92,6 +104,12 @@ export function play(title, root) {
   video.addEventListener("play", () => { toggleBtn.innerHTML = icon("pause"); el.classList.remove("is-paused"); wake(); });
   video.addEventListener("pause", () => { toggleBtn.innerHTML = icon("play"); el.classList.add("is-paused"); wake(); });
   video.addEventListener("ended", () => close());
+
+  function fail() {
+    el.classList.remove("is-loading");
+    el.classList.add("has-error");
+    keepAwake(false);
+  }
 
   const save = () => saveProgress(title.id, video.currentTime, video.duration);
   const saver = setInterval(save, 5000);

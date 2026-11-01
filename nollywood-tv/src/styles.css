@@ -169,7 +169,7 @@ code { font-family: ui-monospace, monospace; color: var(--gold); }
 .row { position: relative; margin-top: 1.6rem; }
 .row__title { font-family: var(--display); font-weight: 700; font-size: 1.6rem; letter-spacing: -0.01em; margin-bottom: 0.2rem; display: flex; align-items: center; gap: 0.8rem; }
 .row__viewport { overflow: hidden; margin: 0 0 0 -1.5rem; padding: 1.4rem 0 1.8rem 1.5rem; }
-.row__track { display: flex; gap: 1.4rem; transition: transform 0.45s var(--ease); will-change: transform; }
+.row__track { position: relative; display: flex; gap: 1.4rem; transition: transform 0.45s var(--ease); will-change: transform; }
 
 .card { position: relative; flex: none; width: 13rem; }
 .card__frame {
@@ -291,6 +291,7 @@ code { font-family: ui-monospace, monospace; color: var(--gold); }
 .pulse { width: 0.7rem; height: 0.7rem; border-radius: 50%; background: var(--gold); animation: pulse 1.4s ease-out infinite; }
 @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(246, 196, 83, 0.6); } 100% { box-shadow: 0 0 0 1rem rgba(246, 196, 83, 0); } }
 .modal__qr { text-align: center; }
+.qr-warn { color: #ff9d8f; font-size: 1rem; line-height: 1.4; margin: -0.8rem 0 1.4rem; max-width: 40rem; }
 .modal__qr svg { width: 17rem; height: 17rem; background: #fff; border-radius: 1.2rem; padding: 0.4rem; margin-bottom: 0.8rem; }
 
 .celebrate {
@@ -331,6 +332,11 @@ code { font-family: ui-monospace, monospace; color: var(--gold); }
 .pbtn.is-focused { background: #fff; color: #000; transform: scale(1.12); }
 .player__spinner { position: absolute; left: 50%; top: 50%; width: 4.5rem; height: 4.5rem; margin: -2.25rem; border-radius: 50%; border: 0.35rem solid rgba(255, 255, 255, 0.15); border-top-color: var(--green); animation: spin 0.9s linear infinite; opacity: 0; transition: opacity 0.3s; }
 .player.is-loading .player__spinner { opacity: 1; }
+.player__error { position: absolute; inset: 0; display: none; place-content: center; text-align: center; gap: 1rem; background: radial-gradient(60% 60% at 50% 50%, rgba(255, 90, 70, 0.12), transparent); }
+.player__error h2 { font-family: var(--display); font-size: 2.6rem; font-weight: 800; }
+.player__error p { font-size: 1.3rem; color: var(--muted); }
+.player.has-error .player__error { display: grid; }
+.player.has-error .player__ui, .player.has-error .player__spinner { display: none; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* ---------- Toast ---------- */
@@ -343,4 +349,13 @@ code { font-family: ui-monospace, monospace; color: var(--gold); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; }
+}
+
+/* Fire TV WebViews older than Chromium 88 lack aspect-ratio. */
+@supports not (aspect-ratio: 1) {
+  .card__frame { height: 0; padding-top: 150%; }
+  .ep__thumb { height: 0; padding-top: 56.25%; }
+  .pass { height: 13.9rem; }
+  .modal__pass .pass { height: 12.6rem; }
+  .celebrate .pass { height: 16.4rem; }
 }

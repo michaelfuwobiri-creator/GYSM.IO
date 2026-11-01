@@ -69,8 +69,13 @@ export function focus(el, { scroll = true } = {}) {
 function keepVisible(el) {
   const track = el.closest("[data-track]");
   if (track) {
+    // The track is position:relative, so offsets are measured from its left edge.
+    // scrollWidth can't be used: it ignores cards overflowing the flex track.
     const viewport = track.parentElement;
-    const max = Math.max(0, track.scrollWidth - viewport.clientWidth);
+    const last = track.lastElementChild;
+    const contentWidth = last.offsetLeft + last.offsetWidth;
+    const endPad = parseFloat(getComputedStyle(document.documentElement).fontSize) * 4;
+    const max = Math.max(0, contentWidth + endPad - viewport.clientWidth);
     const x = Math.min(max, Math.max(0, el.offsetLeft - track.firstElementChild.offsetLeft));
     track.style.transform = `translate3d(${-x}px,0,0)`;
   }
@@ -88,10 +93,17 @@ function offsetWithin(el, ancestor) {
   return y;
 }
 
-function candidates() {
-  return [...topLayer().querySelectorAll("[data-nav]")].filter(
-    (el) => el !== current && el.offsetParent !== null && !el.disabled,
-  );
+// The side menu is only entered by pressing Left, so Up/Down at the top or
+// bottom of a screen doesn't jump into it.
+function candidates(dir) {
+  // Inside it, Up/Down stays in the menu; Right leaves it.
+  const inRail = current.dataset.group === "rail";
+  const vertical = dir === "up" || dir === "down";
+  return [...topLayer().querySelectorAll("[data-nav]")].filter((el) => {
+    if (el === current || el.offsetParent === null || el.disabled) return false;
+    const isRail = el.dataset.group === "rail";
+    return inRail ? (vertical ? isRail : !isRail) : dir === "left" || !isRail;
+  });
 }
 
 // Rects use the element's layout position, ignoring the row transform, so a
@@ -106,7 +118,7 @@ export function move(dir) {
   const from = rectOf(current);
   let best = null;
   let bestScore = Infinity;
-  for (const el of candidates()) {
+  for (const el of candidates(dir)) {
     const to = rectOf(el);
     let main, cross;
     if (dir === "left") { main = from.l - to.r; cross = Math.abs(from.cy - to.cy); if (to.cx >= from.cx) continue; }

@@ -20,7 +20,9 @@ const stage = $("#stage");
 const rail = $("#rail");
 
 let route = "home";
-let overlayStack = []; // { el, close }
+let overlayStack = []; // { el, onClose, title }
+let staleScreen = false; // the screen under the overlays needs a redraw when they close
+let redrawing = false;
 
 // ---------- Poster art -------------------------------------------------------
 // Posters are drawn in CSS from each title's hue and motif, so the app ships
@@ -228,10 +230,19 @@ function signInScreen(step = "email", email = "") {
       }
     } catch (err) {
       btn.disabled = false;
-      msg.textContent = err.message || "Something went wrong. Try again.";
+      msg.textContent = friendlyError(err);
       msg.classList.add("is-error");
     }
   };
+}
+
+// Turns SDK and network errors into something a viewer can act on.
+function friendlyError(err) {
+  const m = String(err?.message || "");
+  if (!navigator.onLine || /failed to fetch|network|load failed|timeout/i.test(m)) return "Can't reach the sign-in service. Check your internet connection and try again.";
+  if (/invalid|incorrect|expired|verification/i.test(m) && !/email address/i.test(m)) return "That code didn't work. Check the latest email and try again.";
+  if (/rate|too many/i.test(m)) return "Too many attempts. Wait a minute and try again.";
+  return m && m.length < 120 ? m : "Something went wrong. Try again.";
 }
 
 // ---------- Hero -------------------------------------------------------------
@@ -241,7 +252,7 @@ let heroIndex = 0;
 
 function startHero() {
   clearInterval(heroTimer);
-  heroIndex = 0;
+  if (!redrawing) heroIndex = 0;
   drawHero();
   heroTimer = setInterval(() => {
     // Only rotate while the viewer is looking at the hero, not mid-row.
@@ -256,7 +267,8 @@ function drawHero(keepFocus) {
   const t = FEATURED[heroIndex];
   const copy = $(".hero__copy");
   if (!copy) return;
-  const hadFocus = nav.focused()?.closest(".hero")?.dataset.action;
+  const f = nav.focused();
+  const hadFocus = f?.closest(".hero") ? f.dataset.action : null;
   const inList = store.inList(t.id);
   copy.innerHTML = `
     <div class="hero__eyebrow"><span class="n-mark">N</span> ${t.kind === "series" ? "ORIGINAL SERIES" : "ORIGINAL FILM"} ${t.premium ? `<span class="badge badge--pass">PASS</span>` : ""}</div>
@@ -303,7 +315,7 @@ function openDetails(t) {
       ${t.kind === "series" ? episodes(t, locked) : ""}
       ${row("More like this", TITLES.filter((x) => x !== t && x.genres.some((g) => t.genres.includes(g))).slice(0, 10), "similar")}
     </div>`;
-  openOverlay(el);
+  openOverlay(el, () => {}, t);
 }
 
 function episodes(t, locked) {
@@ -313,7 +325,7 @@ function episodes(t, locked) {
     <h2 class="row__title">Season 1 · Episodes</h2>
     <div class="row__viewport"><div class="row__track" data-track>
       ${Array.from({ length: Math.min(count, 10) }, (_, i) => `
-        <button class="ep" data-nav data-group="eps" data-action="${locked && i > 0 ? "get-pass" : "play"}" data-id="${t.id}">
+        <button class="ep" data-nav data-group="eps" data-action="${!locked ? "play" : i > 0 ? "get-pass" : "play-free"}" data-id="${t.id}">
           <span class="ep__thumb">${art({ ...t, hue: t.hue + i * 9 })}<span class="ep__num">${i + 1}</span>${locked && i > 0 ? `<span class="ep__lock">${ico("lock")}</span>` : ""}</span>
           <span class="ep__name">${i + 1}. ${names[i]}</span>
           <span class="ep__len">${42 + ((i * 7) % 15)} min${locked && i === 0 ? " · Free episode" : ""}</span>
@@ -348,6 +360,7 @@ function openPassModal() {
           <li>Your pass arrives in <b>${web3.short(s.address)}</b> and this TV unlocks by itself.</li>
         </ol>
         <div class="waiting"><span class="pulse"></span> Waiting for your purchase…</div>
+        ${!s.demo && /^(localhost|127\.|appassets\.)/.test(new URL(url).hostname) ? `<p class="qr-warn">This QR code points to ${esc(new URL(url).host)}, which a phone can't open. Set VITE_PASS_PAGE_URL to the public address of pass.html.</p>` : ""}
         <div class="actions">
           ${s.demo ? `<button class="btn btn--gold" data-nav data-action="demo-buy" data-autofocus>Simulate purchase (demo)</button>` : ""}
           <button class="btn btn--ghost" data-nav data-action="close" ${s.demo ? "" : "data-autofocus"}>Not now</button>
@@ -377,14 +390,18 @@ function celebrate() {
   app.appendChild(el);
   setTimeout(() => el.classList.add("is-out"), 2600);
   setTimeout(() => el.remove(), 3200);
+  // Redraw everything that showed a lock, including an open details page.
+  const open = overlayStack.filter((o) => o.title).map((o) => o.title);
+  closeAllOverlays();
   rerender();
+  if (open.length) openDetails(open[open.length - 1]);
 }
 
 // ---------- Overlays, routing, events ----------------------------------------
 
-function openOverlay(el, onClose = () => {}) {
+function openOverlay(el, onClose = () => {}, title = null) {
   overlays.appendChild(el);
-  overlayStack.push({ el, onClose });
+  overlayStack.push({ el, onClose, title });
   requestAnimationFrame(() => el.classList.add("is-open"));
   nav.pushLayer(el);
 }
@@ -396,10 +413,14 @@ function closeOverlay() {
   o.el.classList.remove("is-open");
   setTimeout(() => o.el.remove(), 300);
   nav.popLayer();
+  if (!overlayStack.length && staleScreen) rerender();
   return true;
 }
 
-function closeAllOverlays() { while (overlayStack.length) closeOverlay(); }
+function closeAllOverlays() {
+  staleScreen = false;
+  while (overlayStack.length) closeOverlay();
+}
 
 function go(name) {
   route = name;
@@ -416,10 +437,13 @@ function go(name) {
 // Re-draw the current screen in place (after list or pass changes).
 function rerender() {
   const f = nav.focused();
-  const key = f && (f.dataset.id ? `[data-id="${f.dataset.id}"][data-group="${f.dataset.group}"]` : f.dataset.action ? `[data-action="${f.dataset.action}"]` : null);
+  const key = f && ["id", "group", "action"].filter((k) => f.dataset[k]).map((k) => `[data-${k}="${f.dataset[k]}"]`).join("");
   const top = screen.scrollTop;
-  if (overlayStack.length) return;
+  if (overlayStack.length) { staleScreen = true; return; }
+  staleScreen = false;
+  redrawing = true;
   screens[route]();
+  redrawing = false;
   screen.scrollTop = top;
   const again = key && $(key, screen);
   if (again) nav.focus(again, { scroll: false });
@@ -431,7 +455,7 @@ function playTitle(t, { trailer = false } = {}) {
   player.play(t, overlays);
 }
 
-document.addEventListener("player:closed", () => { if (!overlayStack.length) rerender(); });
+document.addEventListener("player:closed", () => rerender());
 
 app.addEventListener("click", (e) => {
   const el = e.target.closest("[data-action], [data-route], .card");
@@ -445,18 +469,20 @@ app.addEventListener("click", (e) => {
   if (el.classList.contains("card")) return openDetails(t);
   switch (el.dataset.action) {
     case "play": return playTitle(t);
-    case "trailer": return playTitle(t, { trailer: true });
+    case "trailer":
+    case "play-free": return playTitle(t, { trailer: true });
     case "info": return openDetails(t);
     case "list": {
       const added = store.toggleList(t.id);
       el.innerHTML = `${ico(added ? "check" : "plus")} My List`;
       toast(added ? `Added “${t.title}” to My List` : `Removed from My List`);
+      if (overlayStack.length) staleScreen = true;
       return;
     }
     case "get-pass": return openPassModal();
     case "browse-pass": go("home"); return nav.focus($('[data-group="row-pass"]'));
     case "signout": return web3.signOut().then(() => { toast("Signed out"); go("account"); });
-    case "restart-signin": return signInScreen();
+    case "restart-signin": signInScreen(); return nav.focusFirst(screen);
   }
 });
 
