@@ -1,0 +1,113 @@
+{
+  "_comment": "Which metadata columns (CSV headers or YAML keys) hold each field. Matching ignores case, spaces, dashes and underscores; the first column found wins. Check these against the headers in your Filmhub metadata file and add yours at the front of each list.",
+  "id": [
+    "filmhub_id",
+    "title_id",
+    "id",
+    "eidr",
+    "isan"
+  ],
+  "title": [
+    "title",
+    "title_name",
+    "name",
+    "original_title"
+  ],
+  "synopsis": [
+    "short_synopsis",
+    "synopsis",
+    "logline",
+    "description",
+    "long_synopsis"
+  ],
+  "year": [
+    "release_year",
+    "year",
+    "production_year",
+    "copyright_year",
+    "release_date"
+  ],
+  "runtime": [
+    "runtime",
+    "runtime_minutes",
+    "duration",
+    "length",
+    "running_time"
+  ],
+  "genres": [
+    "genres",
+    "genre",
+    "primary_genre",
+    "secondary_genre"
+  ],
+  "rating": [
+    "rating",
+    "mpaa_rating",
+    "content_rating",
+    "tv_rating",
+    "maturity_rating"
+  ],
+  "studio": [
+    "studio",
+    "production_company",
+    "copyright_holder",
+    "copyright",
+    "producer"
+  ],
+  "licenceStart": [
+    "license_start",
+    "licence_start",
+    "window_start",
+    "avail_start",
+    "start_date"
+  ],
+  "licenceEnd": [
+    "license_end",
+    "licence_end",
+    "window_end",
+    "avail_end",
+    "end_date"
+  ],
+  "territories": [
+    "territories",
+    "territory",
+    "countries",
+    "regions"
+  ],
+  "video": [
+    "video_file",
+    "main_video",
+    "feature_file",
+    "video"
+  ],
+  "poster": [
+    "poster_file",
+    "poster",
+    "key_art_portrait",
+    "artwork_poster"
+  ],
+  "backdrop": [
+    "landscape_file",
+    "key_art_landscape",
+    "thumbnail_16x9",
+    "backdrop",
+    "landscape"
+  ],
+  "captions": [
+    "captions_file",
+    "caption_file",
+    "subtitles",
+    "captions"
+  ],
+  "offline": [
+    "offline_allowed",
+    "download_allowed",
+    "offline_rights",
+    "download_rights"
+  ],
+  "offlineDays": [
+    "offline_days",
+    "download_days",
+    "download_window_days"
+  ]
+}

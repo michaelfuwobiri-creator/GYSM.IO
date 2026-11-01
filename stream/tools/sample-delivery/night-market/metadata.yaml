@@ -1,0 +1,16 @@
+# SAMPLE DATA for testing the importer, not a real Filmhub title.
+title: "Night Market (sample)"
+filmhub_id: SAMPLE-0002
+short_synopsis: SAMPLE DATA. Two cooks race to sell out before the market closes.
+release_year: 2023
+runtime: 84
+genres:
+  - Comedy
+  - Food
+rating: TV-14
+studio: Sample Pictures
+license:
+  start: 2025-06-01
+  end: 2031-05-31
+territories: US, CA
+offline_allowed: no
