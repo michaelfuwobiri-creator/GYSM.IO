@@ -1,4 +1,4 @@
-// GYSM Stream for Vega OS (Fire TV devices that don't run Fire OS).
+// Striim for Vega OS (Fire TV devices that don't run Fire OS).
 //
 // A full-screen WebView showing the same GYSM web app as the Fire OS version.
 // scripts/build-web.mjs copies it into assets/web, which Vega packages at

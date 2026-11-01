@@ -1,4 +1,4 @@
-# GYSM Stream for Vega OS
+# Striim for Vega OS
 
 Newer Fire TV devices, such as the Fire TV Stick 4K Select, run **Vega OS** instead of Fire OS (Android). Vega OS does not run APKs; its apps are built with **React Native for Vega** and the **Vega Developer Tools** (Vega SDK, Vega CLI, Vega Studio for VS Code, and the Vega Virtual Device).
 

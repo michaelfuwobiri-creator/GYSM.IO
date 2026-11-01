@@ -1,4 +1,4 @@
-// The GYSM Stream catalogue. Every film is free to stream AND to keep offline:
+// The Striim catalogue. Every film is free to stream AND to keep offline:
 // Blender Foundation open movies (Creative Commons Attribution) and silent
 // classics in the public domain worldwide. GYSM hosts the video files itself
 // (MEDIA_BASE in config.js, filled by tools/mirror-films.mjs); a film appears

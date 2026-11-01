@@ -1,6 +1,6 @@
 {
-  "name": "GYSM Stream",
-  "short_name": "GYSM",
+  "name": "Striim",
+  "short_name": "Striim",
   "description": "Free films that download themselves, so you can watch offline and save data.",
   "start_url": "./",
   "scope": "./",

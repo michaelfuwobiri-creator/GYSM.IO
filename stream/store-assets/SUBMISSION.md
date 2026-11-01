@@ -1,4 +1,4 @@
-# Amazon Appstore submission checklist: GYSM Stream
+# Amazon Appstore submission checklist: Striim
 
 Everything for the Developer Console is in this folder. Work through the steps in order. Items marked **you** need your details or your computer.
 
@@ -38,11 +38,11 @@ The workflow `.github/workflows/firetv-apk.yml` builds the APK on every push to 
 
 Install it with `adb install -r app-release.apk` (see the README for turning on ADB), then check:
 
-- [ ] The app appears under Your Apps & Channels with the GYSM banner
+- [ ] The app appears under Your Apps & Channels with the Striim banner
 - [ ] Everything works with the remote alone: D-pad, Select, Back, Menu, Play/Pause, Rewind, Fast-forward
 - [ ] Back on the home screen returns to the Fire TV launcher
 - [ ] Pressing Home during a film pauses it
-- [ ] Films load and play (from GYSM's own storage; MEDIA_BASE in `stream/web/js/config.js` must be set)
+- [ ] Films load and play (from Striim's own storage; MEDIA_BASE in `stream/web/js/config.js` must be set)
 - [ ] Smart downloads start on Wi-Fi; with the network unplugged, saved films still play
 - [ ] Nothing is cut off at the screen edges
 - [ ] Optional: replace the screenshots here with real captures (`adb shell screencap -p /sdcard/s.png && adb pull /sdcard/s.png`). The ones included were taken in a test browser, where only the bundled clips could load.
@@ -98,7 +98,7 @@ Expect a teen-level rating. The app shows its own age badges, and Settings can h
 ### Testing instructions for the reviewer
 Paste this into the notes for Amazon's testers:
 
-> No login or account exists in this app (Settings shows "Account: None required"). All films are hosted on GYSM's own servers; the app does not access, save or convert media from any third-party site. The catalogue is Blender Foundation open movies (Creative Commons CC BY, and CC BY-SA for one title, which permit redistribution) and public-domain silent films. "Save for offline" keeps our own titles inside the app's private storage, like downloads in other streaming apps; files cannot be exported. To test it, add a title to My List (press Menu) on Wi-Fi, wait for "ready to watch offline", then disconnect the network and play it from Downloads.
+> No login or account exists in this app (Settings shows "Account: None required"). All films are hosted on Striim's own servers; the app does not access, save or convert media from any third-party site. The catalogue is Blender Foundation open movies (Creative Commons CC BY, and CC BY-SA for one title, which permit redistribution) and public-domain silent films. "Save for offline" keeps our own titles inside the app's private storage, like downloads in other streaming apps; files cannot be exported. To test it, add a title to My List (press Menu) on Wi-Fi, wait for "ready to watch offline", then disconnect the network and play it from Downloads.
 
 ## 5. Submit
 

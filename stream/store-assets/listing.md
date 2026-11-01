@@ -1,21 +1,21 @@
-# Amazon Appstore listing text: GYSM Stream
+# Amazon Appstore listing text: Striim
 
 Paste these into the Developer Console under **Appstore Details**. The console shows the length limit for each field; all of these are well under them.
 
 ## App title
 
-GYSM Stream
+Striim
 
 ## Short description
 
-Free films that download themselves. GYSM Stream saves films to your Fire TV in the background while you're on Wi-Fi, so they're ready to watch offline without using data. Watch classic cinema and award-winning open movies, and keep up to five titles ready on your device.
+Free films that download themselves. Striim saves films to your Fire TV in the background while you're on Wi-Fi, so they're ready to watch offline without using data. Watch classic cinema and award-winning open movies, and keep up to five titles ready on your device.
 
 ## Long description
 
-GYSM Stream is a free film app built around one idea: your next film should already be on your TV.
+Striim is a free film app built around one idea: your next film should already be on your TV.
 
 SMART DOWNLOADS
-While your Fire TV is on Wi-Fi or Ethernet, GYSM Stream quietly downloads films from Continue Watching, My List and our top picks. When the connection drops, or you'd rather not use mobile data, everything you've saved plays instantly, with no buffering and no data used. Finished a film? It is cleared away automatically and the next one is fetched, so your storage never fills up.
+While your Fire TV is on Wi-Fi or Ethernet, Striim quietly downloads films from Continue Watching, My List and our top picks. When the connection drops, or you'd rather not use mobile data, everything you've saved plays instantly, with no buffering and no data used. Finished a film? It is cleared away automatically and the next one is fetched, so your storage never fills up.
 
 YOU'RE IN CONTROL
 • Choose a storage limit, from 0.5 GB to 8 GB
@@ -25,7 +25,7 @@ YOU'RE IN CONTROL
 • See how much data you have saved
 
 FILMS YOU'RE FREE TO KEEP
-Every film is hosted by GYSM and licensed for streaming and offline viewing: Blender Foundation open movies such as Big Buck Bunny, Sintel, Tears of Steel and Cosmos Laundromat (Creative Commons CC BY, and CC BY-SA for one title), and silent classics in the public domain, such as A Trip to the Moon and Nosferatu. Saved films play only inside GYSM Stream.
+Every film is hosted by Striim and licensed for streaming and offline viewing: Blender Foundation open movies such as Big Buck Bunny, Sintel, Tears of Steel and Cosmos Laundromat (Creative Commons CC BY, and CC BY-SA for one title), and silent classics in the public domain, such as A Trip to the Moon and Nosferatu. Saved films play only inside Striim.
 
 MADE FOR FIRE TV
 Designed for the remote: a simple D-pad interface, Play/Pause, Rewind and Fast-forward support, resume where you left off, subtitles where available, and age ratings on every title, with an option to hide 16+ titles.

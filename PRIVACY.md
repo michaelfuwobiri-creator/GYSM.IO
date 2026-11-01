@@ -1,12 +1,12 @@
-# GYSM Stream Privacy Policy
+# Striim Privacy Policy
 
 Last updated: 31 October 2026
 
-GYSM Stream is a film app for Amazon Fire TV. We built it to work without collecting personal information. This page explains what the app stores, what it sends over the internet, and the choices you have.
+Striim is a film app for Amazon Fire TV. We built it to work without collecting personal information. This page explains what the app stores, what it sends over the internet, and the choices you have.
 
 ## What we collect
 
-Nothing. GYSM Stream has no accounts, no sign-in, no sign-up, no advertising and no analytics. We do not collect your name, email address, location, device identifiers or viewing history, and we do not sell or share any information about you.
+Nothing. Striim has no accounts, no sign-in, no sign-up, no advertising and no analytics. We do not collect your name, email address, location, device identifiers or viewing history, and we do not sell or share any information about you.
 
 ## What the app stores on your device
 
@@ -22,7 +22,7 @@ You can remove downloads at any time on the Downloads screen. Uninstalling the a
 
 ## Internet connections
 
-To show and play films, the app connects only to GYSM's own film storage. That storage is hosted on GitHub, at github.com and its download servers, in GYSM's repository. It holds every film, its artwork, and the list of available films.
+To show and play films, the app connects only to Striim's own film storage. That storage is hosted on GitHub, at github.com and its download servers, in the app's own repository. It holds every film, its artwork, and the list of available films.
 
 Like any website or app, these servers receive standard technical information that comes with every internet request, such as your IP address and the file requested. GitHub's own privacy statement applies to those requests: https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement. We do not receive or combine this information with anything else.
 
@@ -30,7 +30,7 @@ The app also checks whether your network is metered, so it can avoid downloading
 
 ## Children
 
-GYSM Stream is not directed at children under 13, and we do not knowingly collect information from anyone, including children. Some films are rated 12+; you can hide titles rated 16+ in Settings.
+Striim is not directed at children under 13, and we do not knowingly collect information from anyone, including children. Some films are rated 12+; you can hide titles rated 16+ in Settings.
 
 ## Changes
 

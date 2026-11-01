@@ -207,7 +207,7 @@ function settingsHtml() {
   return `<div class="page-head"><h1>Settings</h1></div><div class="settings">
   <div class="setting setting--info">
     <span class="setting__text"><span class="setting__label">Account</span>
-      <span class="setting__help">Not needed. GYSM Stream has no sign-in, no sign-up and no payments. Everything works straight away.</span></span>
+      <span class="setting__help">Not needed. Striim has no sign-in, no sign-up and no payments. Everything works straight away.</span></span>
     <span class="setting__value">None required</span>
   </div>${SETTINGS.map((s) => {
     const v = settings[s.key];
@@ -217,7 +217,7 @@ function settingsHtml() {
       <span class="setting__value ${v === true ? 'is-on' : ''}">${esc(shown)}</span>
     </button>`;
   }).join('')}
-  <p class="legal">All films are hosted by GYSM. They are Blender Foundation open movies under Creative Commons licences (CC BY, and CC BY-SA for one title) and silent classics in the public domain, which their licences allow us to stream and to save for offline viewing inside this app. Saved films can only be played in GYSM Stream. The licence and credit are shown on each title.</p></div>`;
+  <p class="legal">All films are hosted by Striim. They are Blender Foundation open movies under Creative Commons licences (CC BY, and CC BY-SA for one title) and silent classics in the public domain, which their licences allow us to stream and to save for offline viewing inside this app. Saved films can only be played in Striim. The licence and credit are shown on each title.</p></div>`;
 }
 
 function expiryText(id) {

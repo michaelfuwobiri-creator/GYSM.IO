@@ -1,4 +1,4 @@
-# GYSM Stream: free films that download themselves
+# Striim: free films that download themselves
 
 **Test it:** in a browser at https://michaelfuwobiri-creator.github.io/GYSM.IO/stream/ (keyboard: arrows, Enter, Esc = Back, M = Menu, Space = play/pause), or install the Fire TV/Android test build: https://github.com/michaelfuwobiri-creator/GYSM.IO/releases/download/test-build/gysm-stream-test.apk
 
@@ -161,7 +161,7 @@ The web app is copied into the APK as assets. Rebuild after changing anything in
    adb connect 192.168.1.50:5555      # your Fire TV's address
    adb install -r app-debug.apk
    ```
-5. GYSM Stream appears under **Your Apps & Channels**.
+5. Striim appears under **Your Apps & Channels**.
 
 To debug the WebView, open `chrome://inspect` on your computer while a debug build is running.
 
