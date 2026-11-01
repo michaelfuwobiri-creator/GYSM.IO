@@ -16,7 +16,7 @@ Send this through **Contact Us → Appstore → App Submission and Certification
 > **2. Saving, streaming or downloading media from third-party sources**
 > Version 1.0 streamed films from Wikimedia Commons. In version 1.0.1, the app no longer accesses, saves or converts media from any third-party site.
 > - Every film is hosted on our own servers (GYSM's own film storage, in the GYSM repository on GitHub) and is listed in our own catalogue. The app connects only to our servers.
-> - We have the right to distribute every title. The catalogue consists of Blender Foundation open movies under the Creative Commons Attribution licence, which explicitly permits redistribution with credit (the credit is shown on each title and in the description), and silent films whose creators died over 70 years ago, which are in the public domain worldwide. Titles that are public domain only in some countries have been removed.
+> - We have the right to distribute every title. The catalogue consists of Blender Foundation open movies under Creative Commons licences (CC BY, and CC BY-SA for one title), which explicitly permit redistribution with credit (the credit is shown on each title and in the description), and silent films whose creators died over 70 years ago, which are in the public domain worldwide. Titles that are public domain only in some countries have been removed.
 > - "Save for offline" works like downloads in other streaming apps. It keeps our own titles in the app's private storage for playback inside GYSM Stream only. Files cannot be exported, converted or opened by other apps, and users cannot enter links or search other services.
 > - The privacy policy and description have been updated to match.
 >
@@ -28,7 +28,7 @@ Send this through **Contact Us → Appstore → App Submission and Certification
 
 ## Short version for the Testing instructions box
 
-> Version 1.0.1. No login or account exists in this app (Settings shows "Account: None required"). All films are hosted on GYSM's own servers; the app does not access, save or convert media from any third-party site. The catalogue is Blender Foundation open movies (Creative Commons Attribution, which permits redistribution) and public-domain silent films. "Save for offline" keeps our own titles inside the app's private storage, like downloads in other streaming apps; files cannot be exported. To test it, add a title to My List (press Menu) on Wi-Fi, wait for "ready to watch offline", then disconnect the network and play it from Downloads.
+> Version 1.0.1. No login or account exists in this app (Settings shows "Account: None required"). All films are hosted on GYSM's own servers; the app does not access, save or convert media from any third-party site. The catalogue is Blender Foundation open movies (Creative Commons CC BY, and CC BY-SA for one title, which permit redistribution) and public-domain silent films. "Save for offline" keeps our own titles inside the app's private storage, like downloads in other streaming apps; files cannot be exported. To test it, add a title to My List (press Menu) on Wi-Fi, wait for "ready to watch offline", then disconnect the network and play it from Downloads.
 
 ## Before you resubmit: check the APK
 

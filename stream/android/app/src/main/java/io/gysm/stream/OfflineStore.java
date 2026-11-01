@@ -1,5 +1,6 @@
 package io.gysm.stream;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -9,7 +10,6 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -73,8 +73,47 @@ public final class OfflineStore {
         dir.mkdirs();
     }
 
+    /** GYSM's films are only ever served from GitHub release downloads. */
+    static boolean allowedHost(String url) {
+        if (ALLOW_HTTP) return true; // local test server
+        try {
+            String host = new URL(url).getHost().toLowerCase(java.util.Locale.ROOT);
+            return host.equals("github.com") || host.endsWith(".github.com")
+                    || host.equals("githubusercontent.com") || host.endsWith(".githubusercontent.com");
+        } catch (java.net.MalformedURLException e) {
+            return false;
+        }
+    }
+
     public static boolean validId(String id) {
         return id != null && SAFE_ID.matcher(id).matches();
+    }
+
+    // java.nio.file and getContentLengthLong need API 26 / 24; this app supports API 22.
+    private static void writeSmall(File f, String text) throws IOException {
+        try (FileOutputStream out = new FileOutputStream(f)) {
+            out.write(text.getBytes(StandardCharsets.UTF_8));
+        }
+    }
+
+    private static String readSmall(File f) throws IOException {
+        try (FileInputStream in = new FileInputStream(f)) {
+            ByteArrayOutputStream buf = new ByteArrayOutputStream();
+            byte[] chunk = new byte[256];
+            int n;
+            while ((n = in.read(chunk)) > 0) buf.write(chunk, 0, n);
+            return new String(buf.toByteArray(), StandardCharsets.UTF_8).trim();
+        }
+    }
+
+    private static long contentLength(HttpURLConnection c) {
+        String h = c.getHeaderField("Content-Length");
+        if (h == null) return -1;
+        try {
+            return Long.parseLong(h.trim());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
     }
 
     private File file(String id) { return new File(dir, id); }
@@ -87,7 +126,7 @@ public final class OfflineStore {
 
     /** Queue a download. Saved files are kept; partial ones resume. */
     public void start(final String id, final String url, final String mime) {
-        if (!validId(id) || url == null || !(url.startsWith("https://") || (ALLOW_HTTP && url.startsWith("http://")))) {
+        if (!validId(id) || url == null || !(url.startsWith("https://") || (ALLOW_HTTP && url.startsWith("http://"))) || !allowedHost(url)) {
             notify(id, "error", 0, 0, "Invalid download");
             return;
         }
@@ -140,7 +179,7 @@ public final class OfflineStore {
             if (cancelled.containsKey(id)) break;
             try {
                 if (fetch(id, url)) {
-                    if (mime != null) Files.write(mimeFile(id).toPath(), mime.getBytes(StandardCharsets.UTF_8));
+                    if (mime != null) writeSmall(mimeFile(id), mime);
                     if (!part(id).renameTo(file(id))) throw new IOException("Could not save file");
                     progress.remove(id);
                     notify(id, "done", size(id), size(id), null);
@@ -178,11 +217,11 @@ public final class OfflineStore {
             long total;
             if (code == 206 && have > 0) {
                 append = true;
-                total = have + c.getContentLengthLong();
+                total = have + contentLength(c);
             } else if (code == 200) {
                 append = false;
                 have = 0;
-                total = c.getContentLengthLong();
+                total = contentLength(c);
             } else if (code == 416 && have > 0) {
                 return true; // already have every byte
             } else {
@@ -221,9 +260,7 @@ public final class OfflineStore {
         if (!has(id)) return null;
         File f = file(id);
         long total = f.length();
-        String mime = mimeFile(id).isFile()
-                ? new String(Files.readAllBytes(mimeFile(id).toPath()), StandardCharsets.UTF_8).trim()
-                : "video/mp4";
+        String mime = mimeFile(id).isFile() ? readSmall(mimeFile(id)) : "video/mp4";
         long start = 0;
         long end = total - 1;
         int status = 200;

@@ -217,7 +217,7 @@ function settingsHtml() {
       <span class="setting__value ${v === true ? 'is-on' : ''}">${esc(shown)}</span>
     </button>`;
   }).join('')}
-  <p class="legal">All films are hosted by GYSM. They are Blender Foundation open movies under Creative Commons Attribution and silent classics in the public domain, which their licences allow us to stream and to save for offline viewing inside this app. Saved films can only be played in GYSM Stream. The licence and credit are shown on each title.</p></div>`;
+  <p class="legal">All films are hosted by GYSM. They are Blender Foundation open movies under Creative Commons licences (CC BY, and CC BY-SA for one title) and silent classics in the public domain, which their licences allow us to stream and to save for offline viewing inside this app. Saved films can only be played in GYSM Stream. The licence and credit are shown on each title.</p></div>`;
 }
 
 function expiryText(id) {

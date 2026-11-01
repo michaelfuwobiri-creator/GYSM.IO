@@ -2,7 +2,12 @@ package io.gysm.stream
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Bitmap
+import android.media.AudioManager
 import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.Uri
@@ -33,6 +38,16 @@ class MainActivity : Activity() {
 
     private lateinit var webView: WebView
     private lateinit var offline: OfflineStore
+
+    // Amazon test 2.19: playback must pause when the HDMI sink disconnects
+    // (TV switched to another input or turned off) and stay paused after.
+    private val hdmiReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if (intent.getIntExtra(AudioManager.EXTRA_AUDIO_PLUG_STATE, 1) == 0 && ::webView.isInitialized) {
+                webView.evaluateJavascript("window.GYSM && GYSM.onPause()", null)
+            }
+        }
+    }
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,6 +96,8 @@ class MainActivity : Activity() {
             }
             addJavascriptInterface(Bridge(), "FireTVNative")
         }
+
+        registerReceiver(hdmiReceiver, IntentFilter(AudioManager.ACTION_HDMI_AUDIO_PLUG))
 
         setContentView(webView)
         webView.loadUrl(START_URL)
@@ -141,6 +158,7 @@ class MainActivity : Activity() {
     }
 
     override fun onDestroy() {
+        try { unregisterReceiver(hdmiReceiver) } catch (e: IllegalArgumentException) { }
         webView.destroy()
         super.onDestroy()
     }
