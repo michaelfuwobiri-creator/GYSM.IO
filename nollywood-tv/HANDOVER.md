@@ -69,6 +69,8 @@ nollywood-tv/
 - `MainActivity.java` compiles against the Android 14 framework classes (Robolectric android-all), using a stub for androidx.webkit. The manifest XML is valid.
 - A build with a thirdweb client ID boots and fails gracefully when thirdweb can't be reached.
 
+**Supabase backend (built, not yet connected to a real project):** `supabase/` holds the schema with Row Level Security (18 checks pass on Postgres 16), the `entitlement` Edge Function, and a setup guide (`supabase/README.md`). The app side is `src/backend.js` (sign in with the thirdweb wallet via Supabase Web3, sync My List and progress) and `src/siwe.js`. `npm run test:unit` runs 10 checks with a fake Supabase client. It is off until `VITE_SUPABASE_URL` is set. The user's existing Supabase projects (`beach-please-tickets`, `Zodiacmoonmatch`, `iva-rate`) were not touched; a new project is needed. Next: create it, follow `supabase/README.md`, test one real sign-in, then add signed playback links.
+
 **Backend research:** `docs/backend-options.md` recommends Supabase alongside the thirdweb wallet (Web3 sign-in, plus Postgres with Row Level Security), checking pass ownership on the server, and signed playback URLs and DRM to protect video.
 
 **Earlier manual checks** in headless Chromium at 1920×1080, using simulated key presses:

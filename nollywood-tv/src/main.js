@@ -8,6 +8,7 @@ import * as player from "./player.js";
 import * as store from "./store.js";
 import * as web3 from "./web3.js";
 import { keyboard, typeKey } from "./keyboard.js";
+import * as backend from "./backend.js";
 import { CONFIG } from "./config.js";
 
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -539,6 +540,9 @@ web3.onChange(() => {
   rail.classList.toggle("has-pass", s.hasPass);
   if (route === "account" && !screen.querySelector(".signin")) rerender();
 });
+
+// After the first sync (or when another device changed something) redraw the lists.
+backend.onSynced(() => rerender());
 
 nav.start();
 go("home");

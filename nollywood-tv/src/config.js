@@ -1,5 +1,5 @@
 // Settings come from .env (see .env.example) and are baked in at build time.
-const env = import.meta.env;
+const env = import.meta.env ?? {}; // empty when run by Node tests
 
 export const CONFIG = {
   // thirdweb client ID from https://thirdweb.com/dashboard. Empty = demo mode.
@@ -12,5 +12,9 @@ export const CONFIG = {
   // Public URL of pass.html. The TV shows it as a QR code, so it must be
   // reachable from a phone; the copy bundled inside the Android app is not.
   passPageUrl: env.VITE_PASS_PAGE_URL || "",
+  // Optional Supabase project for synced My List / progress. Use the project URL and the
+  // publishable (anon) key; never the service-role key.
+  supabaseUrl: env.VITE_SUPABASE_URL || "",
+  supabaseKey: env.VITE_SUPABASE_PUBLISHABLE_KEY || "",
   passPrice: env.VITE_PASS_PRICE_LABEL || "0.002 ETH / month",
 };

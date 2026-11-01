@@ -10,6 +10,7 @@
 // any 6-digit code and "buying" the pass is simulated locally.
 
 import { CONFIG } from "./config.js";
+import * as backend from "./backend.js";
 
 const DEMO_KEY = "nollywood.demo";
 let sdk = null; // lazily loaded thirdweb modules
@@ -54,6 +55,7 @@ export async function restore() {
     await load();
     account = await wallet.autoConnect({ client });
     lastEmail = await sdk.getUserEmail({ client }).catch(() => null);
+    await connectBackend();
     await refreshPass();
   } catch {
     account = null;
@@ -76,12 +78,20 @@ export async function verifyCode(email, code) {
   await load();
   account = await wallet.connect({ client, strategy: "email", email, verificationCode: code });
   lastEmail = email;
+  await connectBackend();
   await refreshPass();
   emit();
 }
 
+// Signing in to the backend is optional: if it fails the viewer can still watch, just without sync.
+async function connectBackend() {
+  if (!backend.enabled) return;
+  try { await backend.signIn(account); } catch (err) { console.warn("Backend sign-in failed", err); }
+}
+
 export async function signOut() {
   if (isDemo) { writeDemo({}); return emit(); }
+  await backend.signOut();
   await wallet?.disconnect();
   account = null;
   hasPass = false;
