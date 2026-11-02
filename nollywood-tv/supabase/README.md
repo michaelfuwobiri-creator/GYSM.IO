@@ -16,6 +16,12 @@ Adds synced **My List** and **watch progress**, and a server-side check of the *
 3. Every request carries that session, so the database rules use `auth.uid()`.
 4. A failed backend sign-in never blocks watching: the app keeps working locally.
 
+## Status of the `inolly` project (ref `xssfcdudjzkgqtschnjk`, eu-west-2)
+
+Done: schema applied, RLS on all three tables, security advisors clean, `entitlement` function deployed (JWT required), access rules checked on the live project inside a rolled-back transaction.
+
+Still to do by hand in the dashboard (no tool could do these): enable the Ethereum provider, add the Redirect URLs, set the function secrets, then run the smoke test below from a computer that can reach supabase.co.
+
 ## Set up
 
 Use a **new** Supabase project for this app (your other projects are not touched).
@@ -51,7 +57,15 @@ The app logic (no network needed):
 npm run test:unit
 ```
 
-## Not verified yet (needs a real project)
+A real end-to-end check with a throwaway wallet (signs in, writes and reads rows, checks a second wallet can't see them, calls the function). It needs steps 3 to 6 above done first:
+
+```bash
+SUPABASE_URL=https://xssfcdudjzkgqtschnjk.supabase.co SUPABASE_KEY=<publishable key> SITE=http://localhost:3000 npm run smoke:supabase
+```
+
+`SITE` must be one of the Redirect URLs. It prints the wallet identity Supabase stores, which settles the field-name question below.
+
+## Not verified yet
 
 - That Supabase accepts the SIWE message from the Fire TV WebView origin (`appassets.androidplatform.net`) and from the TV's real host.
 - The exact field Supabase stores the wallet in. `chain.ts` checks `identity_data.address`, the claims, and the address inside `provider_id`, and the unit tests cover those shapes. Confirm with one real sign-in.
