@@ -16,5 +16,10 @@ export const CONFIG = {
   // publishable (anon) key; never the service-role key.
   supabaseUrl: env.VITE_SUPABASE_URL || "",
   supabaseKey: env.VITE_SUPABASE_PUBLISHABLE_KEY || "",
+  // Catalogue API (see docs/catalog-format.md). Empty = built-in sample titles.
+  catalogUrl: env.VITE_CATALOG_URL || "",
+  // Optional key sent with catalogue requests. Visible to anyone with the app: use a read-only key.
+  catalogKey: env.VITE_CATALOG_API_KEY || "",
+  catalogKeyHeader: env.VITE_CATALOG_API_KEY_HEADER || "Authorization",
   passPrice: env.VITE_PASS_PRICE_LABEL || "0.002 ETH / month",
 };

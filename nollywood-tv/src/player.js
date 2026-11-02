@@ -4,6 +4,8 @@
 import { isKey, pushLayer, popLayer, focus } from "./nav.js";
 import { saveProgress, progressOf } from "./store.js";
 
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
+
 const fmt = (s) => {
   if (!isFinite(s)) return "0:00";
   s = Math.floor(s);
@@ -33,8 +35,8 @@ export function play(title, root) {
       <div class="player__top">
         <div class="player__brand">NOLLYWOOD</div>
         <div>
-          <div class="player__title">${title.title}</div>
-          <div class="player__sub">${title.kind === "series" ? "S1 · E1" : title.year} · ${title.rating}</div>
+          <div class="player__title">${esc(title.title)}</div>
+          <div class="player__sub">${title.kind === "series" ? "S1 · E1" : title.year} · ${esc(title.rating)}</div>
         </div>
       </div>
       <div class="player__bottom">

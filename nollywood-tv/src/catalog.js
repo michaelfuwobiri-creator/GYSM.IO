@@ -12,7 +12,7 @@ const STREAMS = {
 };
 
 // Each poster is drawn in CSS from `hue` (base colour) and `motif` (pattern).
-export const TITLES = [
+const SAMPLE_TITLES = [
   { id: "eko-after-dark", title: "Eko After Dark", kind: "series", seasons: 2, year: 2026, rating: "16+", runtime: "8 episodes", genres: ["Thriller", "Crime"], hue: 268, motif: "grid", premium: true, match: 98,
     logline: "A Lagos night-bus driver finds a briefcase of dollars on the last run from Obalende, and every passenger on board wants it back.",
     cast: ["Adaeze Okafor", "Tunde Bakare", "Ifeoma Nnaji"], stream: STREAMS.hls1 },
@@ -63,13 +63,15 @@ export const TITLES = [
     cast: ["Obi Nwankwo", "Ada Eze"], stream: STREAMS.mp4c },
 ];
 
-export const byId = (id) => TITLES.find((t) => t.id === id);
-const pick = (...ids) => ids.map(byId);
+const pick = (...ids) => ids.map((id) => TITLES.find((t) => t.id === id));
 const genre = (g) => TITLES.filter((t) => t.genres.includes(g));
 
-export const FEATURED = pick("eko-after-dark", "kingdom-of-oyo", "nkiru", "black-gold");
+// Replaced by setCatalog(). Imports of these names are live bindings, so every module sees the update.
+export let TITLES = SAMPLE_TITLES;
 
-export const ROWS = [
+export let FEATURED = pick("eko-after-dark", "kingdom-of-oyo", "nkiru", "black-gold");
+
+export let ROWS = [
   { id: "trending", title: "Trending in Nigeria", items: pick("eko-after-dark", "the-palm-wine-heir", "aso-ebi", "kingdom-of-oyo", "third-mainland", "nkiru", "danfo", "owambe") },
   { id: "top10", title: "Top 10 this week", top10: true, items: pick("kingdom-of-oyo", "eko-after-dark", "nkiru", "abuja-confidential", "mama-put", "black-gold", "aso-ebi", "the-last-masquerade", "danfo", "jollof-wars") },
   { id: "pass", title: "Only with Nollywood Pass", premium: true, items: TITLES.filter((t) => t.premium) },
@@ -78,3 +80,16 @@ export const ROWS = [
   { id: "thrill", title: "Edge-of-your-seat thrillers", items: [...genre("Thriller"), ...genre("Horror"), ...genre("Crime")].filter((t, i, a) => a.indexOf(t) === i) },
   { id: "epic", title: "Epics & history", items: [...genre("Epic"), ...genre("History"), ...genre("Adventure")].filter((t, i, a) => a.indexOf(t) === i) },
 ];
+
+const SAMPLE = { titles: TITLES, rows: ROWS, featured: FEATURED };
+
+export const byId = (id) => TITLES.find((t) => t.id === id);
+
+/** Switches the whole app to another catalogue (from the API, or back to the built-in sample). */
+export function setCatalog({ titles, rows, featured }) {
+  TITLES = titles;
+  ROWS = rows;
+  FEATURED = featured;
+}
+
+export const useSampleCatalog = () => setCatalog(SAMPLE);

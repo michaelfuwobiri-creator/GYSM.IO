@@ -1,0 +1,47 @@
+{
+  "titles": [
+    {
+      "id": "eko-after-dark",
+      "title": "Eko After Dark",
+      "kind": "series",
+      "seasons": 2,
+      "year": 2026,
+      "rating": "16+",
+      "runtime": "8 episodes",
+      "genres": ["Thriller", "Crime"],
+      "cast": ["Adaeze Okafor", "Tunde Bakare"],
+      "logline": "A Lagos night-bus driver finds a briefcase of dollars on the last run.",
+      "stream": "https://cdn.example.com/eko-after-dark/master.m3u8",
+      "image": "https://cdn.example.com/eko-after-dark/poster.jpg",
+      "premium": true,
+      "match": 98
+    },
+    {
+      "id": "the-palm-wine-heir",
+      "title": "The Palm Wine Heir",
+      "kind": "movie",
+      "year": 2026,
+      "rating": "13+",
+      "runtime": "1h 52m",
+      "genres": ["Drama", "Family"],
+      "cast": ["Chidi Eze"],
+      "logline": "A London-raised grandson has thirty days to keep the family business alive.",
+      "stream": "https://cdn.example.com/palm-wine-heir/master.m3u8"
+    },
+    {
+      "id": "aso-ebi",
+      "title": "Aso Ebi",
+      "kind": "movie",
+      "year": 2025,
+      "rating": "PG",
+      "runtime": "1h 41m",
+      "genres": ["Romance", "Comedy"],
+      "stream": "https://cdn.example.com/aso-ebi/master.m3u8"
+    }
+  ],
+  "featured": ["eko-after-dark", "the-palm-wine-heir"],
+  "rows": [
+    { "id": "trending", "title": "Trending in Nigeria", "ids": ["eko-after-dark", "the-palm-wine-heir", "aso-ebi"] },
+    { "id": "top10", "title": "Top 10 this week", "top10": true, "ids": ["eko-after-dark", "aso-ebi"] }
+  ]
+}

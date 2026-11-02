@@ -9,6 +9,7 @@ import * as store from "./store.js";
 import * as web3 from "./web3.js";
 import { keyboard, typeKey } from "./keyboard.js";
 import * as backend from "./backend.js";
+import { loadCatalog } from "./catalog-api.js";
 import { CONFIG } from "./config.js";
 
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -69,10 +70,10 @@ function row(title, items, id, opts = {}) {
 const meta = (t) => `
   <span class="meta__match">${t.match}% match</span>
   <span>${t.year}</span>
-  <span class="meta__pill">${t.rating}</span>
-  <span>${t.kind === "series" ? `${t.seasons} season${t.seasons > 1 ? "s" : ""}` : t.runtime}</span>
+  <span class="meta__pill">${esc(t.rating)}</span>
+  <span>${t.kind === "series" ? `${t.seasons} season${t.seasons > 1 ? "s" : ""}` : esc(t.runtime)}</span>
   <span class="meta__pill">4K</span>
-  <span>${t.genres.join(" · ")}</span>`;
+  <span>${t.genres.map(esc).join(" · ")}</span>`;
 
 // The blurred backdrop behind every screen follows the focused title.
 let stageId = null;
@@ -129,7 +130,7 @@ const screens = {
       const needle = q.trim().toLowerCase();
       const hits = needle
         ? TITLES.filter((t) => [t.title, ...t.genres, ...t.cast].join(" ").toLowerCase().includes(needle))
-        : ROWS[0].items;
+        : (ROWS[0]?.items ?? TITLES.slice(0, 8));
       $("#results-title").textContent = needle ? (hits.length ? `Results for “${q.trim()}”` : `No results for “${q.trim()}”`) : "Popular searches";
       $("#results").innerHTML = hits.map((t) => card(t, "results")).join("");
     };
@@ -545,6 +546,12 @@ web3.onChange(() => {
 backend.onSynced(() => rerender());
 
 nav.start();
-go("home");
-web3.restore();
-setTimeout(() => app.classList.add("is-ready"), 50);
+// The screen stays hidden until the catalogue is in (at most a few seconds); on any failure the
+// built-in sample titles are used, so the app always opens.
+loadCatalog()
+  .catch((err) => console.warn("Catalogue failed", err))
+  .then(() => {
+    go("home");
+    web3.restore();
+    setTimeout(() => app.classList.add("is-ready"), 50);
+  });

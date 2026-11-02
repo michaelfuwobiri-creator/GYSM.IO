@@ -44,6 +44,10 @@ npm run dev
 
 Open the printed URL at a 1920×1080 window. Arrow keys = D-pad, Enter = OK, Escape = Back, Space = play/pause.
 
+## Catalogue from an API
+
+The app shows sample titles until you set `VITE_CATALOG_URL`. Format, API key and safety rules: `docs/catalog-format.md`.
+
 ## Set up thirdweb (real wallets)
 
 1. Create a project at https://thirdweb.com/dashboard and copy its **client ID**. Under allowed domains add the domain you host `pass.html` on, plus `appassets.androidplatform.net` (the origin the Fire TV app runs on), or allow all domains while testing.
